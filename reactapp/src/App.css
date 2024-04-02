@@ -6,7 +6,10 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.options:hover {
+  cursor: default;
+  background-color: #f0f0f0; /* Set your desired background color */
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
