@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import axios from "axios";
 import Button from 'react-bootstrap/Button'
-import pendingIcon from './bouncing-circles.svg'
+import pendingIcon from './static/bouncing-circles.svg'
+import pendingSearchIcon from './static/infinite-spinner.svg'
 import Select from "react-select";
 import Flag from "react-flagkit";
 
@@ -21,11 +22,11 @@ function App() {
     const [destinationOptions, setDestinationOptions] = useState<any[]>();
     const [destination, setDestination] = useState<string>();
 
-
     useEffect(() => {
         axios.get("http://192.168.1.64:8080/amadeus/token").then(response => {
             setToken(response.data);
             axios.defaults.headers.common['Authorization'] = "Bearer " + response.data;
+            console.log(response.data)
         });
     }, []);
 
@@ -33,28 +34,27 @@ function App() {
         destinationOptionsSearch()
     }, [departureDate, origin]);
 
+    useEffect(() => {
+
+    }, []);
     const handleClick = () => {
-        /* console.log(origin)
-         setPendingSearch(true);
-         axios.get("https://test.api.amadeus.com/v1/reference-data/locations", {
-             params: {
-                 subType: "CITY",
-                 keyword: origin
-             }
-         }).then(response => axios.get("https://test.api.amadeus.com/v2/shopping/flight-destinations",
-             {
-                 params: {
-                     originLocationCode: response.data.data[0].iataCode,
-                     destinationLocationCode: "SIN",
-                     departureDate: departureDate,
-                     adults: 1
-                 }
-             })
-             .then((response => {
-                 setFlightList(response.data.data);
-                 setPendingSearch(false);
-             }))
-         );*/
+        console.log(origin);
+        console.log(destination);
+        console.log(departureDate)
+        setPendingSearch(true);
+        axios.get("https://test.api.amadeus.com/v2/shopping/flight-offers",
+            {
+                params: {
+                    originLocationCode: origin,
+                    destinationLocationCode: destination,
+                    departureDate: departureDate,
+                    adults: 1
+                }
+            }).then((response => {
+            setFlightList(response.data.data);
+            setPendingSearch(false);
+            console.log(response.data)
+        }));
     }
 
     const airportData = require('airport-data-js');
@@ -118,7 +118,7 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <div className="App d-flex flex-column gap-3 align-items-center">
             <div className={"w-100 d-flex flex-column gap-3 align-items-center"}>
                 <label>Departure Date
                     <input className={"form-control"} type={"date"} min={new Date().toISOString().substring(0, 10)}
@@ -142,28 +142,35 @@ function App() {
                                   }}
                 /></div>
                 {!pendingDestSearch ? <div className={"w-50"}>
-                        Destination<Select options={destinationOptions}
-                                           onChange={(option) => setDestination(option)}
-                                           onInputChange={(inputValue) => {
-                                               if (inputValue.length > 3) {
+                    Destination<Select options={destinationOptions}
+                                       onChange={(option) => setDestination(option.iataCode)}
+                                       onInputChange={(inputValue) => {
+                                           if (inputValue.length > 3) {
 
-                                               }
-                                           }}
-                                           components={{
-                                               Option: ({innerProps, label, data}) => (
-                                                   <div className={"options"} {...innerProps}>
-                                                       <span>{label}</span> <Flag country={data.countryCode}/>
-                                                   </div>)
-                                           }}
-                    /></div> : pendingImg}
+                                           }
+                                       }}
+                                       components={{
+                                           Option: ({innerProps, label, data}) => (
+                                               <div className={"options"} {...innerProps}>
+                                                   <span>{label}</span> <Flag country={data.countryCode}/>
+                                               </div>)
+                                       }}
+                /></div> : pendingImg}
             </div>
-            {departureDate && !pendingSearch && <Button variant="primary" onClick={handleClick}>Search</Button>}
-            {pendingSearch && pendingImg}
-            {flightList && flightList.length > 0 && flightList.map(flight => {
-                return <div>
-                    <div>From {flight.source} {flight.price.total} {flight.price.currency}</div>
-                </div>
-            })}
+            {departureDate && pendingSearch ?  <></> : <Button variant="primary" onClick={handleClick}>Search</Button>}
+            <div className={"d-flex flex-wrap gap-2 justify-content-center w-100 flight-list"}>
+                {pendingSearch ?  <img src={pendingSearchIcon} width={"250px"} height={"250px"} alt={""}/>  : (flightList ? (flightList.length > 0 &&
+                    flightList.map((flight, index: number) => {
+                    return <div key={index} className={"card"}>
+                        <div className={"card-body"}>
+                            <div className={"card-title"}>{origin} - {destination}</div>
+                            <div className={"card-text"}></div>
+                            {flight.itineraries[0].segments.map((segment : any) => <div>From {segment.departure.iataCode} to {segment.arrival.iataCode}</div>)}
+                        </div>
+                    </div>
+                })) : <></>)
+                }
+            </div>
         </div>
     );
 }
