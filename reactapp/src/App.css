@@ -1,9 +1,19 @@
 .App {
-  text-align: center;
+ /*text-align: center;*/
 }
 body{
-  background-color: #8fc7cb !important;
-  height: 2000px;
+  background-color: white;
+}
+.search{
+  width: 20%;
+}
+.search label {
+  width: 100%;
+}
+.nav-bar{
+  background-color: #dcdcdc;
+  width: 100%;
+  min-height: 64px;
 }
 .flight-list{
   height: fit-content;
@@ -11,8 +21,14 @@ body{
 }
 .card{
   height: 250px;
-  width: 250px;
+  width: 100%;
+  box-shadow: 3px 2px 5px black;
 }
+
+
+
+
+
 
 .App-logo {
   height: 40vmin;
