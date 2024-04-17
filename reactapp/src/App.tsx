@@ -6,22 +6,24 @@ import pendingIcon from './static/bouncing-circles.svg'
 import pendingSearchIcon from './static/infinite-spinner.svg'
 import Select from "react-select";
 import Flag from "react-flagkit";
-import FlightCard from "./components/FlightCard";
 import {NavBar} from "./components/NavBar";
 import {FlightList} from "./components/FlightList";
-import countries from "countries-list";
+import {getToken} from "./services/AmadeusAPIService";
+import {citySearch, searchAvailableDestinations, searchFlightOffers} from "./services/AmadeusAPIService";
+import {capitalize} from "./utils/Utils";
 
+import airportData from './utils/airports.json';
 
 function App() {
-    const lodash = require('lodash');
     const [token, setToken] = useState(null);
+    const [tokenExpiration, setTokenExpiration] = useState<number | undefined>();
     const [pendingSearch, setPendingSearch] = useState(false);
     const [pendingDestSearch, setPendingDestSearch] = useState(false);
     const [flightList, setFlightList] = useState<any[]>();
     const [dictionaries, setDictionaries] = useState<any[]>();
 
     const [departureDate, setDepartureDate] = useState<string>();
-    const [oneWay, setOneWay] = useState<boolean>(false)
+    const [oneWay, setOneWay] = useState<boolean>(true)
     const [returnDate, setReturnDate] = useState<string | null>();
     const [adults, setAdults] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
@@ -31,159 +33,161 @@ function App() {
     const [destination, setDestination] = useState<any>();
 
     useEffect(() => {
-        axios.get("http://192.168.1.64:8080/amadeus/token").then(response => {
-            setToken(response.data);
-            axios.defaults.headers.common['Authorization'] = "Bearer " + response.data;
-            console.log("Auth Token " + response.data)
-        });
+        getToken().then(response => {
+            setToken(response.data.token);
+            setTokenExpiration(response.data.expiration);
+            axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.token;
+        }).catch((e) => console.log(e));
     }, []);
+
+
 
     useEffect(() => {
         destinationOptionsSearch()
     }, [departureDate, origin]);
 
     useEffect(() => {
-        if(!oneWay)
+        if (oneWay)
             setReturnDate(null);
     }, [oneWay]);
+
     useEffect(() => {
         console.log("origin ", origin, " destination ", destination)
-    }, [origin, destination]);
+        /*if (destination && origin && departureDate)
+            searchFlights()*/
+    }, [destination, origin, departureDate, returnDate]);
 
     useEffect(() => {
-        if (destination && origin && departureDate)
-            searchFlightOffers()
-    }, [destination, origin, adults, children]);
-    const searchFlightOffers = () => {
+        if (flightList != null && flightList?.length > 0)
+            console.log(flightList[0])
+    }, [flightList]);
+
+    const searchFlights = () => {
         setPendingSearch(true);
-        axios.get("https://test.api.amadeus.com/v2/shopping/flight-offers",
-            {
-                params: {
-                    originLocationCode: origin.iataCode,
-                    destinationLocationCode: destination.iataCode,
-                    departureDate: departureDate,
-                    returnDate: returnDate,
-                    adults: adults,
-                    children: children
-                }
-            }).then((response => {
-            setFlightList(response.data.data);
-            setDictionaries(response.data.dictionaries)
-            setPendingSearch(false);
-            console.log(response.data)
-        }));
+        searchFlightOffers(origin, destination, departureDate, returnDate, adults, children)
+            .then((response => {
+                setFlightList(response.data.data);
+                setDictionaries(response.data.dictionaries)
+                setPendingSearch(false);
+                console.log(response.data)
+            }));
     }
 
-    const airportData = require('airport-data-js');
-    const countries = require('countries-list');
-    const pendingImg = <img src={pendingIcon} width={"42px"} height={"42px"} alt={""}/>;
-
-    const originOptionsSearch = lodash.debounce((inputValue: string, token: string) => {
+    const originOptionsSearch = (inputValue: string, token: any) => {
         var options: any[] = [];
-        axios.get("https://test.api.amadeus.com/v1/reference-data/locations", {
-            params: {
-                subType: "CITY",
-                keyword: inputValue
-            }
-        }).then(response => {
+        citySearch(inputValue).then((response: { data: { data: any[]; }; }) => {
             response.data.data.map((originInfo: any, index: number) => {
-                airportData.getAirportByIata(originInfo.iataCode).then((r: any) => {
-                    const responseData = r[0];
-                    let countryName: string;
-                    if (countries.countries[responseData.country_code])
-                        countryName = countries.countries[responseData.country_code].name;
-                    else
-                        countryName = responseData.country_code
-                    options.push(
-                        {
-                            value: index,
-                            label: responseData.city.toUpperCase() + " (" + responseData.iata + "), " + countryName.toUpperCase(),
-                            cityName: responseData.city,
-                            countryCode: responseData.country_code,
-                            iataCode: responseData.iata,
-                            airport: responseData.airport
-                        });
-                })
-            });
-            setOriginOptions(options)
-        });
-    }, 200);
+                options.push({
+                    value: index,
+                    label: capitalize(originInfo.address.cityName) + ", " + originInfo.name + " (" + originInfo.iataCode + "), " + capitalize(originInfo.address.countryName),
+                    cityName: originInfo.address.cityName,
+                    countryCode: originInfo.address.countryCode,
+                    iataCode: originInfo.iataCode,
+                    airport: originInfo.name
+                });
 
+                if (index === response.data.data.length - 1) {
+                    setOriginOptions(options);
+                }
+            });
+        })
+    }
     const destinationOptionsSearch = () => {
         var options: any[] = [];
         if (origin && departureDate) {
             setPendingDestSearch(true)
-            axios.get("https://test.api.amadeus.com/v1/shopping/flight-destinations", {
-                params: {
-                    origin: origin.iataCode,
-                    oneWay: false,
-                    nonStop: false,
-                    departureDate: departureDate
-                }
-            }).then(response => {
-                response.data.data.map((destinationInfo: any, index: number) => {
-                    airportData.getAirportByIata(destinationInfo.destination).then((r: any) => {
-                        const responseData = r[0];
-                        let countryName: string;
-                        if (countries.countries[responseData.country_code])
-                            countryName = countries.countries[responseData.country_code].name;
-                        else
-                            countryName = responseData.country_code
-                        options.push(
-                            {
-                                value: index,
-                                label: responseData.city.toUpperCase() + " (" + responseData.iata + "), " + countryName.toUpperCase(),
-                                cityName: responseData.city,
-                                countryCode: responseData.country_code,
-                                iataCode: responseData.iata,
-                                airport: responseData.airport
-                            });
-                    })
+            searchAvailableDestinations(origin, false, false, departureDate).then(availableDestinations => {
+                availableDestinations.data.data.map((destinationInfo: any, index: number) => {
+                    console.log(destinationInfo);
+                    setTimeout(() => {
+                        citySearch(destinationInfo.destination).then(response => {
+                            response.data.data.map((destinationInfo: any, index: number) => {
+                                options.push({
+                                    value: index,
+                                    label: capitalize(destinationInfo.address.cityName) + ", " + destinationInfo.name + " (" + destinationInfo.iataCode + "), " + capitalize(destinationInfo.address.countryName),
+                                    cityName: destinationInfo.address.cityName,
+                                    countryCode: destinationInfo.address.countryCode,
+                                    iataCode: destinationInfo.iataCode,
+                                    airport: destinationInfo.name
+                                });
+                                setDestinationOptions(options);
+                            })
+                        })
+                            .catch(() => setPendingDestSearch(false))
+                    }, 500 * index)
+                    if (options.length === index - 1)
+                        setPendingDestSearch(false);
                 });
-            }).then(() => setPendingDestSearch(false))
-                .catch(() => setPendingDestSearch(false))
-        }
-        setDestinationOptions(options)
-    }
 
+            });
+        }
+    }
+    const customStyles = {
+        control: (provided: any) => ({
+            ...provided,
+            background: 'transparent',
+            display: 'flex',
+            flexWrap: 'nowrap',
+            color: 'white',
+            boxShadow: 'none',
+            '&:hover': {
+                borderColor: '#04D7FF'
+            },
+            borderColor: 'white'
+        }),
+        menu: (provided: any) => ({
+            ...provided,
+            paddingTop: '8px', /* Add top padding to create a gap */
+            paddingBottom: '8px',
+            background: '#36373A',
+            color: 'white'
+        }),
+        singleValue: (provided: any) => ({
+            ...provided,
+            color: 'white'
+        }),
+        input: (provided: any) => ({
+            ...provided,
+            color: 'white'
+        })
+    };
     return (
         <div className="App d-flex flex-column gap-3 align-items-center">
-            <NavBar/>
-            <div className={"w-100 d-flex flex-column gap-3 align-items-center"}>
-                <div className={"search h5 d-flex flex-column align-items-center gap-3"}>
-                    <label>Departure Date
-                        <input className={"form-control"} type={"date"} min={new Date().toISOString().substring(0, 10)}
-                               onChange={(e) => setDepartureDate(e.target.value)}/>
-                    </label>
-                    <div className={"w-100"}>
-                        <div className="form-check">
-                            <input type={"radio"} className={"form-check-input"} name={"oneWayCheck"}
-                                   onChange={(e) => setOneWay(false)}/>
-                            <label className={"form-check-label"}>One-Way Flights </label>
+            {tokenExpiration && <NavBar token={token} tokenExp={tokenExpiration}/>}
+            <div className={"search gap-3 p-3 d-flex flex-column rounded-2"}>
+                <div className={"d-flex flex-row align-items-start justify-content-evenly"}>
+                    <div className={"date-select d-flex flex-column gap-2 align-items-center justify-content-start"}>
+                        <div className={"d-flex flex-row gap-1"}>
+                            <label>
+                                <h5>Departure Date</h5>
+                                <input className={"form-control bg-transparent text-white"} type={"date"}
+                                       min={new Date().toISOString().substring(0, 10)}
+                                       onChange={(e) => setDepartureDate(e.target.value)}/>
+                            </label>
+                            <label>
+                                <h5>Return Date</h5>
+                                <input className={"form-control bg-transparent text-white"} type={"date"} min={departureDate} disabled={oneWay}
+                                       onChange={(e) => setReturnDate(e.target.value)}/>
+                            </label>
                         </div>
-                        <div className="form-check">
-                            <input type={"radio"} className={"form-check-input"} name={"oneWayCheck"}
-                                   onChange={(e) => setOneWay(true)}/>
-                            <label className={"form-check-label"}>2-Way Flights</label>
+                        <div>
+                            <div className="form-check">
+                                <input type={"radio"} className={"form-check-input bg-transparent text-white"} name={"oneWayCheck"}
+                                       onChange={(e) => setOneWay(true)} checked={oneWay}/>
+                                <label className={"form-check-label"}>One-Way</label>
+                            </div>
+                            <div className="form-check">
+                                <input type={"radio"} className={"form-check-input bg-transparent text-white"} name={"oneWayCheck"}
+                                       onChange={(e) => setOneWay(false)}/>
+                                <label className={"form-check-label"}>Roundtrip</label>
+                            </div>
                         </div>
                     </div>
-                    {oneWay && departureDate &&
-                        <label>Return Date
-                            <input className={"form-control"} type={"date"} min={departureDate}
-                                   onChange={(e) => setReturnDate(e.target.value)}/>
-                        </label>}
-                    <label>Adults:
-                        <input className={"form-control"} type={"number"} defaultValue={1} min={1} max={9}
-                               onChange={(e) => setAdults(parseInt(e.target.value))}/>
-                    </label>
-                    <label>Children:
-                        <input className={"form-control"} type={"number"} defaultValue={0} min={0} max={9}
-                               onChange={(e) => setChildren(parseInt(e.target.value))}/>
-                    </label>
-                    <div className={"w-100"}>
-                        <label className={"p-2"}>Origin</label>
-                        <Select options={originOptions} className={"w-100"}
-                                onChange={(option) => setOrigin(option)}
+                    <div className={"location-select d-flex flex-column gap-2 align-items-center justify-content-start"}>
+                        <label><span className={"h5"}>Origin</span> {origin && <Flag country={origin.countryCode}/>}
+                        </label>
+                        <Select options={originOptions} className={"w-75"} onChange={(option) => setOrigin(option)}
+                                styles={customStyles}
                                 onInputChange={(inputValue) => {
                                     if (inputValue.length >= 3) {
                                         originOptionsSearch(inputValue, token);
@@ -192,39 +196,59 @@ function App() {
                                 components={{
                                     Option: ({innerProps, label, data}) => (
                                         <div className={"options"} {...innerProps}>
-                                            <span>{label}</span> <Flag country={data.countryCode}/>
-                                        </div>
-                                    ),
+                                            <span className={""}>{label} <Flag country={data.countryCode}/></span>
+                                        </div>)
                                 }}
                         />
-                        <label className={"p-2"}>Destination</label>
+                        <label><span className={"h5"}>Destination</span> {destination &&
+                            <Flag country={destination.countryCode}/>}</label>
                         {!pendingDestSearch ? destinationOptions && destinationOptions?.length > 0 ?
-                            <Select options={destinationOptions} className={"w-100"}
-                                    onChange={(option) => setDestination(option)}
-                                    onInputChange={(inputValue) => {
-                                        if (inputValue.length >= 3) {
-
-                                        }
-                                    }}
-                                    components={{
-                                        Option: ({innerProps, label, data}) => (
-                                            <div className={"options"} {...innerProps}>
-                                                <span>{label}</span> <Flag country={data.countryCode}/>
-                                            </div>)
-                                    }}
-                            /> : <>No Available flights for selected origin</> : pendingImg}
+                                <Select options={destinationOptions} className={"w-75"}
+                                        onChange={(option) => setDestination(option)} styles={customStyles}
+                                        components={{
+                                            Option: ({innerProps, label, data}) => (
+                                                <div className={"options"} {...innerProps}>
+                                                    <span>{label}</span> <Flag country={data.countryCode}/>
+                                                </div>)
+                                        }}
+                                /> : <Select className={"w-75"} isDisabled={true} styles={customStyles}/> :
+                            // <>No Available flights for selected origin</>
+                            <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
+                    </div>
+                    <div className={"settings d-flex flex-column align-items-start justify-content-start"}>
+                        <div className={"passenger-selection d-flex flex-column gap-2 w-25 align-items-center justify-content-start"}>
+                            <label>
+                                <h5>Max Price</h5>
+                                <input className={"form-range range bg-transparent text-white"} type={"range"}/>
+                            </label>
+                            <label>
+                                <h5>Adults</h5>
+                                <input className={"form-control bg-transparent text-white"} type={"number"} defaultValue={1} min={1} max={9}
+                                       onChange={(e) => setAdults(parseInt(e.target.value))}/>
+                            </label>
+                            <label>
+                                <h5>Children</h5>
+                                <input className={"form-control bg-transparent text-white"} type={"number"} defaultValue={0} min={0} max={9}
+                                       onChange={(e) => setChildren(parseInt(e.target.value))}/>
+                            </label>
+                        </div>
                     </div>
                 </div>
+                <div className={"w-100 d-flex flex-row justify-content-center"}>
                 {departureDate && destination && !pendingSearch ?
-                    <Button variant="primary" onClick={searchFlightOffers}>Search</Button> : <></>}
+                    <Button variant="btn search-btn" className={"w-25"} onClick={searchFlights}>Search</Button> :
+                    <Button variant="outline-secondary" className={"w-25"} disabled={true}>Search</Button>}
+                </div>
             </div>
-            <div className={"w-100 d-flex justify-content-center"}>
-                {pendingSearch ?
-                    <img src={pendingSearchIcon} width={"250px"} height={"250px"}
-                         alt={""}/> : (flightList ? (flightList.length > 0 &&
-                        <FlightList flightList={flightList} departureDate={departureDate} dictionaries={dictionaries}
+            <div className={"w-100 d-flex flex-row"}>
+                <div className={"w-100 d-flex justify-content-center align-items-center"}>
+                    {pendingSearch ? <img src={pendingSearchIcon} width={"50%"} height={"50%"}
+                                          alt={""}/> : (flightList ? (flightList.length > 0 &&
+                        <FlightList flightList={flightList} departureDate={departureDate} returnDate={returnDate}
+                                    dictionaries={dictionaries}
                                     origin={origin}
                                     destination={destination}/>) : <></>)}
+                </div>
             </div>
         </div>
     );
