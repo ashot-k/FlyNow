@@ -1,4 +1,4 @@
-package org.flynow;
+package org.flynow.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,6 +15,24 @@ public class AmadeusToken {
     private String state;
     private String scope;
 
+    public static String extractAccessToken(String jsonString){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            AmadeusToken token = objectMapper.readValue(jsonString, AmadeusToken.class);
+            return token.getAccess_token();
+        } catch (IOException ioException) {
+            return null;
+        }
+    }
+    public static int extractExpiration(String jsonString){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            AmadeusToken token = objectMapper.readValue(jsonString, AmadeusToken.class);
+            return token.getExpires_in();
+        } catch (IOException ioException) {
+            return -1;
+        }
+    }
 
     public String getType() {
         return type;
