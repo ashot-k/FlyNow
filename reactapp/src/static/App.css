@@ -40,7 +40,7 @@ body {
 
 .search {
     background-color: #36373A;
-    width: 75%;
+    width: 65%;
     box-shadow: 3px 2px 5px black;
 }
 .date-select {
@@ -54,17 +54,6 @@ body {
 
 .location-select {
     width: 50%;
-}
-.nav-bar {
-    position: sticky !important;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    box-shadow: 1px 2px 5px black;
-    min-height: 60px;
-    height: 65px;
-    z-index: 3;
 }
 .accordion-button{
     background-color: transparent !important;
@@ -95,19 +84,22 @@ body {
 }
 @media only screen and (min-width: 1000px) {
     .flight-card {
-        width: 45%;
+        width: 40%;
     }
     .book-btn{
        width:  25%;
     }
     .flight-card:hover {
         box-shadow: 10px 10px 10px black;
-        width: 46%;
+        width: 41%;
     }
 }
 .flight-card {
     background-color: #36373A !important;
     height: fit-content;
+
+}
+.element-shadow{
     box-shadow: 3px 2px 5px black;
     transition: box-shadow  0.5s ease, width 0.5s ease;
     animation: fadeInAndMoveIn 0.8s;

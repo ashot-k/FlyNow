@@ -1,18 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Container, Nav, Navbar, NavItem, NavLink} from "react-bootstrap";
+import {activitiesInArea} from "../services/AmadeusAPIService";
 
 export const NavBar = ({token, tokenExp}:any) => {
     const [tokenExpiration, setTokenExpiration] = useState<number>(tokenExp);
 
-    return (
-     /*   <Nav className={"w-100 nav-bar d-flex gap-2 "}>
-            <NavItem className={"h1 h-100 bg-secondary"}>
-                <NavLink className={"p-3 text-white "} href={"/"}>FlyNow</NavLink>
-            </NavItem>
-            <NavItem>
 
-            </NavItem>
-        </Nav>*/
+
+    return (
     <Navbar expand="lg" className="w-100 nav-bar bg-body-tertiary"  bg="dark" data-bs-theme="dark">
         <Container>
             <Navbar.Brand className={"display-1"} href="#home">FlyNow</Navbar.Brand>

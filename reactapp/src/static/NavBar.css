@@ -1,0 +1,12 @@
+
+.nav-bar {
+    position: sticky !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 1px 2px 5px black;
+    min-height: 60px;
+    height: 65px;
+    z-index: 15;
+}

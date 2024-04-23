@@ -13,8 +13,8 @@ import ArrowRight from '../static/arrow-right.svg'
 const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
     let cityCodeToName = new Intl.DisplayNames(['en'], {type: 'region'})
 
-    const outboundStart = flight.itineraries[0].segments[0].departure.at;
-    const outboundEnd = flight.itineraries[0].segments[flight.itineraries[0].segments.length - 1].arrival.at;
+    const outboundStart = flight.itineraries[0]?.segments[0].departure.at;
+    const outboundEnd = flight.itineraries[0]?.segments[flight.itineraries[0].segments.length - 1].arrival.at;
 
     const returnStart = flight.itineraries[1]?.segments[0].arrival.at;
     const returnEnd = flight.itineraries[1]?.segments[flight.itineraries[1].segments.length - 1].arrival.at;
@@ -28,13 +28,10 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
     }
 
     return (
-        <div className={"flight-card rounded-2 p-4 d-flex flex-column gap-2 align-items-center"}>
+        <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-3"}>
             <div className={"d-flex justify-content-between w-100"}>
-                <div className={"h3"}>
-                    Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}
-                </div>
                 <div className={"h5"}>
-                    Available Seats: {flight.numberOfBookableSeats}
+                    Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}
                 </div>
             </div>
             <Accordion flush>
@@ -43,7 +40,8 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                         <div className={"d-flex flex-column gap-2 align-items-center justify-content-start w-100"}>
                             {flight.itineraries[0] &&
                                 <div className={'d-grid gap-2 align-items-start justify-content-center w-75'}>
-                                    <span className={'fs-6'}>Outbound {flightDateToStringShort(outboundStart)}</span>
+                                    <span className={'fs-6'}>Outbound <span
+                                        style={{color: "cornflowerblue"}}>{flightDateToStringShort(outboundStart)}</span></span>
                                     <div className={"d-flex align-items-center gap-2"}>
                                         <span className={"fs-4"}>{flightDateToStringTime(outboundStart)}</span>
                                         <img src={ArrowRight} width={'36px'} alt={''}/>
@@ -54,7 +52,8 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                                 </div>}
                             {flight.itineraries[1] &&
                                 <div className={'d-grid gap-2 align-items-center justify-content-center w-75'}>
-                                    <span className={'fs-6'}>Return {flightDateToStringShort(returnStart)}</span>
+                                    <span className={'fs-6'}>Return <span
+                                        style={{color: "cornflowerblue"}}>{flightDateToStringShort(returnStart)}</span></span>
                                     <div className={"d-flex align-items-center gap-2"}>
                                         <span className={"fs-4"}>{flightDateToStringTime(returnStart)}</span>
                                         <img src={ArrowRight} width={'36px'} alt={''}/>
@@ -65,11 +64,11 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                                 </div>}
                         </div>
                     </Accordion.Header>
-                    <Accordion.Body>
+                    <Accordion.Body className={"mt-5"}>
                         {flight.itineraries[0] &&
                             <h4 className={"h5 text-center"}>Outbound {flightDateToStringShort(outboundStart)}</h4>}
                         {flight.itineraries[0] &&
-                            <table className={"table table-transparent table-hover table-responsive-sm"}>
+                            <table className={"table table-sm table-transparent overflow-auto table-hover table-responsive-sm"}>
                                 <tbody>
                                 <tr>
                                     <th>Origin</th>
@@ -142,107 +141,7 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-            {/*
-              const [show, setShow] = useState(false);
-              const handleClose = () => setShow(false);
-              const handleShow = () => setShow(true);
-            <Modal show={show} onHide={handleClose} size={'lg'} contentClassName={'p-3'} data-bs-theme={'dark'} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        <div className={"d-flex justify-content-between w-100"}>
-                            <div className={"h3"}>
-                                Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}
-                            </div>
-                        </div>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {flight.itineraries[0] &&
-                        <h4 className={"h5 text-center"}>Outbound {flightDateToStringShort(flight.itineraries[0].segments[0].departure.at)}</h4>}
-                    {flight.itineraries[0] &&
-                        <table className={"table table-transparent table-hover table-responsive-sm"}>
-                            <tbody>
-                            <tr>
-                                <th>Origin</th>
-                                <th>Departure</th>
-                                <th>Destination</th>
-                                <th>Arrival</th>
-                                <th>Date</th>
-                                <th>Code</th>
-                            </tr>
-                            {flight.itineraries[0].segments.map((segment: any, index: any) => <tr key={index}>
-                                <td>
-                                    <Flag
-                                        country={dictionaries.locations[segment.departure.iataCode].countryCode}/>{' '}
-                                    {getAirport(segment.departure.iataCode)?.city || ""}{', '}
-                                    {getAirport(segment.departure.iataCode)?.name || ""}{' '} ({segment.departure.iataCode})
-                                </td>
-                                <td>
-                                    {segment.departure.at.split('T')[1]}
-                                </td>
-                                <td>
-                                    <Flag
-                                        country={dictionaries.locations[segment.arrival.iataCode].countryCode}/>{' '}
-                                    {getAirport(segment.arrival.iataCode)?.city || ""}{', '}
-                                    {getAirport(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
-                                </td>
-                                <td>
-                                    {flightDateToStringFull(segment.arrival.at)}
-                                </td>
-                                <td>{segment.departure.at.split('T')[0]}</td>
-                                <td>{segment.carrierCode}{segment.number}</td>
-                            </tr>)}
-                            </tbody>
-                        </table>}
-                    {flight.itineraries[1] && <h5 className={"h4 text-center"}>Return</h5>}
-                    {flight.itineraries[1] &&
-                        <table className={"table table-transparent table-hover table-responsive-sm"}>
-                            <tbody>
-                            <tr>
-                                <th>Origin</th>
-                                <th>Departure</th>
-                                <th>Destination</th>
-                                <th>Arrival</th>
-                                <th>Date</th>
-                                <th>Code</th>
-                            </tr>
-                            {flight.itineraries[1].segments.map((segment: any, index: any) => <tr key={index}>
-                                <td>
-                                    <Flag
-                                        country={dictionaries.locations[segment.departure.iataCode].countryCode}/>{' '}
-                                    {getAirport(segment.departure.iataCode)?.city || ""}{', '}
-                                    {getAirport(segment.departure.iataCode)?.name || ""}{' '}({segment.departure.iataCode})
-                                </td>
-                                <td>
-                                    {segment.departure.at.split('T')[1]}
-                                </td>
-                                <td>
-                                    <Flag
-                                        country={dictionaries.locations[segment.arrival.iataCode].countryCode}/>{' '}
-                                    {getAirport(segment.arrival.iataCode)?.city || ""}{', '}
-                                    {getAirport(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
-                                </td>
-                                <td>
-                                    {segment.arrival.at.split('T')[1]}
-                                </td>
-                                <td>{segment.departure.at.split('T')[0]}</td>
-                                <td>{segment.carrierCode}{segment.number}</td>
-                            </tr>)}
-                            </tbody>
-                        </table>}
-                    <div className={"h5"}>
-                        Available Seats: {flight.numberOfBookableSeats}
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <button className={"w-50 btn book-btn"} onClick={priceConfirm}>Book
-                        for {flight.price.total} {flight.price.currency}</button>
-                </Modal.Footer>
-            </Modal>*/}
-            <div className={"w-100 d-flex justify-content-center gap-3"}>
+            <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
                 <button className={"btn book-btn"} onClick={priceConfirm}>Book
                     for {flight.price.total} {flight.price.currency}</button>
             </div>
