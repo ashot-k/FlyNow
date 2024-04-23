@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import './App.css';
+import './static/App.css';
+import './static/NavBar.css'
 import axios from "axios";
 import Button from 'react-bootstrap/Button'
 import pendingSearchIcon from './static/infinite-spinner.svg'
@@ -7,12 +8,13 @@ import Select from "react-select";
 import Flag from "react-flagkit";
 import {NavBar} from "./components/NavBar";
 import {FlightList} from "./components/FlightList";
-import {getToken, inspirationSearch} from "./services/AmadeusAPIService";
+import {activitiesInArea, getToken, inspirationSearch} from "./services/AmadeusAPIService";
 import {airportSearch, searchAvailableDestinations, searchFlightOffers} from "./services/AmadeusAPIService";
 import {capitalize, getAirport} from "./utils/Utils";
 import countryCodes from './utils/countryCodes.json';
 import {Alert} from "react-bootstrap";
 import {FlightDestinationRecommendations} from "./components/FlightDestinationRecommendations";
+import {LocationRecommendations} from "./components/LocationRecommendations";
 
 function App() {
     const [token, setToken] = useState(undefined);
@@ -91,26 +93,6 @@ function App() {
                         iataCode: destinationInfo.destination,
                         airport: airport.name
                     });
-                    /* setTimeout(() => {
-                         citySearch(destinationInfo.destination).then(response => {
-                             console.log(destinationInfo)
-                             response.data.data.map((destinationInfo: any, index: number) => {
-                                 options.push({
-                                     value: index,
-                                     label: capitalize(destinationInfo.address.cityName) + ", " + destinationInfo.name + " (" + destinationInfo.iataCode + "), " + capitalize(destinationInfo.address.countryName),
-                                     cityName: destinationInfo.address.cityName,
-                                     countryCode: destinationInfo.address.countryCode,
-                                     iataCode: destinationInfo.iataCode,
-                                     airport: destinationInfo.name
-                                 });
-                                 setDestinationOptions(options);
-                             })
-                         })
-                             .catch(() => setPendingDestSearch(false))
-                     }, 500 * index)
-                     if (options.length === index - 1)
-                         setDestinationOptions(options);
-                         */
                 });
                 setDestinationOptions(options);
                 setPendingDestSearch(false);
@@ -178,9 +160,16 @@ function App() {
                 setRecommendations([]);
             });
     }
+
+
+
+
+
     return (
         <div className="App d-flex flex-column gap-3 align-items-center" data-bs-theme="dark">
-            {tokenExpiration && <NavBar id={'navBar'} token={token} tokenExp={tokenExpiration}/>}
+            <NavBar id={'navBar'} token={token} tokenExp={tokenExpiration}/>
+
+            <LocationRecommendations/>
             <div className={"search gap-3 p-3 d-flex flex-column rounded-2"}>
                 <div className={"d-flex flex-row align-items-start justify-content-evenly"}>
                     <div className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-start"}>
