@@ -8,47 +8,41 @@ svgs #04D7FF
 body {
     background-color: #202124 !important;
 }
-td{
-    width: 20%;
-    min-width: 20%;
-}
+
 .App {
-    color: #E8EAED;
+    color: #E8EAED !important;
 }
 .form-range::-webkit-slider-thumb {
-    background-color: #04D7FF !important; /* Replace with your desired color */
-}
-.form-range::-moz-range-thumb {
-    background-color: #04D7FF !important; /* Replace with your desired color */
-}
-.form-range::-ms-thumb {
-    background-color: #04D7FF !important; /* Replace with your desired color */
+    background-color: #04D7FF !important;
 }
 
-.form-check-input{
+.form-range::-moz-range-thumb {
+    background-color: #04D7FF !important;
+}
+
+.form-range::-ms-thumb {
+    background-color: #04D7FF !important;
+}
+
+.form-check-input {
     border-color: #04D7FF !important;
 }
-.form-control {
-    color: #E8EAED;
-    background-color: transparent;
-}
 
-.form-control:focus, .form-check-input:focus{
+.form-control {
+    background-color: transparent !important;
+    color: #E8EAED;
+}
+.form-control:focus, .form-check-input:focus {
     border-color: #04D7FF !important;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 5px #04D7FF !important;
 }
 
 
-.table {
-    background-color: transparent !important;
-}
-
 .search {
     background-color: #36373A;
-    width: 80%;
+    width: 75%;
     box-shadow: 3px 2px 5px black;
 }
-
 .date-select {
     width: 25%;
     text-align: center;
@@ -61,95 +55,121 @@ td{
 .location-select {
     width: 50%;
 }
-
 .nav-bar {
-    position: sticky;
+    position: sticky !important;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     box-shadow: 1px 2px 5px black;
-    background-color: #36373A;
-    width: 100%;
-    min-height: 64px;
-    height: 80px;
+    min-height: 60px;
+    height: 65px;
     z-index: 3;
 }
-
-.search-info{
+.accordion-button{
+    background-color: transparent !important;
+    color: #E8EAED !important;
+}
+.search-info {
     position: sticky;
     background-color: #202124;
-    top: 80px;
+    top: 65px;
     left: 0;
     right: 0;
     bottom: 0;
     box-shadow: 1px 2px 5px black;
+    z-index: 4;
     animation: fadeIn 1s;
 }
 
 .flight-list {
     height: fit-content;
 }
-
+@media only screen and (max-width: 900px) {
+    .flight-card {
+        width: 90%;
+    }
+    .book-btn{
+        width:  50%;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    .flight-card {
+        width: 45%;
+    }
+    .book-btn{
+       width:  25%;
+    }
+    .flight-card:hover {
+        box-shadow: 10px 10px 10px black;
+        width: 46%;
+    }
+}
 .flight-card {
     background-color: #36373A !important;
     height: fit-content;
-    width: 40%;
     box-shadow: 3px 2px 5px black;
-    transition: box-shadow 0.5s ease;
+    transition: box-shadow  0.5s ease, width 0.5s ease;
     animation: fadeInAndMoveIn 0.8s;
 }
-.card-head{
+.accordion{
+    width: 100%;
+}
+.card-head {
     border-bottom: #4a4b4e solid 1px;
 }
+
 @keyframes fadeInAndMoveIn {
-    0% { opacity: 0.5; transform: translateX(250px); }
-    100% { opacity: 1;  transform: translateX(0);}
+    0% {
+        opacity: 0.5;
+        transform: translateX(250px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-@keyframes fadeIn{
-    0% { opacity: 0;}
-    100% { opacity: 1; }
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-.flight-card:hover{
-    box-shadow: 10px 10px 10px black;
-}
+
 
 .table-transparent {
     cursor: default;
-    background-color: transparent;
 }
 
-.table-transparent tbody th {
-    color: white;
+.table-transparent tbody th, .table-transparent tbody td {
     background-color: #36373A;
-    border-bottom-color: #202124;
+    width: fit-content;
+    min-width: 20%;
+}
+.table-transparent tbody td:nth-child(1), .table-transparent tbody td:nth-child(3){
+    width: fit-content;
+    min-width: 50%;
 }
 
 .book-btn, .search-btn {
     background-color: rgba(4, 215, 255, 0.6) !important;
-    color: #E8EAED !important;
-}
-button:hover{
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 5px #04D7FF !important;
-}
-.table-transparent tbody td {
-    color: white;
-    background-color: #36373A;
-    border-bottom-color: #202124;
 }
 
-td img {
-    padding: 1px;
+button:hover {
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 5px #04D7FF !important;
 }
+
+
+
 
 .options {
     background-color: #36373A;
-    padding: 3px;
-    text-align: center;
+    padding: 5px 8px;
 }
-
 .options:nth-child(even) {
     background-color: rgb(104, 105, 108, 0.1);
 }
