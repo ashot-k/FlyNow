@@ -1,24 +1,29 @@
 import React, {useEffect, useState} from "react";
+import {Container, Nav, Navbar, NavItem, NavLink} from "react-bootstrap";
 
 export const NavBar = ({token, tokenExp}:any) => {
     const [tokenExpiration, setTokenExpiration] = useState<number>(tokenExp);
 
-    useEffect(() => {
-        if (tokenExpiration)
-            var tokenExpCountDown = setInterval(() => {
-                if(tokenExpiration > 0)
-                setTokenExpiration(tokenExpiration - 1);
-                if (tokenExpiration <= 0)
-                    clearInterval(tokenExpCountDown);
-            }, 1000);
-    }, [tokenExpiration]);
     return (
-        <div className={"w-100 nav-bar d-flex gap-2"}>
-            <a className={"p-3 h1 h-100 text-white bg-secondary text-decoration-none"} href={"/"}>FlyNow</a>
-            <div className={"d-flex gap-2 align-items-center"}>
-                <div>Token: {token} <br/>Expires in: {tokenExpiration}</div>
-               <div></div>
-            </div>
-        </div>
+     /*   <Nav className={"w-100 nav-bar d-flex gap-2 "}>
+            <NavItem className={"h1 h-100 bg-secondary"}>
+                <NavLink className={"p-3 text-white "} href={"/"}>FlyNow</NavLink>
+            </NavItem>
+            <NavItem>
+
+            </NavItem>
+        </Nav>*/
+    <Navbar expand="lg" className="w-100 nav-bar bg-body-tertiary"  bg="dark" data-bs-theme="dark">
+        <Container>
+            <Navbar.Brand className={"display-1"} href="#home">FlyNow</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                    <Nav.Link href="#">Home</Nav.Link>
+                    <Nav.Link>Token: {token}</Nav.Link>
+                </Nav>
+            </Navbar.Collapse>
+        </Container>
+    </Navbar>
     );
 };

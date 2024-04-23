@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 
-
+ const max = 25;
 export const getToken = () => {
     return axios.get("http://192.168.1.64:8080/amadeus/token");
 }
@@ -10,7 +10,9 @@ export const getToken = () => {
 
 export const searchFlightOffers = (origin: { iataCode: string; }, destination: {
     iataCode: string;
-}, departureDate: any, returnDate: any, adults: number, children: number) => {
+}, departureDate: any, returnDate: any, adults: number, children: number, maxPrice: number) => {
+    if(!(returnDate.length > 0))
+        returnDate = null;
     return axios.get("https://test.api.amadeus.com/v2/shopping/flight-offers",
         {
             params: {
@@ -19,13 +21,15 @@ export const searchFlightOffers = (origin: { iataCode: string; }, destination: {
                 departureDate: departureDate,
                 returnDate: returnDate,
                 adults: adults,
-                children: children
+                children: children,
+                maxPrice: maxPrice,
+                max: max
             }
         });
 }
 
 
-export const citySearch = (keyword: string) => {
+export const airportSearch = (keyword: string) => {
     return axios.get("https://test.api.amadeus.com/v1/reference-data/locations", {
         params: {
             subType: "AIRPORT",
@@ -33,6 +37,15 @@ export const citySearch = (keyword: string) => {
         }
     });
 }
+export const inspirationSearch = (origin: { iataCode: string; }, oneWay: boolean) => {
+    return axios.get("https://test.api.amadeus.com/v1/shopping/flight-destinations?viewBy=COUNTRY", {
+        params: {
+            origin: origin.iataCode,
+            oneWay: oneWay,
+        }
+    });
+}
+
 
 export const searchAvailableDestinations = (origin: {
     iataCode: string
