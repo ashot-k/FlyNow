@@ -171,5 +171,9 @@ button:hover {
     background-color: #4a4b4e;
 }
 
+.carousel-img{
+    width: 450px;
+    height: 350px;
+}
 
 
