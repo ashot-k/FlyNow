@@ -1,9 +1,7 @@
 import axios from "axios";
 
-
-
 const baseURL = '';
- const max = 25;
+const max = 25;
 export const getToken = () => {
     return axios.get("http://192.168.1.64:8079/amadeus/token");
 }
@@ -12,17 +10,14 @@ export const getToken = () => {
 export const searchFlightOffers = (origin: { iataCode: string; }, destination: {
     iataCode: string;
 }, departureDate: any, returnDate: any, adults: number, children: number, maxPrice: number) => {
-    if(!(returnDate.length > 0))
+    if (!(returnDate.length > 0))
         returnDate = null;
     return axios.get("https://test.api.amadeus.com/v2/shopping/flight-offers",
         {
             params: {
-                originLocationCode: origin.iataCode,
-                destinationLocationCode: destination.iataCode,
-                departureDate: departureDate,
-                returnDate: returnDate,
-                adults: adults,
-                children: children,
+                originLocationCode: origin.iataCode, destinationLocationCode: destination.iataCode,
+                departureDate: departureDate, returnDate: returnDate,
+                adults: adults, children: children,
                 maxPrice: maxPrice,
                 max: max
             }
@@ -38,23 +33,29 @@ export const airportSearch = (keyword: string) => {
         }
     });
 }
-export const activitiesInArea =(latitude: any, longitude: any) => {
-    return axios.get("https://test.api.amadeus.com/v1/shopping/activities?radius=1",{
-        params:{
-            latitude: latitude,
-            longitude: longitude
+export const activitiesInArea = (latitude: any, longitude: any) => {
+    return axios.get("https://test.api.amadeus.com/v1/shopping/activities?radius=1", {
+        params: {
+            latitude: latitude, longitude: longitude
         }
     });
 }
 
-export const locationScores = () =>{
+export const activitiesAroundArea = (north: any, west: any, south: any, east: any) => {
+    return axios.get("https://test.api.amadeus.com/v1/shopping/activities/by-square", {
+        params: {
+            north: north, west: west, south: south, east: east
+        }
+    });
+}
+
+export const locationScores = () => {
     return axios.get("https://test.api.amadeus.com/v1/location/analytics/category-rated-areas?latitude=41.397158&longitude=2.160873")
 }
 export const inspirationSearch = (origin: { iataCode: string; }, oneWay: boolean) => {
     return axios.get("https://test.api.amadeus.com/v1/shopping/flight-destinations?viewBy=COUNTRY", {
         params: {
-            origin: origin.iataCode,
-            oneWay: oneWay,
+            origin: origin.iataCode, oneWay: oneWay,
         }
     });
 }
