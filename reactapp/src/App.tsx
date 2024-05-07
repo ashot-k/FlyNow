@@ -10,11 +10,11 @@ import {NavBar} from "./components/NavBar";
 import {FlightList} from "./components/FlightList";
 import {activitiesInArea, getToken, inspirationSearch} from "./services/AmadeusAPIService";
 import {airportSearch, searchAvailableDestinations, searchFlightOffers} from "./services/AmadeusAPIService";
-import {capitalize, getAirport} from "./utils/Utils";
+import {capitalize, customStyles, getAirportByIATA} from "./utils/Utils";
 import countryCodes from './utils/countryCodes.json';
 import {Alert} from "react-bootstrap";
-import {FlightDestinationRecommendations} from "./components/FlightDestinationRecommendations";
-import {LocationRecommendations} from "./components/LocationRecommendations";
+import {FlightDestinationRecos} from "./components/FlightDestinationRecos";
+import {UserLocationRecos} from "./components/UserLocationRecos";
 
 function App() {
     const [token, setToken] = useState(undefined);
@@ -23,7 +23,6 @@ function App() {
     const [pendingOriginSearch, setPendingOriginSearch] = useState(false);
     const [pendingDestSearch, setPendingDestSearch] = useState(false);
     const [flightList, setFlightList] = useState<any[]>();
-    const [recommendations, setRecommendations] = useState<any[]>();
     const [dictionaries, setDictionaries] = useState<any[]>();
 
     const [departureDate, setDepartureDate] = useState<string>('');
@@ -33,6 +32,7 @@ function App() {
     const [children, setChildren] = useState<number>(0);
     const [originOptions, setOriginOptions] = useState<any[]>();
     const [origin, setOrigin] = useState<any>(undefined);
+    const [destRecos, setDestRecos] = useState<any[]>();
     const [destinationOptions, setDestinationOptions] = useState<any[]>([]);
     const [destination, setDestination] = useState<any>();
     const [maxPrice, setMaxPrice] = useState<number>(1000);
@@ -50,11 +50,13 @@ function App() {
     useEffect(() => {
         setDestination('');
         setDestinationOptions([]);
-        destinationOptionsSearch()
+        destinationOptionsSearch();
     }, [departureDate, origin]);
+
     useEffect(() => {
         if (origin) {
-            getRecommendations(origin);
+            console.log(origin)
+            getInspirationLocationCodes(origin);
         }
     }, [origin]);
 
@@ -83,8 +85,9 @@ function App() {
         if (origin && departureDate) {
             setPendingDestSearch(true)
             searchAvailableDestinations(origin, false, false, departureDate).then(availableDestinations => {
+                console.log(availableDestinations.data);
                 availableDestinations.data.data.map((destinationInfo: any, index: number) => {
-                    let airport = getAirport(destinationInfo.destination);
+                    let airport = getAirportByIATA(destinationInfo.destination);
                     options.push({
                         value: index,
                         label: capitalize(airport.city) + ", " + airport.name + " (" + destinationInfo.destination + "), " + capitalize(airport.country),
@@ -104,35 +107,6 @@ function App() {
             })
         }
     }
-    const customStyles = {
-        control: (provided: any) => ({
-            ...provided,
-            background: 'transparent',
-            display: 'flex',
-            flexWrap: 'nowrap',
-            color: 'white',
-            boxShadow: 'none',
-            '&:hover': {
-                borderColor: '#04D7FF'
-            },
-            borderColor: 'white'
-        }),
-        menu: (provided: any) => ({
-            ...provided,
-            paddingTop: '8px', /* Add top padding to create a gap */
-            paddingBottom: '8px',
-            background: '#36373A',
-            color: 'white'
-        }),
-        singleValue: (provided: any) => ({
-            ...provided,
-            color: 'white'
-        }),
-        input: (provided: any) => ({
-            ...provided,
-            color: 'white'
-        })
-    };
     const searchFlights = () => {
         setPendingFlightSearch(true);
         searchFlightOffers(origin, destination, departureDate, returnDate, adults, children, maxPrice)
@@ -140,36 +114,30 @@ function App() {
                 setFlightList(response.data.data);
                 setDictionaries(response.data.dictionaries)
                 setPendingFlightSearch(false);
-                console.log(response.data)
             }))
             .catch((e) => {
                 console.error(e);
                 setFlightList([]);
             });
     }
-
-    const getRecommendations = (origin: { iataCode: string; }) => {
+    const getInspirationLocationCodes = (origin: { iataCode: string; }) => {
+        if(!origin) return;
         console.log(origin);
         inspirationSearch(origin, oneWay)
             .then(r => {
-                setRecommendations(r.data.data);
-                console.log(r)
+                setDestRecos(r.data.data.slice(0,3));
+                console.log(r.data.data);
             })
             .catch((e) => {
                 console.error(e);
-                setRecommendations([]);
+                setDestRecos([]);
             });
     }
-
-
-
-
 
     return (
         <div className="App d-flex flex-column gap-3 align-items-center" data-bs-theme="dark">
             <NavBar id={'navBar'} token={token} tokenExp={tokenExpiration}/>
-
-            <LocationRecommendations/>
+            {/*<UserLocationRecos/>*/}
             <div className={"search gap-3 p-3 d-flex flex-column rounded-2"}>
                 <div className={"d-flex flex-row align-items-start justify-content-evenly"}>
                     <div className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-start"}>
@@ -207,7 +175,7 @@ function App() {
                             </div>
                         </div>
                     </div>
-                    <div className={"location-select p-2 gap-2 d-flex flex-column align-items-center justify-content-start"}>
+                    <div className={"location-select p-2 gap-3 d-flex flex-column align-items-center justify-content-start"}>
                         <label>
                             Origin {origin && <Flag country={origin.countryCode}/>}
                         </label>
@@ -240,10 +208,9 @@ function App() {
                             <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
                     </div>
                     <div className={"settings p-2 d-flex flex-column align-items-start justify-content-start"}>
-                        <div
-                            className={"passenger-selection d-flex flex-column gap-2 w-50 align-items-center justify-content-start"}>
+                        <div className={"passenger-selection d-flex flex-column gap-2 align-items-center justify-content-start"}>
                             <label>
-                                <h5>Max Price {maxPrice}</h5>
+                                <h5>Max Price {maxPrice + '\u20AC'} </h5>
                                 <input className={"form-range"} type={"range"} min={5} max={1000}
                                        onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
                             </label>
@@ -275,9 +242,10 @@ function App() {
                         <Button variant="outline-secondary" className={"w-25"} disabled={true}>Search</Button>}
                 </div>
             </div>
+            {/*{destRecos && destRecos?.length > 0 && <FlightDestinationRecos iataCodes={destRecos.map((reco) => reco.destination)}/>}*/}
             <div className={"w-100 d-flex flex-row"}>
                 <div className={"w-100 d-flex justify-content-center align-items-center"}>
-                    {/*{recommendations && recommendations.length > 0 && <FlightDestinationRecommendations flights={recommendations}/>}*/}
+                    {/*{recommendations && recommendations.length > 0 && <FlightDestinationRecos flights={recommendations}/>}*/}
                     {pendingFlightSearch ? <img src={pendingSearchIcon} width={"50%"} height={"50%"}
                                                 alt={""}/> : (flightList ? (flightList.length > 0 &&
                         <FlightList flightList={flightList} departureDate={departureDate} returnDate={returnDate}

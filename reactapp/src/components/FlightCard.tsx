@@ -6,7 +6,7 @@ import {
     flightDateToStringFull, flightDateToStringNoYear,
     flightDateToStringShort,
     flightDateToStringTime,
-    getAirport
+    getAirportByIATA
 } from "../utils/Utils";
 import ArrowRight from '../static/arrow-right.svg'
 
@@ -81,8 +81,8 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                                     <td>
                                         <Flag
                                             country={dictionaries.locations[segment.departure.iataCode].countryCode}/>{' '}
-                                        {getAirport(segment.departure.iataCode)?.city || ""}{', '}
-                                        {getAirport(segment.departure.iataCode)?.name || ""}{' '} ({segment.departure.iataCode})
+                                        {getAirportByIATA(segment.departure.iataCode)?.city || ""}{', '}
+                                        {getAirportByIATA(segment.departure.iataCode)?.name || ""}{' '} ({segment.departure.iataCode})
                                     </td>
                                     <td>
                                         {flightDateToStringNoYear(segment.departure.at)}
@@ -90,8 +90,8 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                                     <td>
                                         <Flag
                                             country={dictionaries.locations[segment.arrival.iataCode].countryCode}/>{' '}
-                                        {getAirport(segment.arrival.iataCode)?.city || ""}{', '}
-                                        {getAirport(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
+                                        {getAirportByIATA(segment.arrival.iataCode)?.city || ""}{', '}
+                                        {getAirportByIATA(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
                                     </td>
                                     <td>
                                         {flightDateToStringNoYear(segment.arrival.at)}
@@ -116,8 +116,8 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                                     <td>
                                         <Flag
                                             country={dictionaries.locations[segment.departure.iataCode].countryCode}/>{' '}
-                                        {getAirport(segment.departure.iataCode)?.city || ""}{', '}
-                                        {getAirport(segment.departure.iataCode)?.name || ""}{' '} ({segment.departure.iataCode})
+                                        {getAirportByIATA(segment.departure.iataCode)?.city || ""}{', '}
+                                        {getAirportByIATA(segment.departure.iataCode)?.name || ""}{' '} ({segment.departure.iataCode})
                                     </td>
                                     <td>
                                         {flightDateToStringNoYear(segment.departure.at)}
@@ -125,8 +125,8 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                                     <td>
                                         <Flag
                                             country={dictionaries.locations[segment.arrival.iataCode].countryCode}/>{' '}
-                                        {getAirport(segment.arrival.iataCode)?.city || ""}{', '}
-                                        {getAirport(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
+                                        {getAirportByIATA(segment.arrival.iataCode)?.city || ""}{', '}
+                                        {getAirportByIATA(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
                                     </td>
                                     <td>
                                         {flightDateToStringNoYear(segment.arrival.at)}
