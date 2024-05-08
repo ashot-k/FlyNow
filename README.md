@@ -5,7 +5,9 @@
 ### TODOS
 
 - [x] Flight search using the AmadeusAPI
-- [ ] Flight recommendation based on activities
+- [x] Recommendations based on user location
+- [ ] Booked flight info storing on the FlyNow service
+- [ ] Flight recommendation based on previous searches/bookings
 - [ ] User registration to the FlyNow service
 - [ ] Flight booking using AmadeusAPI
-- [ ] Booked flight info storing on the FlyNow service
+
