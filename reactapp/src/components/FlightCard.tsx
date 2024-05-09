@@ -28,12 +28,13 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
     }
 
     return (
-        <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-3"}>
+        <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
             <div className={"d-flex justify-content-between w-100"}>
                 <div className={"h5"}>
                     Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}
                 </div>
             </div>
+            <hr/>
             <Accordion flush>
                 <Accordion.Item eventKey="0" className={'bg-transparent'}>
                     <Accordion.Header className={'bg-transparent'}>
@@ -64,77 +65,49 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
                                 </div>}
                         </div>
                     </Accordion.Header>
+
                     <Accordion.Body className={"mt-5"}>
-                        {flight.itineraries[0] &&
-                            <h4 className={"h5 text-center"}>Outbound {flightDateToStringShort(outboundStart)}</h4>}
-                        {flight.itineraries[0] &&
-                            <table className={"table table-sm table-transparent overflow-auto table-hover table-responsive-sm"}>
-                                <tbody>
-                                <tr>
-                                    <th>Origin</th>
-                                    <th>Departure</th>
-                                    <th>Destination</th>
-                                    <th>Arrival</th>
-                                    <th>Code</th>
-                                </tr>
-                                {flight.itineraries[0].segments.map((segment: any, index: any) => <tr key={index}>
-                                    <td>
-                                        <Flag
-                                            country={dictionaries.locations[segment.departure.iataCode].countryCode}/>{' '}
-                                        {getAirportByIATA(segment.departure.iataCode)?.city || ""}{', '}
-                                        {getAirportByIATA(segment.departure.iataCode)?.name || ""}{' '} ({segment.departure.iataCode})
-                                    </td>
-                                    <td>
-                                        {flightDateToStringNoYear(segment.departure.at)}
-                                    </td>
-                                    <td>
-                                        <Flag
-                                            country={dictionaries.locations[segment.arrival.iataCode].countryCode}/>{' '}
-                                        {getAirportByIATA(segment.arrival.iataCode)?.city || ""}{', '}
-                                        {getAirportByIATA(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
-                                    </td>
-                                    <td>
-                                        {flightDateToStringNoYear(segment.arrival.at)}
-                                    </td>
-                                    <td>{segment.carrierCode}{segment.number}</td>
-                                </tr>)}
-                                </tbody>
-                            </table>}
-                        {flight.itineraries[1] &&
-                            <h5 className={"h4 text-center"}>Return {flightDateToStringShort(returnStart)}</h5>}
-                        {flight.itineraries[1] &&
-                            <table className={"table table-transparent table-hover table-responsive-sm"}>
-                                <tbody>
-                                <tr>
-                                    <th>Origin</th>
-                                    <th>Departure</th>
-                                    <th>Destination</th>
-                                    <th>Arrival</th>
-                                    <th>Code</th>
-                                </tr>
-                                {flight.itineraries[1].segments.map((segment: any, index: any) => <tr key={index}>
-                                    <td>
-                                        <Flag
-                                            country={dictionaries.locations[segment.departure.iataCode].countryCode}/>{' '}
-                                        {getAirportByIATA(segment.departure.iataCode)?.city || ""}{', '}
-                                        {getAirportByIATA(segment.departure.iataCode)?.name || ""}{' '} ({segment.departure.iataCode})
-                                    </td>
-                                    <td>
-                                        {flightDateToStringNoYear(segment.departure.at)}
-                                    </td>
-                                    <td>
-                                        <Flag
-                                            country={dictionaries.locations[segment.arrival.iataCode].countryCode}/>{' '}
-                                        {getAirportByIATA(segment.arrival.iataCode)?.city || ""}{', '}
-                                        {getAirportByIATA(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
-                                    </td>
-                                    <td>
-                                        {flightDateToStringNoYear(segment.arrival.at)}
-                                    </td>
-                                    <td>{segment.carrierCode}{segment.number}</td>
-                                </tr>)}
-                                </tbody>
-                            </table>}
+                        {flight.itineraries.map((itinerarie: any, index: any) => {
+                            return <>
+                                {index === 0 ?
+                                    <h4 className={"h5 text-center"}>Outbound {flightDateToStringShort(outboundStart)}</h4> :
+                                    <h5 className={"h5 text-center"}>Return {flightDateToStringShort(returnStart)}</h5>}
+                                <table
+                                    className={"table table-sm table-transparent overflow-auto table-hover table-responsive-sm"}>
+                                    <tbody>
+                                    <tr>
+                                        <th>Origin</th>
+                                        <th>Departure</th>
+                                        <th>Destination</th>
+                                        <th>Arrival</th>
+                                        <th>Code</th>
+                                    </tr>
+                                    {itinerarie.segments.map((segment: any, index: any) => <tr
+                                        key={index}>
+                                        <td>
+                                            <Flag
+                                                country={dictionaries.locations[segment.departure.iataCode].countryCode}/>{' '}
+                                            {getAirportByIATA(segment.departure.iataCode)?.city || ""}{', '}
+                                            {getAirportByIATA(segment.departure.iataCode)?.name || ""}{' '} ({segment.departure.iataCode})
+                                        </td>
+                                        <td>
+                                            {flightDateToStringNoYear(segment.departure.at)}
+                                        </td>
+                                        <td>
+                                            <Flag
+                                                country={dictionaries.locations[segment.arrival.iataCode].countryCode}/>{' '}
+                                            {getAirportByIATA(segment.arrival.iataCode)?.city || ""}{', '}
+                                            {getAirportByIATA(segment.arrival.iataCode)?.name || ""}{' '}({segment.arrival.iataCode})
+                                        </td>
+                                        <td>
+                                            {flightDateToStringNoYear(segment.arrival.at)}
+                                        </td>
+                                        <td>{segment.carrierCode}{segment.number}</td>
+                                    </tr>)}
+                                    </tbody>
+                                </table>
+                            </>
+                        })}
                         <div className={"h5"}>
                             Available Seats: {flight.numberOfBookableSeats}
                         </div>
@@ -143,7 +116,7 @@ const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
             </Accordion>
             <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
                 <button className={"btn book-btn"} onClick={priceConfirm}>Book
-                    for {flight.price.total} {flight.price.currency}</button>
+                    for <span className={"price"}>{flight.price.total} {flight.price.currency}</span></button>
             </div>
         </div>
     );

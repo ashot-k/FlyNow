@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Container, Nav, Navbar, NavItem, NavLink} from "react-bootstrap";
-import {activitiesInArea} from "../services/AmadeusAPIService";
+import React, { useState} from "react";
+import {Container, Nav, Navbar} from "react-bootstrap";
 
 export const NavBar = ({token, tokenExp}:any) => {
     const [tokenExpiration, setTokenExpiration] = useState<number>(tokenExp);

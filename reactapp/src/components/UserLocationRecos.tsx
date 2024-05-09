@@ -16,6 +16,7 @@ export const UserLocationRecos = () => {
     function checkLocation() {
         let locations: any[] = [];
         setPending(true);
+
         /*  if ("geolocation" in navigator) {
               setPending(true);
               navigator.geolocation.getCurrentPosition((position) => {
@@ -35,17 +36,17 @@ export const UserLocationRecos = () => {
               });
           }*/
         function findInUsersArea() {
-            getUserLocation()
-                .then((response) => {
-                        activitiesInArea(response.data.lat, response.data.lon).then(r => {
-                            setPosition({latitude: response.data.lat, longitude: response.data.lat});
-                            locations.push(r.data.data);
-                            setRecos(locations);
-                            setPending(false)
-                        })
-                    }
-                );
+            getUserLocation().then((response) => {
+                    activitiesInArea(response.data.lat, response.data.lon).then(r => {
+                        setPosition({latitude: response.data.lat, longitude: response.data.lat});
+                        setRecos(locations);
+                        locations.push(r.data.data);
+                        setPending(false)
+                    })
+                }
+            );
         }
+
         findInUsersArea();
     }
 

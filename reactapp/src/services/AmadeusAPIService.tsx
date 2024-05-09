@@ -25,7 +25,7 @@ export const searchFlightOffers = (origin: { iataCode: string; }, destination: {
         });
 }
 
-export const airportSearch = (keyword: string) => {
+export const searchAirport = (keyword: string) => {
     return axios.get("https://test.api.amadeus.com/v1/reference-data/locations", {
         params: {
             subType: "AIRPORT",
