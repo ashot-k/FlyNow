@@ -39,6 +39,7 @@ body {
 
 
 .search {
+    margin-top: 60px;
     background-color: #36373A;
     width: 65%;
     box-shadow: 3px 2px 5px black;
@@ -148,13 +149,18 @@ body {
 }
 
 .book-btn, .search-btn {
-    background-color: rgba(4, 215, 255, 0.6) !important;
+    background-color: rgba(4, 215, 255, 0.39) !important;
 }
 
 button:hover {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 5px #04D7FF !important;
 }
 
+.price{
+    color: white;
+    font-weight: bold;
+    padding: 3px;
+}
 
 
 
