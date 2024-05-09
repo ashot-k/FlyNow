@@ -13,8 +13,6 @@ import {airportSearch, searchAvailableDestinations, searchFlightOffers} from "./
 import {capitalize, customStyles, getAirportByIATA} from "./utils/Utils";
 import countryCodes from './utils/countryCodes.json';
 import {Alert} from "react-bootstrap";
-import {FlightDestinationRecos} from "./components/FlightDestinationRecos";
-import {UserLocationRecos} from "./components/UserLocationRecos";
 
 function App() {
     const [token, setToken] = useState(undefined);
