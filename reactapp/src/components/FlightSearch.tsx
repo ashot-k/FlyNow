@@ -12,22 +12,35 @@ import {
     searchFlightOffers
 } from "../services/AmadeusAPIService";
 import countryCodes from "../utils/countryCodes.json";
+import {Dictionaries, Flight} from "./FlightCard";
+
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
 }
-
-interface FlightSearchData {
+export interface Route{
+    value: number,
+    label: string,
+    cityName: string,
+    countryCode: string,
+    iataCode: string,
+    airport: string
+}
+export interface SearchInfo{
     departureDate: string;
     oneWay: boolean;
     returnDate: string;
     adults: number;
     children: number;
-    origin: any;
-    destination: any;
+    origin: Route;
+    destination: Route;
     maxPrice: number;
-    flightList: any[];
-    dictionaries: any[];
 }
+export interface FlightSearchData {
+    searchInfo: SearchInfo;
+    flightList: Flight[];
+    dictionaries: Dictionaries;
+}
+
 export const FlightSearch = ({onSearch}: FlightSearchProps) => {
 
     const [pendingFlightSearch, setPendingFlightSearch] = useState(false);
@@ -39,31 +52,30 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
     const [adults, setAdults] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
     const [originOptions, setOriginOptions] = useState<any[]>();
-    const [origin, setOrigin] = useState<any>(undefined);
     const [destinationOptions, setDestinationOptions] = useState<any[]>([]);
-    const [destination, setDestination] = useState<any>();
+    const [origin, setOrigin] = useState<Route | undefined>(undefined);
+    const [destination, setDestination] = useState<Route | undefined>(undefined);
     const [maxPrice, setMaxPrice] = useState<number>(1000);
     const [originSearchTerm, setOriginSearchTerm] = useState<string>('');
     const [flightList, setFlightList] = useState<any[]>([]);
-    const [dictionaries, setDictionaries] = useState<any[]>([]);
-    const handleSearch = () =>{
-        onSearch({
-            origin, destination, departureDate,  returnDate, oneWay, adults, children,  maxPrice, flightList, dictionaries
-        })
+    const [dictionaries, setDictionaries] = useState<any>();
+    const returnSearchResults = () => {
+        if(origin && destination)
+        onSearch({searchInfo:{origin, destination, departureDate, returnDate, oneWay, adults, children, maxPrice}, flightList, dictionaries});
     }
     useEffect(() => {
-        if(origin && departureDate?.length > 0)
+        if (origin && departureDate?.length > 0)
             destinationOptionsSearch();
     }, [origin, departureDate]);
 
     useEffect(() => {
-        if(flightList.length > 0 && dictionaries) {
-            handleSearch();
+        if (flightList.length > 0 && dictionaries) {
+            returnSearchResults();
         }
     }, [flightList, dictionaries]);
 
     const originOptionsSearch = (inputValue: string) => {
-        var options: any[] = [];
+        let options: Route[] = [];
         setPendingOriginSearch(true);
         searchAirport(inputValue).then((response: { data: { data: any[]; }; }) => {
             response.data.data.map((originInfo: any, index: number) => {
@@ -81,7 +93,7 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
         })
     }
     const destinationOptionsSearch = () => {
-        var options: any[] = [];
+        let options: Route[] = [];
         if (origin && departureDate) {
             setPendingDestSearch(true)
             searchAvailableDestinations(origin, false, false, departureDate).then(availableDestinations => {
@@ -91,7 +103,7 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                         value: index,
                         label: capitalize(airport.city) + ", " + airport.name + " (" + destinationInfo.destination + "), " + capitalize(airport.country),
                         cityName: airport.city,
-                        countryCode: countryCodes.find(row => row.iata === destinationInfo.destination)?.iso,
+                        countryCode: countryCodes.find(row => row.iata === destinationInfo.destination)?.iso || "",
                         iataCode: destinationInfo.destination,
                         airport: airport.name
                     });
@@ -102,12 +114,13 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                 console.log(e);
                 setPendingDestSearch(false)
                 setDestinationOptions([]);
-                setDestination('');
+                setDestination(undefined);
             })
         }
     }
     const searchFlights = () => {
         setPendingFlightSearch(true);
+        if(origin && destination && departureDate)
         searchFlightOffers(origin, destination, departureDate, returnDate, adults, children, maxPrice)
             .then((response => {
                 setFlightList(response.data.data);
@@ -118,6 +131,40 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                 console.error(e);
                 setFlightList([]);
             });
+    }
+    const searchFlightsBackup = () => {
+        let originAirport = getAirportByIATA("MAD");
+        setOriginOptions([{
+            value: 0,
+            label: capitalize(originAirport.city) + ", " + originAirport.name + " (" + originAirport.iata + "), " + capitalize(originAirport.country),
+            cityName: originAirport.city,
+            countryCode: countryCodes.find(row => row.iata === originAirport.iata)?.iso || "",
+            iataCode: originAirport.iata,
+            airport: originAirport.name
+        }]);
+        /*
+        let destinationAirport = getAirportByIATA("OPO");
+        setDestinationOptions([{
+            value: 0,
+            label: capitalize(destinationAirport.city) + ", " + destinationAirport.name + " (" + destinationAirport.iata + "), " + capitalize(destinationAirport.country),
+            cityName: destinationAirport.city,
+            countryCode: countryCodes.find(row => row.iata === destinationAirport.iata)?.iso || "",
+            iataCode: destinationAirport.iata,
+            airport: destinationAirport.name
+        }])
+        let departureDate ="2024-06-12";
+        setDepartureDate(departureDate);
+        searchFlightOffers({iataCode: "MAD"}, {iataCode: "OPO"}, departureDate, "", 1, 0, 500)
+            .then((response => {
+                setFlightList(response.data.data);
+                setDictionaries(response.data.dictionaries)
+                setPendingFlightSearch(false);
+            }))
+            .catch((e) => {
+                console.error(e);
+                setFlightList([]);
+            });
+            */
     }
     /*const getInspirationLocationCodes = (origin: { iataCode: string; }) => {
         if(!origin) return;
@@ -137,7 +184,7 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
         <div className={"search gap-3 p-3 d-flex flex-column rounded-2"}>
             <div className={"d-flex flex-row align-items-start justify-content-evenly"}>
                 <div className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-start"}>
-                    <div className={"d-flex flex-row flex-wrap gap-1"}>
+                    <div className={"d-flex flex-row justify-content-center flex-wrap gap-2"}>
                         <label>
                             <h5>Departure</h5>
                             <input className={"form-control form-control-sm"}
@@ -209,7 +256,7 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                         className={"passenger-selection d-flex flex-column gap-2 align-items-center justify-content-start"}>
                         <label>
                             <h5>Max Price {maxPrice + '\u20AC'} </h5>
-                            <input className={"form-range"} type={"range"} min={5} max={1000}
+                            <input className={"form-range"} type={"range"} min={5} max={1000} value={maxPrice}
                                    onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
                         </label>
                         <label>
@@ -234,9 +281,11 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                 <Alert variant={"danger"}
                        show={origin != null && departureDate.length > 0 && !(destinationOptions?.length > 0) && !pendingDestSearch}>No
                     available destinations</Alert>
-                {departureDate && destination && !pendingFlightSearch ?
+                {origin && departureDate && destination && !pendingFlightSearch ?
                     <Button variant="btn search-btn" className={"w-25"} onClick={searchFlights}>Search</Button> :
                     <Button variant="outline-secondary" className={"w-25"} disabled={true}>Search</Button>}
+                <Button variant={"btn search-btn"} className={"w-25 mt-2"} onClick={searchFlightsBackup}>Backup
+                    Search</Button>
             </div>
         </div>
     );

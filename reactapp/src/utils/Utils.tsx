@@ -20,7 +20,8 @@ export const customStyles = {
         paddingTop: '8px', /* Add top padding to create a gap */
         paddingBottom: '8px',
         background: '#36373A',
-        color: 'white'
+        color: 'white',
+        zIndex: '5'
     }),
     singleValue: (provided: any) => ({
         ...provided,

@@ -22,7 +22,6 @@ public class AmadeusController {
     @Value("${amadeus.client.secret}")
     private String clientSecret;
 
-
     @GetMapping("/token")
     public Mono<TokenResponse> getToken() {
         WebClient client = WebClient.builder()
