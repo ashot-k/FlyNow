@@ -3,16 +3,52 @@ import axios from "axios";
 import {Accordion} from "react-bootstrap";
 import {
     calculateStops,
-    flightDateToStringFull, flightDateToStringNoYear,
+    flightDateToStringNoYear,
     flightDateToStringShort,
     flightDateToStringTime,
     getAirportByIATA
 } from "../utils/Utils";
 import ArrowRight from '../static/arrow-right.svg'
 
-const FlightCard = ({flight, destination, origin, dictionaries}: any) => {
-    let cityCodeToName = new Intl.DisplayNames(['en'], {type: 'region'})
+export interface Flight {
+    itineraries: {
+        segments: {
+            departure: {
+                at: string;
+            };
+            arrival: {
+                at: string;
+            };
+        }[];
+    }[],
+    validatingAirlineCodes: string,
+    numberOfBookableSeats: number,
+    price: {
+        total: number,
+        currency: string;
+    }
+}
+export interface Dictionaries {
+    carriers: {
+        [code: string]: string;
+    },
+    locations: {
+        [code: string]: {
+            cityCode: string;
+            countryCode: string;
+        };
+    },
+    "aircraft": {
+        [code: string]: string;
+    },
+}
 
+interface FlightCardProps {
+    flight: Flight,
+    dictionaries: Dictionaries
+}
+
+const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
     const outboundStart = flight.itineraries[0]?.segments[0].departure.at;
     const outboundEnd = flight.itineraries[0]?.segments[flight.itineraries[0].segments.length - 1].arrival.at;
 
