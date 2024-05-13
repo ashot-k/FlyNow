@@ -59,10 +59,12 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
     const [originSearchTerm, setOriginSearchTerm] = useState<string>('');
     const [flightList, setFlightList] = useState<any[]>([]);
     const [dictionaries, setDictionaries] = useState<any>();
+
     const returnSearchResults = () => {
         if(origin && destination)
         onSearch({searchInfo:{origin, destination, departureDate, returnDate, oneWay, adults, children, maxPrice}, flightList, dictionaries});
     }
+
     useEffect(() => {
         if (origin && departureDate?.length > 0)
             destinationOptionsSearch();

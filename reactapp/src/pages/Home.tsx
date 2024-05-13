@@ -3,9 +3,11 @@ import {FlightSearch, FlightSearchData} from "../components/FlightSearch";
 import SearchInfoHeader from "../components/SearchInfoHeader";
 import {FlightList} from "../components/FlightList";
 import Login from "../components/Login";
+import Register from "../components/Register";
 
 function Home() {
     const [searchResults, setSearchResults] = useState<FlightSearchData>();
+
 
     const handleFlightSearch = (searchData: FlightSearchData) => {
         setSearchResults(searchData);
@@ -13,9 +15,8 @@ function Home() {
     }
 
     return (
-    <div className="App d-flex flex-column gap-3 align-items-center" data-bs-theme="dark">
+    <div className="d-flex w-100 flex-column gap-3 align-items-center">
         {/*<UserLocationRecos/>*/}
-        <Login/>
         <FlightSearch onSearch={handleFlightSearch}/>
         {/*{destRecos && destRecos?.length > 0 && <FlightDestinationRecos iataCodes={destRecos.map((reco) => reco.destination)}/>}*/}
         {(searchResults ? <>

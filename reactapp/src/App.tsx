@@ -7,12 +7,14 @@ import TopDestinations from "./pages/TopDestinations";
 import {NavBar} from "./components/NavBar";
 import {getToken} from "./services/AmadeusAPIService";
 import axios from "axios";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
 
     const [token, setToken] = useState(undefined);
     const [tokenExpiration, setTokenExpiration] = useState<number>();
-
+    const [username, setUsername] = useState<string>('')
     useEffect(() => {
         if (!token)
             getToken().then(response => {
@@ -22,13 +24,21 @@ function App() {
             }).catch((e) => console.log(e));
     }, []);
 
+    const handleLogin = (username: string) =>{
+        console.log(username);
+        setUsername(username);
+    }
     return (
         <BrowserRouter>
-            <NavBar token={token} tokenExp={tokenExpiration}/>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="top-destinations" element={<TopDestinations/>}/>
-            </Routes>
+            <NavBar token={token} tokenExp={tokenExpiration} username={username.trim().length > 0 ? username : false}/>
+            <div className={"App w-100 justify-content-center d-flex"} data-bs-theme="dark">
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="top-destinations" element={<TopDestinations/>}/>
+                    <Route path="/login" element={<Login onLogin={handleLogin}/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                </Routes>
+            </div>
         </BrowserRouter>
     );
 }
