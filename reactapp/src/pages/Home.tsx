@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {FlightSearch, FlightSearchData} from "../components/FlightSearch";
 import SearchInfoHeader from "../components/SearchInfoHeader";
 import {FlightList} from "../components/FlightList";
-import {Dictionaries} from "../components/FlightCard";
+import Login from "../components/Login";
 
 function Home() {
     const [searchResults, setSearchResults] = useState<FlightSearchData>();
@@ -15,6 +15,7 @@ function Home() {
     return (
     <div className="App d-flex flex-column gap-3 align-items-center" data-bs-theme="dark">
         {/*<UserLocationRecos/>*/}
+        <Login/>
         <FlightSearch onSearch={handleFlightSearch}/>
         {/*{destRecos && destRecos?.length > 0 && <FlightDestinationRecos iataCodes={destRecos.map((reco) => reco.destination)}/>}*/}
         {(searchResults ? <>

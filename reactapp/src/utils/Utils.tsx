@@ -1,5 +1,4 @@
 import airportData from "./airports.json";
-import airportData2 from "./airports2.json";
 import axios from "axios";
 
 export const customStyles = {
@@ -33,17 +32,14 @@ export const customStyles = {
     })
 };
 export function capitalize(word: string | undefined) {
-    if(word)
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    if(word?.trim()) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
 export function getAirportByIATA(iataCode: string) {
-    let airport = airportData.filter((airport) => airport.iata === iataCode)[0]
-        return airport
+    return airportData.filter((airport) => airport.iata === iataCode)[0]
 }
 export function getAirportByCityName(cityName: string) {
-    let airport = airportData.filter((airport) => airport.city.toLowerCase() === cityName.toLowerCase())[0]
-    return airport
+    return airportData.filter((airport) => airport.city.toLowerCase() === cityName.toLowerCase())[0]
 }
 export function getUserLocation(){
    return axios.get('http://ip-api.com/json');
@@ -57,26 +53,26 @@ export var Days = ['Sunday', 'Monday', 'Tuesday',
 
 
 export function flightDateToStringFull(date: string) {
-    var str = new Date(date);
+    const str = new Date(date);
     return Days[str.getDay()] + ", "+ str.getDate() + " " + Months[str.getMonth()] + " " + str.getFullYear() + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes());
 }
 export function flightDateToStringNoYear(date: string) {
-    var str = new Date(date);
+    const str = new Date(date);
     return Days[str.getDay()] + ", "+ str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes());
 }
 
 export function flightDateToStringShort(date: string) {
-    var str = new Date(date);
+    const str = new Date(date);
     return Days[str.getDay()] + ", "+ str.getDate() + " " + Months[str.getMonth()];
 }
 export function flightDateToStringTime(date: string) {
-    var str = new Date(date);
+    const str = new Date(date);
     return addZero(str.getHours()) + ":" + addZero(str.getMinutes());
 }
 
 export function calculateStops(segments: any[]){
     let stops = 0;
-   segments.forEach(segment => stops += segment.numberOfStops);
+    segments.forEach(segment => stops += segment.numberOfStops);
     return stops
 }
 

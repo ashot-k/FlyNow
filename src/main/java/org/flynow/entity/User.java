@@ -2,40 +2,43 @@ package org.flynow.entity;
 
 import jakarta.persistence.*;
 
+import javax.naming.Name;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "user")
+@Table(name = "flynow_users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String name;
     private String username;
     private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
+
     @OneToMany
     @JoinColumn(name = "booked_flights")
-    private List<Flight> bookedFlights;
-    @OneToOne
-    @JoinColumn(name = "user_analytics_id")
-    private UserAnalytics userAnalytics;
+    private List<Flight> bookedFlights = new ArrayList<>();
 
-    public User(String name, String username, String password, List<Flight> bookedFlights, UserAnalytics userAnalytics) {
-        this.name = name;
+    public User(String username, String password, List<Flight> bookedFlights) {
         this.username = username;
         this.password = password;
         this.bookedFlights = bookedFlights;
-        this.userAnalytics = userAnalytics;
     }
 
-    public User(Long id, String name, String username, String password, List<Flight> bookedFlights, UserAnalytics userAnalytics) {
+    public User(Long id, String username, String password, List<Flight> bookedFlights) {
         this.id = id;
-        this.name = name;
         this.username = username;
         this.password = password;
         this.bookedFlights = bookedFlights;
-        this.userAnalytics = userAnalytics;
     }
 
     public User() {
@@ -50,13 +53,6 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getUsername() {
         return username;
@@ -82,11 +78,11 @@ public class User {
         this.bookedFlights = bookedFlights;
     }
 
-    public UserAnalytics getUserAnalytics() {
-        return userAnalytics;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setUserAnalytics(UserAnalytics userAnalytics) {
-        this.userAnalytics = userAnalytics;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
