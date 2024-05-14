@@ -43,15 +43,5 @@ public class AmadeusController {
         }
 
 
-    @GetMapping("/book-flight")
-    public ResponseEntity<String> bookFlight() {
-        WebClient.Builder builder = WebClient.builder();
-        builder.build()
-                .get()
-                .uri("https://catfact.ninja/fact?max_length=140")
-                .retrieve().bodyToMono(String.class).subscribe(f -> {
-                });
 
-        return null;
-    }
 }

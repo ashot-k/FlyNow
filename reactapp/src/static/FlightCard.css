@@ -30,7 +30,7 @@
 .element-shadow {
     box-shadow: 3px 2px 5px black;
     transition: box-shadow 0.5s ease, width 0.5s ease;
-    animation: fadeInAndMoveIn 0.8s;
+    animation: fadeInAndMoveIn linear 0.5s;
 }
 
 .accordion {

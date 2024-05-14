@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
-import {login} from "../services/AuthenticationServiceAPI";
+import {login} from "../services/FlyNowServiceAPI";
 import {useNavigate} from "react-router-dom";
 interface LoginProps{
-    onLogin: (username: string) => void;
+    onLogin: (token: string) => void;
 }
 
 export default function Login({onLogin}: LoginProps) {
@@ -25,10 +25,10 @@ export default function Login({onLogin}: LoginProps) {
             setPendingLogin(true);
             login({username, password})
                 .then(r => {
-                    if (r && r.username) {
+                    if (r.token) {
                         setLoginStatus(true)
                         setShowAlert(true);
-                        onLogin(username);
+                        onLogin(r.token);
                         setTimeout(()=> {
                            navigate("/");
                         }, 750);
@@ -36,14 +36,12 @@ export default function Login({onLogin}: LoginProps) {
                         setLoginStatus(false);
                         setShowAlert(true);
                     }
-                    setPendingLogin(false)
                 })
                 .catch((e) => {
                     setShowAlert(true)
                     setLoginStatus(false);
                     console.log(e);
-                    setPendingLogin(false);
-                });
+                }).finally(()=> setPendingLogin(false));
         }
     }
 
@@ -59,7 +57,7 @@ export default function Login({onLogin}: LoginProps) {
                 <input className={"form-control"} type={"password"} placeholder={"Enter password"}
                        onChange={e => setPassword(e.target.value)}/>
             </label>
-            <Button variant={"btn"} className={"w-25"} type={"submit"}>Login</Button>
+            <Button variant={"btn"} className={"w-25"} type={"submit"} disabled={!(username.trim().length > 0 && password.trim().length > 0)}>Login</Button>
             <Alert variant={loginStatus ? "success" : "danger"} show={!pendingLogin && showAlert}>{
                 loginStatus ? "Successful Login" : "Wrong Credentials"}
             </Alert>

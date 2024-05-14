@@ -17,7 +17,8 @@ import {Dictionaries, Flight} from "./FlightCard";
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
 }
-export interface Route{
+
+export interface Route {
     value: number,
     label: string,
     cityName: string,
@@ -25,7 +26,8 @@ export interface Route{
     iataCode: string,
     airport: string
 }
-export interface SearchInfo{
+
+export interface SearchInfo {
     departureDate: string;
     oneWay: boolean;
     returnDate: string;
@@ -34,18 +36,20 @@ export interface SearchInfo{
     origin: Route;
     destination: Route;
     maxPrice: number;
+
 }
+
 export interface FlightSearchData {
     searchInfo: SearchInfo;
     flightList: Flight[];
     dictionaries: Dictionaries;
 }
 
-export const FlightSearch = ({onSearch}: FlightSearchProps) => {
+export default function FlightSearch({onSearch}: FlightSearchProps) {
 
-    const [pendingFlightSearch, setPendingFlightSearch] = useState(false);
-    const [pendingOriginSearch, setPendingOriginSearch] = useState(false);
-    const [pendingDestSearch, setPendingDestSearch] = useState(false);
+    const [pendingFlightSearch, setPendingFlightSearch] = useState<boolean>(false);
+    const [pendingOriginSearch, setPendingOriginSearch] = useState<boolean>(false);
+    const [pendingDestSearch, setPendingDestSearch] = useState<boolean>(false);
     const [departureDate, setDepartureDate] = useState<string>('');
     const [oneWay, setOneWay] = useState<boolean>(true)
     const [returnDate, setReturnDate] = useState<string>('');
@@ -61,8 +65,12 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
     const [dictionaries, setDictionaries] = useState<any>();
 
     const returnSearchResults = () => {
-        if(origin && destination)
-        onSearch({searchInfo:{origin, destination, departureDate, returnDate, oneWay, adults, children, maxPrice}, flightList, dictionaries});
+        if (origin && destination)
+            onSearch({
+                searchInfo: {origin, destination, departureDate, returnDate, oneWay, adults, children, maxPrice},
+                flightList,
+                dictionaries
+            });
     }
 
     useEffect(() => {
@@ -91,8 +99,7 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                 })
             });
             setOriginOptions(options);
-            setPendingOriginSearch(false);
-        })
+        }).catch((e)=> console.log(e)).finally(() => setPendingOriginSearch(false))
     }
     const destinationOptionsSearch = () => {
         let options: Route[] = [];
@@ -111,28 +118,25 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                     });
                 });
                 setDestinationOptions(options);
-                setPendingDestSearch(false);
             }).catch((e) => {
                 console.log(e);
-                setPendingDestSearch(false)
                 setDestinationOptions([]);
                 setDestination(undefined);
-            })
+            }).finally(() => setPendingDestSearch(false))
         }
     }
     const searchFlights = () => {
         setPendingFlightSearch(true);
-        if(origin && destination && departureDate)
-        searchFlightOffers(origin, destination, departureDate, returnDate, adults, children, maxPrice)
-            .then((response => {
-                setFlightList(response.data.data);
-                setDictionaries(response.data.dictionaries)
-                setPendingFlightSearch(false);
-            }))
-            .catch((e) => {
-                console.error(e);
-                setFlightList([]);
-            });
+        if (origin && destination && departureDate)
+            searchFlightOffers(origin, destination, departureDate, returnDate, adults, children, maxPrice)
+                .then((response => {
+                    setFlightList(response.data.data);
+                    setDictionaries(response.data.dictionaries)
+                }))
+                .catch((e) => {
+                    console.error(e);
+                    setFlightList([]);
+                }).finally(() => setPendingFlightSearch(false));
     }
     const searchFlightsBackup = () => {
         let originAirport = getAirportByIATA("MAD");
@@ -181,6 +185,10 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                 setDestRecos([]);
             });
     }*/
+
+    function checkIfSearchInfoEntered(){
+        return(origin && destination && departureDate)
+    }
 
     return (
         <div className={"search gap-3 p-3 d-flex flex-column rounded-2"}>
@@ -283,11 +291,13 @@ export const FlightSearch = ({onSearch}: FlightSearchProps) => {
                 <Alert variant={"danger"}
                        show={origin != null && departureDate.length > 0 && !(destinationOptions?.length > 0) && !pendingDestSearch}>No
                     available destinations</Alert>
-                {origin && departureDate && destination && !pendingFlightSearch ?
-                    <Button variant="btn search-btn" className={"w-25"} onClick={searchFlights}>Search</Button> :
-                    <Button variant="outline-secondary" className={"w-25"} disabled={true}>Search</Button>}
-                <Button variant={"btn search-btn"} className={"w-25 mt-2"} onClick={searchFlightsBackup}>Backup
-                    Search</Button>
+                {origin && departureDate && destination && pendingFlightSearch ?
+                    <img src={pendingSearchIcon} width={"35%"} height={"50%"}
+                         alt={""}/> :
+                    <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary": "btn search-btn"} className={"w-25"} disabled={!checkIfSearchInfoEntered()} onClick={searchFlights}>Search</Button>}
+                {!pendingFlightSearch &&
+                    <Button variant={"btn search-btn"} className={"w-25 mt-2"} onClick={searchFlightsBackup}>Backup
+                        Search</Button>}
             </div>
         </div>
     );

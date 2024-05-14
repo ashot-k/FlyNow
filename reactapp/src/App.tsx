@@ -5,35 +5,33 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home";
 import TopDestinations from "./pages/TopDestinations";
 import {NavBar} from "./components/NavBar";
-import {getToken} from "./services/AmadeusAPIService";
-import axios from "axios";
 import Login from "./components/Login";
 import Register from "./components/Register";
-
+import { jwtDecode } from "jwt-decode";
 function App() {
-
-    const [token, setToken] = useState(undefined);
-    const [tokenExpiration, setTokenExpiration] = useState<number>();
+    const [jwtToken, setJwtToken] = useState<string>('')
     const [username, setUsername] = useState<string>('')
+    const [loginStatus, setLoginStatus] = useState<boolean>(false);
+
     useEffect(() => {
-        if (!token)
-            getToken().then(response => {
-                setToken(response.data.token);
-                setTokenExpiration(response.data.expiration);
-                axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.token;
-            }).catch((e) => console.log(e));
+        let jwtCookie = localStorage.getItem("token");
+        if(jwtCookie && jwtCookie.length > 0)
+           handleLogin(jwtCookie);
     }, []);
 
-    const handleLogin = (username: string) =>{
-        console.log(username);
-        setUsername(username);
+    const handleLogin = (jwt: string) =>{
+        const decoded = jwtDecode(jwt);
+        if(decoded.sub)
+            setUsername(decoded.sub);
+        setJwtToken(jwt);
+        setLoginStatus(true);
     }
     return (
         <BrowserRouter>
-            <NavBar token={token} tokenExp={tokenExpiration} username={username.trim().length > 0 ? username : false}/>
+            <NavBar username={username.trim().length > 0 ? username : false}/>
             <div className={"App w-100 justify-content-center d-flex"} data-bs-theme="dark">
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
+                    <Route path="/" element={<Home loginStatus={loginStatus}/>}/>
                     <Route path="top-destinations" element={<TopDestinations/>}/>
                     <Route path="/login" element={<Login onLogin={handleLogin}/>}/>
                     <Route path="/register" element={<Register/>}/>
