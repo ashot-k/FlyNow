@@ -2,6 +2,7 @@ package org.flynow.service;
 
 import org.flynow.entity.User;
 import org.flynow.repository.UserRepo;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private UserRepo userRepository;
+    UserRepo userRepository;
 
     public CustomUserDetailsService(UserRepo userRepository) {
         this.userRepository = userRepository;

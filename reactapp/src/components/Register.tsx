@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
-import {register} from "../services/AuthenticationServiceAPI";
+import {register} from "../services/FlyNowServiceAPI";
 import {useNavigate} from 'react-router-dom'
 
 export default function Register(){

@@ -1,10 +1,10 @@
-package org.flynow.config.security;
+package org.flynow.controller;
 
-public class TokenResponse {
+public class LoginResponse {
     private String token;
     private long expiration;
 
-    public TokenResponse(String token, long expiration) {
+    public LoginResponse(String token, long expiration) {
         this.token = token;
         this.expiration = expiration;
     }
@@ -24,5 +24,4 @@ public class TokenResponse {
     public void setExpiration(long expiration) {
         this.expiration = expiration;
     }
-
 }
