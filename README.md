@@ -9,10 +9,9 @@
 
 - [x] Flight search using the AmadeusAPI
 - [x] Recommendations based on user location
-- [ ] Recommendations based on user activity
 - [ ] Recommendations according to trends in users area
 - [ ] Booked flight info storing on the FlyNow service
 - [ ] Flight recommendation based on previous searches/bookings
-- [ ] User registration to the FlyNow service
+- [x] User registration to the FlyNow service
 - [ ] Flight booking using AmadeusAPI
 
