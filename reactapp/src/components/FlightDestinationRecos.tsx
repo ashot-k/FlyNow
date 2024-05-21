@@ -1,72 +1,64 @@
-import {Carousel} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {getAirportByIATA} from "../utils/Utils";
-import {activitiesInArea} from "../services/AmadeusAPIService";
+import {recoMostTraveled} from "../services/AmadeusAPIService";
 import pendingSearchIcon from "../static/infinite-spinner.svg";
+import Flag from "react-flagkit";
+import countryCodes from "../utils/countryCodes.json"
+import Button from "react-bootstrap/Button";
 
-export const FlightDestinationRecos = ({iataCodes}: any) => {
+interface Info {
+    originIata: string,
+    date: string
+}
 
-    const [positions, setPositions] = useState<any>();
-    const [recos, setRecos] = useState<any[]>([]);
+export interface destinations {
+    dest: string[];
+    originIata: string;
+}
+
+interface RecoSearchProps {
+    onRecoSelect: (destinationIata: string, originIata :string) => void;
+}
+
+export default function FlightDestinationRecos({originIata, date, onRecoSelect}: Info & RecoSearchProps) {
+
     const [pending, setPending] = useState(false);
+    const [destinations, setDestinations] = useState<string[]>([])
 
     useEffect(() => {
-        let pos = [];
-        console.log(iataCodes)
-        for (let code of iataCodes) {
-            pos.push({
-                latitude: getAirportByIATA(code)?.latitude,
-                longitude: getAirportByIATA(code)?.longitude
-            });
-        }
-        setPositions(pos);
-    }, [iataCodes]);
+        setPending(true);
+        recoMostTraveled(originIata, date)
+            .then((r) => {
+                let dests = [];
+                let data = r.data.data
+                for (let i = 0; i < data.length; i++) {
+                    dests.push(data[i].destination)
+                }
+                setDestinations(dests);
+            })
+            .catch(e => console.log(e))
+            .finally(() => setPending(false))
+    }, []);
 
-    useEffect(() => {
-        if (positions) {
-            setPending(true)
-            const totalRequests = positions.length;
-            let completedRequests = 0;
-            for (let i = 0; i < positions.length; i++) {
-                setTimeout((latitude, longitude) => {
-                    activitiesInArea(latitude, longitude)
-                        .then((r) => {
-                            if(r.data.data.length > 0)
-                            recos.push(r.data.data)
-                            setRecos(recos);
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                        }).finally(() => {
-                        completedRequests++;
+    function destSelection(destination : string){
+        onRecoSelect(destination, originIata);
+    }
 
-                        if (completedRequests === totalRequests) {
-                            setPending(false);
-                        }
-                    });
-                }, 1200 * i, positions[i].latitude, positions[i].longitude);
-            }
-        }
-    }, [positions]);
     return (
         <>
             {pending ? <img src={pendingSearchIcon} width={"25%"} height={"25%"}
-                            alt={""}/> : (recos?.length > 0 && <div className={'w-75 p-2'}>
-                <h2 className={''}>Activities in various destinations</h2>
-                <div className={'w-auto d-flex gap-3 justify-content-center shadow-sm'}>
-                    {recos.map(reco => (
-                        <Carousel fade={true} slide={false} className={'element-shadow'}>
-                            {reco.map((activity: any) => (
-                                <Carousel.Item>
-                                    <a href={activity.bookingLink}>
-                                        <img className={"carousel-img"} src={activity.pictures[0]} alt={""}/>
-                                    </a>
-                                    <Carousel.Caption className={'text-white rounded-1 bg-body-tertiary bg-opacity-50'}>
-                                        {activity.name}
-                                    </Carousel.Caption>
-                                </Carousel.Item>
-                            ))}
-                        </Carousel>
+                            alt={""}/> : (destinations?.length > 0 && <div className={'w-50 p-2'}>
+                <h2 className={''}>Popular destinations from your area</h2>
+                <div className={'d-flex gap-3 justify-content-center shadow-sm flex-wrap'}>
+                    {destinations.map((dest, index) => (
+                        (getAirportByIATA(dest)?.iata && getAirportByIATA(dest)?.city && getAirportByIATA(dest)?.name != "All Airports") ?
+                            <div key={index}
+                                 className={"w-25 component-box p-3 gap-2 d-flex flex-column justify-content-between"}>
+                                <h5><Flag
+                                    country={countryCodes.find(row => row.iata === dest)?.iso}/> {getAirportByIATA(dest)?.city}, {getAirportByIATA(dest)?.country}
+                                </h5>
+                                <Button variant={"primary"} onClick={() => destSelection(dest)}>Select</Button>
+                            </div> : <></>
                     ))}
                 </div>
             </div>)}

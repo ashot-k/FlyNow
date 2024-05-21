@@ -10,14 +10,13 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-
     private String origin;
     private String destination;
     private int stops;
     private LocalDate departureDate;
     private LocalDate returnDate;
     private Long price;
-
+    private String flightCode;
 
     public Long getId() {
         return id;
@@ -73,5 +72,13 @@ public class Flight {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public String getFlightCode() {
+        return flightCode;
+    }
+
+    public void setFlightCode(String flightCode) {
+        this.flightCode = flightCode;
     }
 }

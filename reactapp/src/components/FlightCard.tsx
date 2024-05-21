@@ -9,15 +9,18 @@ import {
     getAirportByIATA
 } from "../utils/Utils";
 import ArrowRight from '../static/arrow-right.svg'
+import {logSearchTerms} from "../services/FlyNowServiceAPI";
 
 export interface Flight {
     itineraries: {
         segments: {
             departure: {
                 at: string;
+                iataCode: string;
             };
             arrival: {
                 at: string;
+                iataCode: string
             };
         }[];
     }[],
@@ -56,11 +59,13 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
     const returnEnd = flight.itineraries[1]?.segments[flight.itineraries[1].segments.length - 1].arrival.at;
 
     function priceConfirm() {
-        axios.post("https://test.api.amadeus.com/v1/shopping/flight-offers/pricing", flight, {
+
+      //  logSearchTerms(flight.itineraries[0]?.segments[0].departure.iataCode, flight.itineraries[flight.itineraries.length - 1]?.segments[flight.itineraries[flight.itineraries.length - 1].segments.length - 1].arrival.iataCode)
+       /* axios.post("https://test.api.amadeus.com/v1/shopping/flight-offers/pricing", flight, {
             headers: {
                 'X-HTTP-Method-Override': 'GET'
             }
-        }).then(r => console.log(r))
+        }).then(r => console.log(r))*/
     }
 
     return (

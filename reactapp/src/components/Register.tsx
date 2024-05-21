@@ -12,6 +12,7 @@ export default function Register(){
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [responseMessage, setResponseMessage] = useState<string>('');
     const navigate = useNavigate();
+
     function handleRegistration(e: React.FormEvent){
         e.preventDefault();
         if ((username.trim() && password.trim())) {
@@ -23,7 +24,7 @@ export default function Register(){
                         setShowAlert(true);
                         setResponseMessage(r.message)
                         setTimeout(()=> {
-                            navigate("/");
+                            navigate("/login");
                         }, 750);
                     } else {
                         setRegisterStatus(false);

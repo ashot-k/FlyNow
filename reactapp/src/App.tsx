@@ -3,11 +3,11 @@ import './static/App.css';
 import './static/NavBar.css'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home";
-import TopDestinations from "./pages/TopDestinations";
 import {NavBar} from "./components/NavBar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { jwtDecode } from "jwt-decode";
+
 function App() {
     const [jwtToken, setJwtToken] = useState<string>('')
     const [username, setUsername] = useState<string>('')
@@ -32,7 +32,6 @@ function App() {
             <div className={"App w-100 justify-content-center d-flex"} data-bs-theme="dark">
                 <Routes>
                     <Route path="/" element={<Home loginStatus={loginStatus}/>}/>
-                    <Route path="top-destinations" element={<TopDestinations/>}/>
                     <Route path="/login" element={<Login onLogin={handleLogin}/>}/>
                     <Route path="/register" element={<Register/>}/>
                 </Routes>
