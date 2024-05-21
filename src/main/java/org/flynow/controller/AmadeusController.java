@@ -1,7 +1,7 @@
 package org.flynow.controller;
 
 import org.flynow.config.security.AmadeusToken;
-import org.flynow.config.security.TokenResponse;
+import org.flynow.response.TokenResponse;
 import org.flynow.utils.AmadeusURLs;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -40,8 +40,12 @@ public class AmadeusController {
                     TokenResponse tokenResponse = new TokenResponse(token, expiration);
                     return Mono.just(tokenResponse);
                 });
-        }
+    }
 
+    /*@PostMapping("/")
+    public void logSearchTerm(@RequestBody String ){
 
+    }
+*/
 
 }

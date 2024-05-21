@@ -30,8 +30,8 @@ export default function Login({onLogin}: LoginProps) {
                         setShowAlert(true);
                         onLogin(r.token);
                         setTimeout(()=> {
-                           navigate("/");
-                        }, 750);
+                           window.location.href = "/"
+                        }, 350);
                     } else {
                         setLoginStatus(false);
                         setShowAlert(true);

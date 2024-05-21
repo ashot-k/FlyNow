@@ -16,6 +16,7 @@
     <properties>
         <java.version>22</java.version>
     </properties>
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -66,6 +67,11 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.amadeus</groupId>
+            <artifactId>amadeus-java</artifactId>
+            <version>7.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -77,6 +83,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>spring-boot</classifier>
+                            <mainClass>org.flynow.FlyNowApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

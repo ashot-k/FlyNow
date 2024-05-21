@@ -1,4 +1,4 @@
-package org.flynow.dto;
+package org.flynow.request;
 
 public class JwtTokenRequest {
     private String token;

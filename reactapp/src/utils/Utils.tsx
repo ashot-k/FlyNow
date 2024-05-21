@@ -76,7 +76,7 @@ export function calculateStops(segments: any[]){
     return stops
 }
 
-function addZero(i: string | number) {
+export function addZero(i: string | number) {
     if (i < 10) {i = "0" + i}
     return i;
 }

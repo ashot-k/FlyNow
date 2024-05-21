@@ -1,7 +1,8 @@
 package org.flynow.controller;
 
-import org.flynow.config.security.TokenResponse;
-import org.flynow.dto.JwtTokenRequest;
+import org.flynow.response.LoginResponse;
+import org.flynow.response.TokenResponse;
+import org.flynow.request.JwtTokenRequest;
 import org.flynow.dto.LoginDTO;
 import org.flynow.dto.RegistrationDTO;
 import org.flynow.entity.User;
