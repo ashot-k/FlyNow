@@ -11,10 +11,9 @@ import { jwtDecode } from "jwt-decode";
 function App() {
     const [jwtToken, setJwtToken] = useState<string>('')
     const [username, setUsername] = useState<string>('')
-    const [loginStatus, setLoginStatus] = useState<boolean>(false);
 
     useEffect(() => {
-        let jwtCookie = localStorage.getItem("token");
+        let jwtCookie = localStorage.getItem("FlyNowToken");
         if(jwtCookie && jwtCookie.length > 0)
            handleLogin(jwtCookie);
     }, []);
@@ -24,14 +23,13 @@ function App() {
         if(decoded.sub)
             setUsername(decoded.sub);
         setJwtToken(jwt);
-        setLoginStatus(true);
     }
     return (
         <BrowserRouter>
             <NavBar username={username.trim().length > 0 ? username : false}/>
             <div className={"App w-100 justify-content-center d-flex"} data-bs-theme="dark">
                 <Routes>
-                    <Route path="/" element={<Home loginStatus={loginStatus}/>}/>
+                    <Route path="/" element={<Home/>}/>
                     <Route path="/login" element={<Login onLogin={handleLogin}/>}/>
                     <Route path="/register" element={<Register/>}/>
                 </Routes>

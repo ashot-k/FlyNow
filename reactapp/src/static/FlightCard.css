@@ -10,11 +10,11 @@
 
 @media only screen and (min-width: 1000px) {
     .flight-card {
-        width: 40%;
+        width: 75%;
     }
 
     .book-btn {
-        width: 25%;
+        width: 35%;
     }
 
     .flight-card:hover {

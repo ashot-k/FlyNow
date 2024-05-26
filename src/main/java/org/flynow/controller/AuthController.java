@@ -21,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.64:3000", "http://192.168.1.80:3000", "http://192.168.1.64:8079"})
@@ -68,11 +70,11 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> refreshToken(@RequestBody JwtTokenRequest jwtTokenRequest) {
         UserDetails user = userDetailsService.loadUserByUsername(jwtService.extractUsername(jwtTokenRequest.getToken()));
-        boolean valid = jwtService.isTokenValid(jwtTokenRequest.getToken(), user);
+        /*boolean valid = jwtService.isTokenValid(jwtTokenRequest.getToken(), user);
         if (valid) {
-            return new ResponseEntity<>(new TokenResponse(jwtTokenRequest.getToken(), jwtService.getExpirationTime()), HttpStatus.OK);
-        }
+            return new ResponseEntity<>(new TokenResponse(jwtTokenRequest.getToken(), jwtService.getExpirationTime(), ), HttpStatus.OK);
+        }*/
 
-        return new ResponseEntity<>(new TokenResponse(jwtService.generateToken(user), jwtService.getExpirationTime()), HttpStatus.OK);
+        return new ResponseEntity<>(new TokenResponse(jwtService.generateToken(user), jwtService.getExpirationTime(), Instant.now()), HttpStatus.OK);
     }
 }

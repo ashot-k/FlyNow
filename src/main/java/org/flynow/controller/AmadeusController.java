@@ -10,6 +10,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
+
 
 @RestController
 @RequestMapping("/amadeus")
@@ -37,7 +39,7 @@ public class AmadeusController {
                 .flatMap(response -> {
                     String token = AmadeusToken.extractAccessToken(response);
                     long expiration = AmadeusToken.extractExpiration(response);
-                    TokenResponse tokenResponse = new TokenResponse(token, expiration);
+                    TokenResponse tokenResponse = new TokenResponse(token, expiration, Instant.now());
                     return Mono.just(tokenResponse);
                 });
     }
