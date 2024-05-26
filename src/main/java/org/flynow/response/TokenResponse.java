@@ -1,4 +1,6 @@
 package org.flynow.response;
 
-public record TokenResponse (String token, long expiration){
+import java.time.Instant;
+
+public record TokenResponse (String token, long expiration, Instant issued_at){
 }

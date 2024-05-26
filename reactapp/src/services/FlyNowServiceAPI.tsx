@@ -1,19 +1,17 @@
 import axios from "axios";
+import {Token} from "../utils/Utils";
 
 export interface Credentials {
     username: string
     password: string
 }
 
-
-
-
 const axiosFlyNow = axios.create({
-    baseURL: "http://192.168.1.64:8079/api",
+    baseURL: "http://192.168.1.64:8079/api", headers:{
+        Authorization: localStorage.getItem("FlyNowToken")
+    }
 });
 
-if(localStorage.getItem("token"))
-    axiosFlyNow.defaults.headers.common['Authorization'] = localStorage.getItem("token");
 
 export const register = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/register", {
@@ -25,25 +23,31 @@ export const register = async (userDetails: Credentials) => {
         message: "Successfully created user: " + userDetails.username
     }) : r.data;
 }
+
 export const login = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/login", {
         username: userDetails.username,
         password: userDetails.password
     });
-    localStorage.setItem("token", "Bearer " + r.data.token);
-    localStorage.setItem("token_exp", r.data.expiration);
+    localStorage.setItem("FlyNowToken", "Bearer " + r.data.token);
+    localStorage.setItem("FlyNowToken_exp", r.data.expiration);
+    axiosFlyNow.defaults.headers.common.Authorization = "Bearer " + r.data.token;
 
     return (r.status === 200) ? ({
         token: r.data.token,
         message: "Successfully logged in as: " + userDetails.username
     }) : r.data;
 }
-export const refresh = async (token: string, expiration: number) => {
+
+export const refresh = async (token: Token) => {
+    if(!token)
+        return;
     const r = await axiosFlyNow.post("/auth/refresh", {
         token: token,
     });
-    localStorage.setItem("token", "Bearer " + r.data.token)
-    localStorage.setItem("token_exp", r.data.expiration)
+    localStorage.setItem("FlyNowToken", "Bearer " + r.data.token);
+    localStorage.setItem("FlyNowToken_exp", r.data.expiration);
+    axiosFlyNow.defaults.headers.common.Authorization = "Bearer " + r.data.token;
     return (r.status === 200) ? ({
         token: r.data.token
     }) : r.data;

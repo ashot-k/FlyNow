@@ -30,7 +30,7 @@ export const DestinationActivities = ({dest}: Destination) => {
     useEffect(() => {
         if (dest?.length > 0)
             findActivities();
-    }, []);
+    }, [dest]);
 
     function findActivities() {
         setPending(true);
@@ -58,17 +58,17 @@ export const DestinationActivities = ({dest}: Destination) => {
             console.log(r.data.data)
             setRecos(data);
             setPending(false)
-        })
+        }).catch(e => console.log(e));
     }
 
     return (
         <>
             {pending ? <img src={pendingSearchIcon} width={"25%"} height={"25%"}
-                            alt={""}/> : (recos?.length > 0 && <div className={'w-50 p-2'}>
-                <h2 className={''}>Destination Experience</h2>
+                            alt={""}/> : (recos?.length > 0 && <div className={'w-25 p-2'}>
+                <h2 className={''}>Destination Experiences</h2>
                 <div className={'w-75 d-flex flex-column gap-3 justify-content-center shadow-sm'}>
                     {recos.splice(0, 5).map(activity => (
-                        <Carousel fade={true} slide={false} className={'element-shadow'}>
+                        <Carousel fade={true} slide={false} className={'w-100 element-shadow'}>
                             {activity.pictures.map((picture) => (
                                 <Carousel.Item>
                                     <a href={activity.bookingLink}>

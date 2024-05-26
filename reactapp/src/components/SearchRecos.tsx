@@ -18,7 +18,7 @@ export default function SearchRecos({onSearchRecoSelect}: SearchRecoProps) {
     const [recos, setRecos] = useState<SearchReco[]>([]);
 
     useEffect(() => {
-        getSearchTerms().then((r) => setRecos(r.data))
+        getSearchTerms().then((r) => setRecos(r.data)).catch(e => console.log(e))
     }, []);
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function SearchRecos({onSearchRecoSelect}: SearchRecoProps) {
     }
 
     return (
-        <div className={"w-50 p-2"}>
+       <> {recos?.length > 0 ? <div className={"w-50 p-2"}>
             <h3>Search again</h3>
             <div className={"w-100 d-flex flex-wrap gap-3"}>
                 {recos?.map((reco, index) => (
@@ -44,6 +44,7 @@ export default function SearchRecos({onSearchRecoSelect}: SearchRecoProps) {
                     </div>
                 ))}
             </div>
-        </div>
+        </div>: <></>}
+       </>
     )
 }
