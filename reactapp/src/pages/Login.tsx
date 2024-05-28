@@ -8,13 +8,13 @@ interface LoginProps{
     onLogin: (token: string) => void;
 }
 
-export default function Login({onLogin}: LoginProps) {
+export default function Login() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [pendingLogin, setPendingLogin] = useState<boolean>(false);
     const [loginStatus, setLoginStatus] = useState<boolean>(false);
     const [showAlert, setShowAlert] = useState<boolean>(false);
-    const navigate = useNavigate();
+    const navigator = useNavigate();
 
     useEffect(() => {
         setShowAlert(false);
@@ -26,12 +26,12 @@ export default function Login({onLogin}: LoginProps) {
             setPendingLogin(true);
             login({username, password})
                 .then(r => {
-                    if (r.token) {
+                    if (r) {
                         setLoginStatus(true)
                         setShowAlert(true);
-                        onLogin(r.token);
                         setTimeout(()=> {
                            window.location.href = "/"
+                          //  navigator("/")
                         }, 350);
                     } else {
                         setLoginStatus(false);
@@ -48,7 +48,7 @@ export default function Login({onLogin}: LoginProps) {
 
     return (
         <form onSubmit={handleLogin}
-              className={"d-flex flex-column w-25 login p-3 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-center"}>
+              className={"w-50 login p-3 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-center"}>
             <h3>Login</h3>
             <label>Username
                 <input className={"form-control"} type={"text"} placeholder={"Enter username"}
@@ -58,7 +58,7 @@ export default function Login({onLogin}: LoginProps) {
                 <input className={"form-control"} type={"password"} placeholder={"Enter password"}
                        onChange={e => setPassword(e.target.value)}/>
             </label>
-            <Button variant={"btn"} className={"w-25"} type={"submit"} disabled={!(username.trim().length > 0 && password.trim().length > 0)}>Login</Button>
+            <Button variant={"btn"} className={""} type={"submit"} disabled={!(username.trim().length > 0 && password.trim().length > 0)}>Login</Button>
             <Alert variant={loginStatus ? "success" : "danger"} show={!pendingLogin && showAlert}>{
                 loginStatus ? "Successful Login" : "Wrong Credentials"}
             </Alert>

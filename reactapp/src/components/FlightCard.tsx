@@ -10,6 +10,8 @@ import {
 } from "../utils/Utils";
 import ArrowRight from '../static/arrow-right.svg'
 import {logSearchTerms} from "../services/FlyNowServiceAPI";
+import {useContext} from "react";
+import {AuthContext} from "../context";
 
 export interface Flight {
     itineraries: {
@@ -52,6 +54,8 @@ interface FlightCardProps {
 }
 
 const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
+    const userData = useContext(AuthContext);
+
     const outboundStart = flight.itineraries[0]?.segments[0].departure.at;
     const outboundEnd = flight.itineraries[0]?.segments[flight.itineraries[0].segments.length - 1].arrival.at;
 
@@ -59,7 +63,9 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
     const returnEnd = flight.itineraries[1]?.segments[flight.itineraries[1].segments.length - 1].arrival.at;
 
     function priceConfirm() {
-
+        if (!userData?.username){
+            window.location.href="/login"
+        }
       //  logSearchTerms(flight.itineraries[0]?.segments[0].departure.iataCode, flight.itineraries[flight.itineraries.length - 1]?.segments[flight.itineraries[flight.itineraries.length - 1].segments.length - 1].arrival.iataCode)
        /* axios.post("https://test.api.amadeus.com/v1/shopping/flight-offers/pricing", flight, {
             headers: {
@@ -67,6 +73,7 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
             }
         }).then(r => console.log(r))*/
     }
+
 
     return (
         <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>

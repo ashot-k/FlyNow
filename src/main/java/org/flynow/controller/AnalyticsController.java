@@ -26,6 +26,12 @@ public class AnalyticsController {
         this.analyticsService = analyticsService;
         this.userRepo = userRepo;
     }
+    @GetMapping("/search-analytics")
+    public ResponseEntity<List<SearchAnalyticsDTO>> getSearchAnalytics() {
+        Optional<User> user =  userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return user.map(value -> new ResponseEntity<>(analyticsService.getUserRecentSearches(value.getId()), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+    }
+
     @PostMapping("/search-analytics")
     public ResponseEntity<String> saveSearchAnalytics(@RequestBody SearchAnalyticsDTO searchAnalyticsDTO) {
         SearchAnalytics searchAnalytics = new SearchAnalytics();
@@ -37,12 +43,6 @@ public class AnalyticsController {
         }
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @GetMapping("/search-analytics")
-    public ResponseEntity<List<SearchAnalyticsDTO>> getSearchAnalytics() {
-        Optional<User> user =  userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        return user.map(value -> new ResponseEntity<>(analyticsService.getUserRecentSearches(value.getId()), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
 }

@@ -1,15 +1,13 @@
 import axios from "axios";
-import {Token} from "../utils/Utils";
+import {saveFlyNowTokenToStorage, Token} from "../utils/Utils";
 
 export interface Credentials {
     username: string
     password: string
 }
 
-const axiosFlyNow = axios.create({
-    baseURL: "http://192.168.1.64:8079/api", headers:{
-        Authorization: localStorage.getItem("FlyNowToken")
-    }
+export const axiosFlyNow = axios.create({
+    baseURL: "http://192.168.1.64:8079/api"
 });
 
 
@@ -17,7 +15,7 @@ export const register = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/register", {
         username: userDetails.username,
         password: userDetails.password
-    });
+    }, {headers:{Authorization: ""}});
     return (r.status === 200) ? ({
         username: userDetails.username,
         message: "Successfully created user: " + userDetails.username
@@ -28,15 +26,11 @@ export const login = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/login", {
         username: userDetails.username,
         password: userDetails.password
-    });
-    localStorage.setItem("FlyNowToken", "Bearer " + r.data.token);
-    localStorage.setItem("FlyNowToken_exp", r.data.expiration);
+    }, {headers:{Authorization: ""}});
+    saveFlyNowTokenToStorage(r.data)
     axiosFlyNow.defaults.headers.common.Authorization = "Bearer " + r.data.token;
 
-    return (r.status === 200) ? ({
-        token: r.data.token,
-        message: "Successfully logged in as: " + userDetails.username
-    }) : r.data;
+    return (r.status === 200)
 }
 
 export const refresh = async (token: Token) => {
@@ -44,9 +38,8 @@ export const refresh = async (token: Token) => {
         return;
     const r = await axiosFlyNow.post("/auth/refresh", {
         token: token,
-    });
-    localStorage.setItem("FlyNowToken", "Bearer " + r.data.token);
-    localStorage.setItem("FlyNowToken_exp", r.data.expiration);
+    }, {headers:{Authorization: ""}});
+    saveFlyNowTokenToStorage(r.data)
     axiosFlyNow.defaults.headers.common.Authorization = "Bearer " + r.data.token;
     return (r.status === 200) ? ({
         token: r.data.token
@@ -54,11 +47,11 @@ export const refresh = async (token: Token) => {
 }
 
 export function logSearchTerms(origin: string, destination: string){
-    console.log(origin + " " + destination)
     axiosFlyNow.post("/analytics/search-analytics", {origin: origin, destination: destination}).catch(e => console.log(e))
 }
+
 export function logBookingInfo(){
-    axiosFlyNow.post("/analytics/")
+    axiosFlyNow.post("/analytics/booking-analytics").catch(e => console.log(e))
 }
 
 export function getSearchTerms(){
