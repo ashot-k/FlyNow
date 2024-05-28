@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/flight-analytics")
-@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.64:3000", "http://192.168.1.80:3000", "http://192.168.1.64:8079"})
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class FlightAnalyticsController {
     UserRepo userRepo;
     BookingAnalyticsRepo bookingAnalyticsRepo;

@@ -16,7 +16,7 @@ import java.time.Instant;
 @RestController
 @RequestMapping("/amadeus")
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.64:3000", "http://192.168.1.80:3000"})
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class AmadeusController {
 
     @Value("${amadeus.client.id}")

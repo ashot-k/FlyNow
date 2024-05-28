@@ -21,12 +21,35 @@ export function getAmadeusTokenFromStorage(): Token | undefined {
         return {token: token, expiration: Number.parseInt(expiration), issued_at: issuedAt}
     return undefined
 }
+
 export function saveAmadeusTokenToStorage(tokenObject: Token){
     if(tokenObject){
         localStorage.setItem("amadeus_token", tokenObject.token);
         localStorage.setItem("amadeus_token_expiration", tokenObject.expiration.toString());
         localStorage.setItem("amadeus_token_issuedAt", tokenObject.issued_at);
     }
+}
+export function getFlyNowTokenFromStorage(): Token | undefined{
+    let token = localStorage.getItem("flynow_token");
+    let expiration = localStorage.getItem("flynow_token_expiration");
+    let issuedAt = localStorage.getItem("flynow_token_issuedAt");
+    if (token && expiration && issuedAt)
+        return {token: token, expiration: Number.parseInt(expiration), issued_at: issuedAt}
+    return undefined
+}
+
+export function saveFlyNowTokenToStorage(tokenObject: Token){
+    if(tokenObject){
+        localStorage.setItem("flynow_token", "Bearer " + tokenObject.token);
+        localStorage.setItem("flynow_token_expiration", tokenObject.expiration.toString());
+        localStorage.setItem("flynow_token_issuedAt", tokenObject.issued_at);
+    }
+}
+
+export function removeFlyNowTokenFromStorage(){
+    localStorage.removeItem("flynow_token");
+    localStorage.removeItem("flynow_token_expiration");
+    localStorage.removeItem("flynow_token_issuedAt");
 }
 
 export const customStyles = {

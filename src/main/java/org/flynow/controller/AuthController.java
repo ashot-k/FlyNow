@@ -25,7 +25,7 @@ import java.time.Instant;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.64:3000", "http://192.168.1.80:3000", "http://192.168.1.64:8079"})
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class AuthController {
 
     private final JwtService jwtService;
@@ -57,24 +57,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDTO.getUsername(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwtToken = jwtService.generateToken(userRepo.findByUsername(loginDTO.getUsername()).get());
 
-        return new ResponseEntity<>(new LoginResponse(jwtToken, jwtService.getExpirationTime()), HttpStatus.OK);
+        return new ResponseEntity<>(new TokenResponse(jwtToken, jwtService.getExpirationTime(), Instant.now()), HttpStatus.OK);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> refreshToken(@RequestBody JwtTokenRequest jwtTokenRequest) {
         UserDetails user = userDetailsService.loadUserByUsername(jwtService.extractUsername(jwtTokenRequest.getToken()));
-        /*boolean valid = jwtService.isTokenValid(jwtTokenRequest.getToken(), user);
-        if (valid) {
-            return new ResponseEntity<>(new TokenResponse(jwtTokenRequest.getToken(), jwtService.getExpirationTime(), ), HttpStatus.OK);
-        }*/
-
         return new ResponseEntity<>(new TokenResponse(jwtService.generateToken(user), jwtService.getExpirationTime(), Instant.now()), HttpStatus.OK);
     }
 }

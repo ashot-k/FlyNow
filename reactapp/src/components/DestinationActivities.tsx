@@ -64,7 +64,7 @@ export const DestinationActivities = ({dest}: Destination) => {
     return (
         <>
             {pending ? <img src={pendingSearchIcon} width={"25%"} height={"25%"}
-                            alt={""}/> : (recos?.length > 0 && <div className={'w-25 p-2'}>
+                            alt={""}/> : (recos?.length > 0 && <div className={'w-100 p-2'}>
                 <h2 className={''}>Destination Experiences</h2>
                 <div className={'w-75 d-flex flex-column gap-3 justify-content-center shadow-sm'}>
                     {recos.splice(0, 5).map(activity => (

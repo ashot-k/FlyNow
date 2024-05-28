@@ -97,7 +97,6 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
         if(originiataCode?.length > 0){
             loadOriginOption(originiataCode)
         }
-        console.log(originiataCode)
     }, [originiataCode]);
     useEffect(() => {
         if(destinationiataCode?.length > 0){

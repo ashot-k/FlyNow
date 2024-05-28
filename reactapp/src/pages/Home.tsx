@@ -54,13 +54,16 @@ function Home() {
                 axiosAmadeus.defaults.headers.common.Authorization = "Bearer " + tokenObject.token;
             }
             else {
+                console.log("token expired")
                 getToken().then(tokenObject => {
+                    console.log(tokenObject)
                     if (tokenObject) {
+                        console.log(tokenObject)
                         setAmadeusToken(tokenObject)
                         axiosAmadeus.defaults.headers.common.Authorization = "Bearer " + tokenObject.token
                         saveAmadeusTokenToStorage(tokenObject);
                     }
-                });
+                }).catch((e)=> console.log(e));
             }
         }
         else if (checkIfExpired(amadeusToken)){
@@ -73,8 +76,8 @@ function Home() {
         <div className="d-flex w-100 flex-column gap-3 align-items-center">
             {(amadeusToken?.token && amadeusToken?.token.length > 0) ? <>
                 <div className={"d-flex w-75 mt-3 gap-2 justify-content-center align-content-center"}>
-                    <FlightDestinationRecos originIata={userArea} date={"2017-01"}
-                                            onRecoSelect={handleSelectedDestReco}/>
+                  {/*  <FlightDestinationRecos originIata={userArea} date={"2017-01"}
+                                            onRecoSelect={handleSelectedDestReco}/>*/}
                     <SearchRecos onSearchRecoSelect={handleSelectedSearchReco}/>
                 </div>
                 <FlightSearch onSearch={handleFlightSearch} originiataCode={originReco}
@@ -89,7 +92,9 @@ function Home() {
                             {(flightList?.length > 0 ?
                                 <FlightList flightList={flightList}
                                             dictionaries={searchResults.dictionaries}/> : <></>)}
-                            <DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>
+                            <div className={"w-25"}>
+                                {/*  <DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>*/}
+                            </div>
                         </div>
                     </div>
                 </> : <></>)
