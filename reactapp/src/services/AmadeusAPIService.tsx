@@ -1,5 +1,12 @@
 import axios from "axios";
-import {addZero, getAirportByCityName, getUserLocation, Token} from "../utils/Utils";
+import {
+    addZero,
+    checkIfExpired,
+    getAirportByCityName,
+    getAmadeusTokenFromStorage,
+    getUserLocation, saveAmadeusTokenToStorage,
+    Token
+} from "../utils/Utils";
 import {SearchInfo} from "../components/FlightSearch";
 
 const max = 25;
