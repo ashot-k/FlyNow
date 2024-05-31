@@ -13,6 +13,8 @@ public class Booking {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "price")
+    private Long price;
     @OneToMany
     private List<Flight> flights = new ArrayList<>();
 
@@ -20,6 +22,22 @@ public class Booking {
     private User user;
 
     public Booking() {
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getId() {

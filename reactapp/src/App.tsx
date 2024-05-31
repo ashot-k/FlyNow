@@ -25,7 +25,7 @@ function App() {
             let tokenObject = getFlyNowTokenFromStorage();
             if (tokenObject) {
                 setFlyNowToken(tokenObject);
-                axiosFlyNow.defaults.headers.common.Authorization = "Bearer " + tokenObject.token;
+                axiosFlyNow.defaults.headers.common.Authorization = tokenObject.token;
             }
         } else if (checkIfExpired(flyNowToken)) {
             removeFlyNowTokenFromStorage();

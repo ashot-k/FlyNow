@@ -56,7 +56,6 @@ function Home() {
             else {
                 console.log("token expired")
                 getToken().then(tokenObject => {
-                    console.log(tokenObject)
                     if (tokenObject) {
                         console.log(tokenObject)
                         setAmadeusToken(tokenObject)

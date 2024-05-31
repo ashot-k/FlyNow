@@ -1,6 +1,5 @@
 package org.flynow.controller;
 
-import org.flynow.response.LoginResponse;
 import org.flynow.response.TokenResponse;
 import org.flynow.request.JwtTokenRequest;
 import org.flynow.dto.LoginDTO;
@@ -25,10 +24,9 @@ import java.time.Instant;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {"http://localhost:3000"})
 public class AuthController {
 
-    private final JwtService jwtService;
+    JwtService jwtService;
     UserDetailsService userDetailsService;
     UserRepo userRepo;
     RoleRepo roleRepo;
@@ -46,12 +44,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegistrationDTO registrationInfo) {
-        if (userRepo.existsByUsername(registrationInfo.getUsername())) {
+        if (userRepo.existsByUsername(registrationInfo.username())) {
             return new ResponseEntity<>("Username is taken", HttpStatus.BAD_REQUEST);
         }
-        User user = new User();
-        user.setUsername(registrationInfo.getUsername());
-        user.setPassword(passwordEncoder.encode(registrationInfo.getPassword()));
+        User user = new User(registrationInfo.username(), passwordEncoder.encode(registrationInfo.password()));
         userRepo.save(user);
         return new ResponseEntity<>("User: " + user.getUsername() + " successfully created", HttpStatus.OK);
     }
@@ -59,11 +55,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.getUsername(), loginDTO.getPassword()));
+                loginDTO.username(), loginDTO.password()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwtToken = jwtService.generateToken(userRepo.findByUsername(loginDTO.getUsername()).get());
-
+        String jwtToken = jwtService.generateToken(userRepo.findByUsername(loginDTO.username()).get());
         return new ResponseEntity<>(new TokenResponse(jwtToken, jwtService.getExpirationTime(), Instant.now()), HttpStatus.OK);
     }
 
