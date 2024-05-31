@@ -1,12 +1,16 @@
 package org.flynow.service;
 
+import org.flynow.dto.BookingAnalyticsDTO;
 import org.flynow.dto.SearchAnalyticsDTO;
+import org.flynow.entity.User;
 import org.flynow.entity.analytics.BookingAnalytics;
 import org.flynow.entity.analytics.SearchAnalytics;
 import org.flynow.repository.BookingAnalyticsRepo;
 import org.flynow.repository.SearchAnalyticsRepo;
+import org.flynow.repository.UserRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -19,14 +23,20 @@ import java.util.Optional;
 public class AnalyticsServiceImpl implements AnalyticsService {
     private BookingAnalyticsRepo bookingAnalyticsRepo;
     private SearchAnalyticsRepo searchAnalyticsRepo;
+    private UserRepo userRepo;
 
-    public AnalyticsServiceImpl(BookingAnalyticsRepo bookingAnalyticsRepo, SearchAnalyticsRepo searchAnalyticsRepo) {
+    public AnalyticsServiceImpl(UserRepo userRepo, BookingAnalyticsRepo bookingAnalyticsRepo, SearchAnalyticsRepo searchAnalyticsRepo) {
+        this.userRepo = userRepo;
         this.bookingAnalyticsRepo = bookingAnalyticsRepo;
         this.searchAnalyticsRepo = searchAnalyticsRepo;
     }
 
     @Override
-    public SearchAnalytics saveSearchAnalytics(SearchAnalytics searchAnalytics) {
+    public SearchAnalytics saveSearchAnalytics(SearchAnalyticsDTO searchAnalyticsDTO) {
+        SearchAnalytics searchAnalytics = new SearchAnalytics();
+        searchAnalytics.setOrigin(searchAnalyticsDTO.origin());
+        searchAnalytics.setDestination(searchAnalyticsDTO.destination());
+        searchAnalytics.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Optional<SearchAnalytics> duplicate = searchAnalyticsRepo.findByUserIdAndOriginAndDestination(searchAnalytics.getUser().getId(), searchAnalytics.getOrigin(), searchAnalytics.getDestination());
         if(duplicate.isPresent()){
             SearchAnalytics dup = duplicate.get();
@@ -38,7 +48,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     }
 
     @Override
-    public BookingAnalytics saveBookingAnalytics(BookingAnalytics bookingAnalytics) {
+    public BookingAnalytics saveBookingAnalytics(BookingAnalyticsDTO bookingAnalytics) {
         return null;
     }
 

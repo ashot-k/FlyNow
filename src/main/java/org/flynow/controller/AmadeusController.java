@@ -15,8 +15,6 @@ import java.time.Instant;
 
 @RestController
 @RequestMapping("/amadeus")
-
-@CrossOrigin(origins = {"http://localhost:3000"})
 public class AmadeusController {
 
     @Value("${amadeus.client.id}")
@@ -43,11 +41,5 @@ public class AmadeusController {
                     return Mono.just(tokenResponse);
                 });
     }
-
-    /*@PostMapping("/")
-    public void logSearchTerm(@RequestBody String ){
-
-    }
-*/
 
 }

@@ -13,7 +13,7 @@ public class BookingAnalytics {
     private Long id;
     private String origin;
     private String destination;
-    private int counter;
+    private int counter = 1;
     private Instant instant = Instant.now();
     @ManyToOne
     private User user;
