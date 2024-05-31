@@ -258,7 +258,7 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
                     <label>Destination {destination && <Flag country={destination.countryCode}/>}</label>
                     {!pendingDestSearch ? destinationOptions && destinationOptions?.length > 0 ?
                             <Select options={destinationOptions} className={"w-50"} onChange={(option) => setDestination(option)}
-                                    styles={customStyles} value={destinationOptions.length >= 1 ? destinationOptions[0] : undefined}
+                                    styles={customStyles} value={destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
                                     components={{
                                         Option: ({innerProps, label, data}) => (
                                             <div className={"options"} {...innerProps}>
