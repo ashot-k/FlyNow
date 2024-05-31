@@ -26,21 +26,17 @@ public class AnalyticsController {
         this.analyticsService = analyticsService;
         this.userRepo = userRepo;
     }
+
     @GetMapping("/search-analytics")
     public ResponseEntity<List<SearchAnalyticsDTO>> getSearchAnalytics() {
-        Optional<User> user =  userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        return user.map(value -> new ResponseEntity<>(analyticsService.getUserRecentSearches(value.getId()), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return new ResponseEntity<>(analyticsService.getUserRecentSearches(user.getId()), HttpStatus.OK);
     }
 
     @PostMapping("/search-analytics")
     public ResponseEntity<String> saveSearchAnalytics(@RequestBody SearchAnalyticsDTO searchAnalyticsDTO) {
-        SearchAnalytics searchAnalytics = new SearchAnalytics();
-        searchAnalytics.setOrigin(searchAnalyticsDTO.origin());
-        searchAnalytics.setDestination(searchAnalyticsDTO.destination());
-        searchAnalytics.setUser(userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
-        if(analyticsService.saveSearchAnalytics(searchAnalytics) != null) {
+        if(analyticsService.saveSearchAnalytics(searchAnalyticsDTO) != null)
             return new ResponseEntity<>(HttpStatus.OK);
-        }
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

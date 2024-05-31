@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 public class Flight {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)

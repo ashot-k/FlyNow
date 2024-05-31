@@ -190,54 +190,6 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
             });
         }
     }
-    const searchFlightsBackup = () => {
-        let originAirport = getAirportByIATA("MAD");
-        setOriginOptions([{
-            value: 0,
-            label: capitalize(originAirport.city) + ", " + originAirport.name + " (" + originAirport.iata + "), " + capitalize(originAirport.country),
-            cityName: originAirport.city,
-            countryCode: countryCodes.find(row => row.iata === originAirport.iata)?.iso || "",
-            iataCode: originAirport.iata,
-            airport: originAirport.name
-        }]);
-        /*
-        let destinationAirport = getAirportByIATA("OPO");
-        setDestinationOptions([{
-            value: 0,
-            label: capitalize(destinationAirport.city) + ", " + destinationAirport.name + " (" + destinationAirport.iata + "), " + capitalize(destinationAirport.country),
-            cityName: destinationAirport.city,
-            countryCode: countryCodes.find(row => row.iata === destinationAirport.iata)?.iso || "",
-            iataCode: destinationAirport.iata,
-            airport: destinationAirport.name
-        }])
-        let departureDate ="2024-06-12";
-        setDepartureDate(departureDate);
-        searchFlightOffers({iataCode: "MAD"}, {iataCode: "OPO"}, departureDate, "", 1, 0, 500)
-            .then((response => {
-                setFlightList(response.data.data);
-                setDictionaries(response.data.dictionaries)
-                setPendingFlightSearch(false);
-            }))
-            .catch((e) => {
-                console.error(e);
-                setFlightList([]);
-            });
-            */
-    }
-
-    /*const getInspirationLocationCodes = (origin: { iataCode: string; }) => {
-        if(!origin) return;
-        console.log(origin);
-        inspirationSearch(origin, oneWay)
-            .then(r => {
-                setDestRecos(r.data.data.slice(0,3));
-                console.log(r.data.data);
-            })
-            .catch((e) => {
-                console.error(e);
-                setDestRecos([]);
-            });
-    }*/
 
     function checkIfSearchInfoEntered() {
         return (origin && destination && departureDate)
@@ -352,11 +304,6 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
                     <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn search-btn"}
                             className={"w-25"} disabled={!checkIfSearchInfoEntered()}
                             onClick={searchFlights}>Search</Button>}
-                {!pendingFlightSearch &&
-                    <Button variant={"btn search-btn"} className={"w-25 mt-2"} onClick={searchFlightsBackup}>Backup
-                        Search</Button>}
-                {/*<Button onClick={() => loadOriginOption("MAD")}>load</Button>
-                <Button onClick={() => loadDestionationOption("OPO")}>load</Button>*/}
             </div>
         </div>
     );

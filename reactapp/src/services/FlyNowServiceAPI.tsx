@@ -28,7 +28,7 @@ export const login = async (userDetails: Credentials) => {
         password: userDetails.password
     }, {headers:{Authorization: ""}});
     saveFlyNowTokenToStorage(r.data)
-    axiosFlyNow.defaults.headers.common.Authorization = "Bearer " + r.data.token;
+    axiosFlyNow.defaults.headers.common.Authorization = r.data.token;
 
     return (r.status === 200)
 }
@@ -40,7 +40,7 @@ export const refresh = async (token: Token) => {
         token: token,
     }, {headers:{Authorization: ""}});
     saveFlyNowTokenToStorage(r.data)
-    axiosFlyNow.defaults.headers.common.Authorization = "Bearer " + r.data.token;
+    axiosFlyNow.defaults.headers.common.Authorization = r.data.token;
     return (r.status === 200) ? ({
         token: r.data.token
     }) : r.data;
