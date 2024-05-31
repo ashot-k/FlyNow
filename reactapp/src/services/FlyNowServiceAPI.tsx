@@ -15,7 +15,7 @@ export const register = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/register", {
         username: userDetails.username,
         password: userDetails.password
-    }, {headers:{Authorization: ""}});
+    }, {headers: {Authorization: ""}});
     return (r.status === 200) ? ({
         username: userDetails.username,
         message: "Successfully created user: " + userDetails.username
@@ -26,34 +26,32 @@ export const login = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/login", {
         username: userDetails.username,
         password: userDetails.password
-    }, {headers:{Authorization: ""}});
+    }, {headers: {Authorization: ""}});
     saveFlyNowTokenToStorage(r.data)
-    axiosFlyNow.defaults.headers.common.Authorization = r.data.token;
-
-    return (r.status === 200)
+    return r.status === 200
 }
 
 export const refresh = async (token: Token) => {
-    if(!token)
+    if (!token)
         return;
     const r = await axiosFlyNow.post("/auth/refresh", {
         token: token,
-    }, {headers:{Authorization: ""}});
+    }, {headers: {Authorization: ""}});
     saveFlyNowTokenToStorage(r.data)
-    axiosFlyNow.defaults.headers.common.Authorization = r.data.token;
-    return (r.status === 200) ? ({
-        token: r.data.token
-    }) : r.data;
+    return r.status === 200
 }
 
-export function logSearchTerms(origin: string, destination: string){
-    axiosFlyNow.post("/analytics/search-analytics", {origin: origin, destination: destination}).catch(e => console.log(e))
+export function logSearchTerms(origin: string, destination: string) {
+    axiosFlyNow.post("/analytics/search-analytics", {
+        origin: origin,
+        destination: destination
+    }).catch(e => console.log(e))
 }
 
-export function logBookingInfo(){
+export function logBookingInfo() {
     axiosFlyNow.post("/analytics/booking-analytics").catch(e => console.log(e))
 }
 
-export function getSearchTerms(){
-   return axiosFlyNow.get("/analytics/search-analytics");
+export function getSearchTerms() {
+    return axiosFlyNow.get("/analytics/search-analytics");
 }

@@ -107,12 +107,12 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                         </div>
                     </Accordion.Header>
                     <Accordion.Body className={"mt-5"}>
-                        {flight.itineraries.map((itinerarie: any, index: any) => {
+                        {flight.itineraries.map((itinerary: any, index: any) => {
                             return <>
                                 {index === 0 ?
                                     <h4 className={"h5 text-center"}>Outbound {flightDateToStringShort(outboundStart)}</h4> :
                                     <h5 className={"h5 text-center"}>Return {flightDateToStringShort(returnStart)}</h5>}
-                                <table
+                                <table key={index}
                                     className={"table table-sm table-transparent overflow-auto table-hover table-responsive-sm"}>
                                     <tbody>
                                     <tr>
@@ -122,7 +122,7 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                                         <th>Arrival</th>
                                         <th>Code</th>
                                     </tr>
-                                    {itinerarie.segments.map((segment: any, index: any) => <tr
+                                    {itinerary.segments.map((segment: any, index: any) => <tr
                                         key={index}>
                                         <td>
                                             <Flag

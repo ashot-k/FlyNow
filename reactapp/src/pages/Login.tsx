@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
 import {login} from "../services/FlyNowServiceAPI";
-import {useNavigate} from "react-router-dom";
 
 interface LoginProps{
     onLogin: (token: string) => void;
@@ -14,7 +13,6 @@ export default function Login() {
     const [pendingLogin, setPendingLogin] = useState<boolean>(false);
     const [loginStatus, setLoginStatus] = useState<boolean>(false);
     const [showAlert, setShowAlert] = useState<boolean>(false);
-    const navigator = useNavigate();
 
     useEffect(() => {
         setShowAlert(false);
@@ -31,7 +29,6 @@ export default function Login() {
                         setShowAlert(true);
                         setTimeout(()=> {
                            window.location.href = "/"
-                          //  navigator("/")
                         }, 350);
                     } else {
                         setLoginStatus(false);
