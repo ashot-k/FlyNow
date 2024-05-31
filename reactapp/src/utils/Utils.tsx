@@ -87,7 +87,6 @@ export function capitalize(word: string | undefined) {
     if (word?.trim()) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
-
 export const checkIfExpired = (jwt: Token) => {
     const issuedAt = new Date(jwt.issued_at);
     const expirationTime = new Date(issuedAt).getTime() + jwt.expiration * 1000;

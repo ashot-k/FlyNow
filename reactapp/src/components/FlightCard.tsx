@@ -1,5 +1,4 @@
 import Flag from "react-flagkit";
-import axios from "axios";
 import {Accordion} from "react-bootstrap";
 import {
     calculateStops,
@@ -9,7 +8,6 @@ import {
     getAirportByIATA
 } from "../utils/Utils";
 import ArrowRight from '../static/arrow-right.svg'
-import {logSearchTerms} from "../services/FlyNowServiceAPI";
 import {useContext} from "react";
 import {AuthContext} from "../context";
 
@@ -33,6 +31,7 @@ export interface Flight {
         currency: string;
     }
 }
+
 export interface Dictionaries {
     carriers: {
         [code: string]: string;
@@ -63,21 +62,14 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
     const returnEnd = flight.itineraries[1]?.segments[flight.itineraries[1].segments.length - 1].arrival.at;
 
     function priceConfirm() {
-        if (!userData?.username){
-            window.location.href="/login"
+        if (!userData?.username) {
+            window.location.href = "/login"
         }
-      //  logSearchTerms(flight.itineraries[0]?.segments[0].departure.iataCode, flight.itineraries[flight.itineraries.length - 1]?.segments[flight.itineraries[flight.itineraries.length - 1].segments.length - 1].arrival.iataCode)
-       /* axios.post("https://test.api.amadeus.com/v1/shopping/flight-offers/pricing", flight, {
-            headers: {
-                'X-HTTP-Method-Override': 'GET'
-            }
-        }).then(r => console.log(r))*/
     }
-
 
     return (
         <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
-            <div className={"d-flex justify-content-between w-100"}>
+            <div className={"d-flex w-100"}>
                 <div className={"h5"}>
                     Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}
                 </div>
@@ -88,15 +80,16 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                     <Accordion.Header className={'bg-transparent'}>
                         <div className={"d-flex flex-column gap-2 align-items-center justify-content-start w-100"}>
                             {flight.itineraries[0] &&
-                                <div className={'d-grid gap-2 align-items-start justify-content-center w-75'}>
-                                    <span className={'fs-6'}>Outbound <span
-                                        style={{color: "cornflowerblue"}}>{flightDateToStringShort(outboundStart)}</span></span>
-                                    <div className={"d-flex align-items-center gap-2"}>
+                                <div className={'d-grid gap-2 align-items-start w-75'}>
+                                    <span className={'fs-6'}>Outbound
+                                        <span style={{color: "cornflowerblue"}}> {flightDateToStringShort(outboundStart)}</span>
+                                        <span className={'fs-6'}> Flights {flight.itineraries[0].segments.length} &</span>
+                                        <span className={'fs-6'}> Stops {calculateStops(flight.itineraries[0].segments)} </span>
+                                       </span>
+                                    <div className={"d-flex align-items-center justify-content-center gap-2"}>
                                         <span className={"fs-4"}>{flightDateToStringTime(outboundStart)}</span>
                                         <img src={ArrowRight} width={'36px'} alt={''}/>
-                                        <span className={"fs-4"}>{flightDateToStringTime(outboundEnd)},</span>
-                                        <span
-                                            className={"fs-4"}>{flight.itineraries[0].segments.length} flight(s) and {calculateStops(flight.itineraries[0].segments)} stop(s)</span>
+                                        <span className={"fs-4"}>{flightDateToStringTime(outboundEnd)}</span>
                                     </div>
                                 </div>}
                             {flight.itineraries[1] &&
@@ -113,7 +106,6 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                                 </div>}
                         </div>
                     </Accordion.Header>
-
                     <Accordion.Body className={"mt-5"}>
                         {flight.itineraries.map((itinerarie: any, index: any) => {
                             return <>
