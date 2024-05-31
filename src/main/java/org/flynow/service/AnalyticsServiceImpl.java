@@ -23,10 +23,8 @@ import java.util.Optional;
 public class AnalyticsServiceImpl implements AnalyticsService {
     private BookingAnalyticsRepo bookingAnalyticsRepo;
     private SearchAnalyticsRepo searchAnalyticsRepo;
-    private UserRepo userRepo;
 
-    public AnalyticsServiceImpl(UserRepo userRepo, BookingAnalyticsRepo bookingAnalyticsRepo, SearchAnalyticsRepo searchAnalyticsRepo) {
-        this.userRepo = userRepo;
+    public AnalyticsServiceImpl(BookingAnalyticsRepo bookingAnalyticsRepo, SearchAnalyticsRepo searchAnalyticsRepo) {
         this.bookingAnalyticsRepo = bookingAnalyticsRepo;
         this.searchAnalyticsRepo = searchAnalyticsRepo;
     }
