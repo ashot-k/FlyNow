@@ -29,7 +29,7 @@ function Home() {
     const handleFlightSearch = (searchData: FlightSearchData) => {
         setSearchResults(searchData);
         setFlightList(searchData.flightList);
-        console.log(searchData)
+        console.log((searchData.flightList))
     }
     const handleSelectedDestReco = (destination: string, originIata: string) => {
         setOriginReco(userArea)
@@ -39,7 +39,6 @@ function Home() {
     const handleSelectedSearchReco = (searchReco: SearchReco) => {
         setOriginReco(searchReco.origin);
         setDestinationReco(searchReco.destination);
-        console.log(searchReco)
     }
 
     const setFilters = (filteredFlightList: Flight[]) => {
