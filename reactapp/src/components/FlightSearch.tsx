@@ -13,7 +13,7 @@ import {
 } from "../services/AmadeusAPIService";
 import countryCodes from "../utils/countryCodes.json";
 import {Dictionaries, Flight} from "./FlightCard";
-import {logSearchTerms} from "../services/FlyNowServiceAPI";
+import {axiosFlyNow, logSearchTerms} from "../services/FlyNowServiceAPI";
 
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
@@ -44,12 +44,17 @@ export interface FlightSearchData {
     flightList: Flight[];
     dictionaries: Dictionaries;
 }
-export interface preloadedSearchInfo{
+
+export interface preloadedSearchInfo {
     originiataCode: string;
     destinationiataCode: string;
 }
 
-export default function FlightSearch({onSearch, originiataCode, destinationiataCode}: FlightSearchProps & preloadedSearchInfo) {
+export default function FlightSearch({
+                                         onSearch,
+                                         originiataCode,
+                                         destinationiataCode
+                                     }: FlightSearchProps & preloadedSearchInfo) {
 
     const [pendingFlightSearch, setPendingFlightSearch] = useState<boolean>(false);
     const [pendingOriginSearch, setPendingOriginSearch] = useState<boolean>(false);
@@ -82,8 +87,8 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
             destinationOptionsSearch();
     }, [origin]);
 
-    useEffect(() =>{
-        if(destinationOptions?.length > 0){
+    useEffect(() => {
+        if (destinationOptions?.length > 0) {
             setDestination(destinationOptions[0])
         }
     }, [destinationOptions])
@@ -94,12 +99,12 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
     }, [flightList, dictionaries]);
 
     useEffect(() => {
-        if(originiataCode?.length > 0){
+        if (originiataCode?.length > 0) {
             loadOriginOption(originiataCode)
         }
     }, [originiataCode]);
     useEffect(() => {
-        if(destinationiataCode?.length > 0){
+        if (destinationiataCode?.length > 0) {
             loadDestinationOption(destinationiataCode)
         }
     }, [destinationiataCode]);
@@ -123,7 +128,7 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
     }
     const loadOriginOption = (iata: string) => {
         let airport = getAirportByIATA(iata);
-        if(!airport) return;
+        if (!airport) return;
         const option = {
             value: 0,
             label: capitalize(airport.city) + ", " + airport.name + " (" + iata + "), " + capitalize(airport.country),
@@ -161,7 +166,7 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
     }
     const loadDestinationOption = (iata: string) => {
         let airport = getAirportByIATA(iata);
-        if(!airport) return;
+        if (!airport) return;
         const option = {
             value: 0,
             label: capitalize(airport.city) + ", " + airport.name + " (" + iata + "), " + capitalize(airport.country),
@@ -181,6 +186,8 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
                 .then((response => {
                     setFlightList(response.data.data);
                     setDictionaries(response.data.dictionaries)
+                    console.log(response.data.data[0])
+                    axiosFlyNow.post("flight/book", {flightOffer: response.data.data[0]})
                 }))
                 .catch((e) => {
                     console.error(e);
@@ -206,7 +213,9 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
                                    type={"date"}
                                    min={new Date().toISOString().substring(0, 10)}
                                    defaultValue={new Date().toISOString().substring(0, 10)}
-                                   onChange={(e) => {setDepartureDate(e.target.value)}}/>
+                                   onChange={(e) => {
+                                       setDepartureDate(e.target.value)
+                                   }}/>
                         </label>
                         <label>
                             <h5>Return</h5>
@@ -245,7 +254,8 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
                                 if (inputValue.length >= 3) {
                                     setOriginSearchTerm(inputValue);
                                     originOptionsSearch(inputValue);
-                                    setDestinationOptions([]); setDestination(undefined);
+                                    setDestinationOptions([]);
+                                    setDestination(undefined);
                                 }
                             }}
                             components={{
@@ -257,8 +267,10 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
                     />
                     <label>Destination {destination && <Flag country={destination.countryCode}/>}</label>
                     {!pendingDestSearch ? destinationOptions && destinationOptions?.length > 0 ?
-                            <Select options={destinationOptions} className={"w-50"} onChange={(option) => setDestination(option)}
-                                    styles={customStyles} value={destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
+                            <Select options={destinationOptions} className={"w-50"}
+                                    onChange={(option) => setDestination(option)}
+                                    styles={customStyles}
+                                    value={destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
                                     components={{
                                         Option: ({innerProps, label, data}) => (
                                             <div className={"options"} {...innerProps}>
@@ -298,12 +310,15 @@ export default function FlightSearch({onSearch, originiataCode, destinationiataC
                 <Alert variant={"danger"}
                        show={origin != null && departureDate.length > 0 && !(destinationOptions?.length > 0) && !pendingDestSearch}>No
                     available destinations</Alert>
-                {origin && departureDate && destination && pendingFlightSearch ?
-                    <img src={pendingSearchIcon} width={"35%"} height={"50%"}
-                         alt={""}/> :
-                    <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn search-btn"}
-                            className={"w-25"} disabled={!checkIfSearchInfoEntered()}
-                            onClick={searchFlights}>Search</Button>}
+                <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
+                    {origin && departureDate && destination && pendingFlightSearch ?
+                        <img src={pendingSearchIcon} width={"35%"} height={"50%"}
+                             alt={""}/> :
+                        <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn search-btn"}
+                                className={"w-25"} disabled={!checkIfSearchInfoEntered()}
+                                onClick={searchFlights}>Search</Button>}
+                    {/*<Button variant={"btn search-btn"} className={"w-25"}>Trip Planner</Button>*/}
+                </div>
             </div>
         </div>
     );

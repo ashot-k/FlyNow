@@ -45,7 +45,7 @@ export default function Login() {
 
     return (
         <form onSubmit={handleLogin}
-              className={"w-50 login p-3 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-center"}>
+              className={"w-25 login p-3 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-center"}>
             <h3>Login</h3>
             <label>Username
                 <input className={"form-control"} type={"text"} placeholder={"Enter username"}

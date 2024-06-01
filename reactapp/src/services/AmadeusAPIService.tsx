@@ -33,11 +33,11 @@ export const searchFlightOffers = ({
                                        returnDate,
                                        adults,
                                        children,
-                                       maxPrice
+                                       maxPrice, oneWay
                                    }: SearchInfo) => {
 
     let returnDateChecked: undefined | string = returnDate;
-    if (returnDateChecked.length <= 0)
+    if (oneWay)
         returnDateChecked = undefined;
     return axiosAmadeus.get("/v2/shopping/flight-offers",
         {

@@ -29,7 +29,7 @@ export default function SearchRecos({onSearchRecoSelect}: SearchRecoProps) {
     }
 
     return (
-       <> {recos?.length > 0 ? <div className={"w-50 p-2"}>
+       <> {recos?.length > 0 ? <div className={"w-100 p-2"}>
             <h3>Search again</h3>
             <div className={"w-100 d-flex flex-wrap gap-3"}>
                 {recos?.map((reco, index) => (
@@ -40,7 +40,7 @@ export default function SearchRecos({onSearchRecoSelect}: SearchRecoProps) {
                                 country={countryCodes.find(row => row.iata === reco.origin)?.iso}/> {getAirportByIATA(reco.origin)?.city}, {getAirportByIATA(reco.origin)?.country} ---{">"} <Flag
                                 country={countryCodes.find(row => row.iata === reco.destination)?.iso}/> {getAirportByIATA(reco.destination)?.city}, {getAirportByIATA(reco.destination)?.country}
                         </div>
-                        <Button variant={"primary"} className={"w-50"} onClick={() => searchRecoSelection(reco)}>Select</Button>
+                        <Button variant={"btn app-btn"} className={"w-50"} onClick={() => searchRecoSelection(reco)}>Select</Button>
                     </div>
                 ))}
             </div>

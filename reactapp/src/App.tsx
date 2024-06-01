@@ -14,6 +14,7 @@ import {
 } from "./utils/Utils";
 import {axiosFlyNow} from "./services/FlyNowServiceAPI";
 import {AuthContext, UserData} from "./context";
+import ScrollToTop from "./utils/ScrollToTop";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
     return (
         <AuthContext.Provider value={user}>
         <BrowserRouter>
+            <ScrollToTop/>
             <div data-bs-theme="dark">
             <NavBar/>
             <div className={"App w-100 justify-content-center d-flex"}>

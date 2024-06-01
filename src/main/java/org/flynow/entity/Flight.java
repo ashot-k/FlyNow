@@ -1,5 +1,6 @@
 package org.flynow.entity;
 
+import com.amadeus.resources.FlightOfferSearch;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

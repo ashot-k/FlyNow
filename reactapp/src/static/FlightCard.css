@@ -74,15 +74,15 @@
 .table-transparent tbody th, .table-transparent tbody td {
     background-color: #36373A;
     width: fit-content;
-    min-width: 20%;
+    min-width: 25%;
 }
 
-.table-transparent tbody td:nth-child(1), .table-transparent tbody td:nth-child(3) {
+.table-transparent tbody td:nth-child(4) {
     width: fit-content;
-    min-width: 50%;
+    min-width: 35%;
 }
 
-.book-btn, .search-btn {
+.book-btn, .search-btn, .app-btn{
     background-color: rgba(4, 215, 255, 0.39) !important;
 }
 
