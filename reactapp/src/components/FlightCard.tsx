@@ -69,12 +69,12 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
 
     return (
         <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
-            <div className={"d-flex w-100"}>
+            <div className={"d-flex flex-column w-100"}>
                 <div className={"h5"}>
                     Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}
                 </div>
+                <hr className={"w-100 mt-1 m-auto"}/>
             </div>
-            <hr/>
             <Accordion flush>
                 <Accordion.Item eventKey="0" className={'bg-transparent'}>
                     <Accordion.Header className={'bg-transparent'}>
