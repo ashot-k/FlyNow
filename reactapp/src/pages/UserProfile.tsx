@@ -7,7 +7,7 @@ export default function UserProfile(){
 
     return (
         <div className={"w-100 d-flex flex-column justify-content-center align-items-center"}>
-            {userData?.username && <div className={"component-box mt-3 p-4 d-flex flex-column gap-2"}>
+            {userData?.username && <div className={"w-50 component-box mt-3 p-4 d-flex flex-column gap-2"}>
                 <div className={"d-flex align-items-center gap-3"}>
                     <img alt={""} width={"96px"} height={"96px"}
                          src={"https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png"}
