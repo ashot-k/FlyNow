@@ -27,15 +27,15 @@ export default function SearchInfoHeader({...searchInfo}: SearchInfo){
                           d="M7.646 6.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 7.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
                 </svg>
             </a>
-            <span className={"fs-6 d-flex justify-content-center align-items-center gap-1"}>
+            <span className={"fs-5 d-flex justify-content-center align-items-center gap-1"}>
                     <Flag size={32} country={origin.countryCode}/> {capitalize(origin.cityName)} ({origin.iataCode})
                 {' '}-{' '}
                 <Flag size={32}
                       country={destination.countryCode}/> {capitalize(destination.cityName)} ({destination.iataCode})
                 </span>
-            <div className={"fs-6 d-flex flex-column justify-content-center align-items-center"}>
+            <div className={"fs-4 d-flex flex-column justify-content-center align-items-center"}>
                 {departureDate &&
-                    <span>Outbound: {new Date(departureDate).toLocaleDateString("en-GB")}</span>}
+                    <span >Outbound: {new Date(departureDate).toLocaleDateString("en-GB")}</span>}
                 {returnDate && <span>Return: {new Date(returnDate).toLocaleDateString("en-GB")}</span>}
             </div>
         </div>

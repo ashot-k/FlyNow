@@ -14,8 +14,8 @@ public class Booking {
     private Long id;
 
     @Column(name = "price")
-    private Long price;
-    @OneToMany
+    private Double price;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Flight> flights = new ArrayList<>();
 
     @ManyToOne
@@ -24,11 +24,16 @@ public class Booking {
     public Booking() {
     }
 
-    public Long getPrice() {
+    public Booking(Double price, List<Flight> flights) {
+        this.price = price;
+        this.flights = flights;
+    }
+
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

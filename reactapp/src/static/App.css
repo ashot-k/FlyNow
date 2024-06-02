@@ -53,11 +53,59 @@ body {
 }
 
 @media only screen and (max-width: 900px) {
+    .search{
+        width: 100%;
+    }
+    .search-options{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .date-select {
+        width: 100%;
+    }
 
+    .settings {
+        width: 100%;
+    }
+
+    .location-select {
+        width:100%;
+    }
+    .flight-list{
+        width: 100%;
+    }
+    .flight-search-results{
+        flex-direction: column;
+    }
+    .activities{
+        width: 100%;
+    }
 }
 
 @media only screen and (min-width: 1000px) {
+    .search-options{
+        align-items: start;
+    }
 
+    .date-select {
+        width: 25%;
+    }
+
+    .settings {
+        width: 25%;
+    }
+
+    .location-select {
+        width: 50%;
+    }
+    .flight-list{
+        width: 40%;
+    }
+
+    .activities{
+        width: 75%;
+    }
 }
 
 
@@ -67,17 +115,7 @@ body {
     box-shadow: 3px 2px 5px black;
 }
 
-.date-select {
-    width: 25%;
-}
 
-.settings {
-    width: 25%;
-}
-
-.location-select {
-    width: 50%;
-}
 .modal-dialog > *{
     background-color: #36373A !important;
 }
@@ -108,8 +146,8 @@ body {
 }
 
 .carousel-img{
-    width: 450px;
-    height: 350px;
+    width: 100%;
+    height: 175px;
 }
 
 

@@ -7,13 +7,11 @@ import Button from "react-bootstrap/Button";
 import React, {useEffect, useState} from "react";
 import {
     searchAirport,
-    inspirationSearch,
     searchAvailableDestinations,
     searchFlightOffers
 } from "../services/AmadeusAPIService";
-import countryCodes from "../utils/countryCodes.json";
 import {Dictionaries, Flight} from "./FlightCard";
-import {axiosFlyNow, logSearchTerms} from "../services/FlyNowServiceAPI";
+import {logSearchTerms} from "../services/FlyNowServiceAPI";
 
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
@@ -64,10 +62,10 @@ export default function FlightSearch({
     const [returnDate, setReturnDate] = useState<string>('');
     const [adults, setAdults] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
-    const [originOptions, setOriginOptions] = useState<any[]>();
-    const [destinationOptions, setDestinationOptions] = useState<any[]>([]);
-    const [origin, setOrigin] = useState<Route | undefined>(undefined);
-    const [destination, setDestination] = useState<Route | undefined>(undefined);
+    const [originOptions, setOriginOptions] = useState<Route[]>([]);
+    const [destinationOptions, setDestinationOptions] = useState<Route[]>([]);
+    const [origin, setOrigin] = useState<Route>();
+    const [destination, setDestination] = useState<Route>();
     const [maxPrice, setMaxPrice] = useState<number>(1000);
     const [originSearchTerm, setOriginSearchTerm] = useState<string>('');
     const [flightList, setFlightList] = useState<any[]>([]);
@@ -83,40 +81,36 @@ export default function FlightSearch({
     }
 
     useEffect(() => {
-        if (origin && departureDate?.length > 0 && !destination)
-            destinationOptionsSearch();
-    }, [origin]);
-
-    useEffect(() => {
-        if (destinationOptions?.length > 0) {
-            setDestination(destinationOptions[0])
+        if (origin && departureDate) {
+            destinationOptionsSearch(origin)
         }
-    }, [destinationOptions])
+    }, [origin, departureDate])
     useEffect(() => {
         if (flightList.length > 0 && dictionaries) {
             returnSearchResults();
         }
     }, [flightList, dictionaries]);
-
     useEffect(() => {
         if (originiataCode?.length > 0) {
-            loadOriginOption(originiataCode)
+            originOptionsSearch(originiataCode)
         }
     }, [originiataCode]);
     useEffect(() => {
-        if (destinationiataCode?.length > 0) {
+        if (destinationiataCode?.length > 0 && destinationOptions?.length > 0) {
             loadDestinationOption(destinationiataCode)
         }
-    }, [destinationiataCode]);
+    }, [destinationiataCode, destinationOptions]);
 
     const originOptionsSearch = (inputValue: string) => {
         let options: Route[] = [];
         setPendingOriginSearch(true);
-        searchAirport(inputValue).then((response: { data: { data: any[]; }; }) => {
+        searchAirport(inputValue).then((response: any) => {
+            console.log(response.data)
             response.data.data.map((originInfo: any, index: number) => {
                 options.push({
                     value: index,
-                    label: capitalize(originInfo.address.cityName) + ", " + originInfo.name + " (" + originInfo.iataCode + "), " + capitalize(originInfo.address.countryName),
+                    // label: capitalize(originInfo.address.cityName) + ", " + capitalize(originInfo.name) + " (" + originInfo.iataCode + "), " + capitalize(originInfo.address.countryName),
+                    label: capitalize(originInfo.name) + " (" + originInfo.iataCode + "), " + capitalize(originInfo.address.countryName),
                     cityName: originInfo.address.cityName,
                     countryCode: originInfo.address.countryCode,
                     iataCode: originInfo.iataCode,
@@ -124,76 +118,59 @@ export default function FlightSearch({
                 })
             });
             setOriginOptions(options);
+            if (options.length > 0)
+                setOrigin(options[0])
         }).catch((e) => console.log(e)).finally(() => setPendingOriginSearch(false))
     }
-    const loadOriginOption = (iata: string) => {
-        let airport = getAirportByIATA(iata);
-        if (!airport) return;
-        const option = {
-            value: 0,
-            label: capitalize(airport.city) + ", " + airport.name + " (" + iata + "), " + capitalize(airport.country),
-            cityName: airport.city,
-            countryCode: countryCodes.find(row => row.iata === iata)?.iso || "",
-            iataCode: iata,
-            airport: airport.name
-        };
-        setOriginOptions([option]);
-        setOrigin(option);
-    }
-    const destinationOptionsSearch = () => {
+    const destinationOptionsSearch = (origin: Route) => {
         let options: Route[] = [];
-        if (origin && departureDate) {
-            setPendingDestSearch(true)
-            searchAvailableDestinations(origin, false, false, departureDate).then(availableDestinations => {
-                availableDestinations.data.data.map((destinationInfo: any, index: number) => {
-                    let airport = getAirportByIATA(destinationInfo.destination);
+        setPendingDestSearch(true)
+        if (departureDate)
+            searchAvailableDestinations(origin).then(availableDestinations => {
+                availableDestinations.data.data.map((destination: any, index: number) => {
                     options.push({
                         value: index,
-                        label: capitalize(airport.city) + ", " + airport.name + " (" + destinationInfo.destination + "), " + capitalize(airport.country),
-                        cityName: airport.city,
-                        countryCode: countryCodes.find(row => row.iata === destinationInfo.destination)?.iso || "",
-                        iataCode: destinationInfo.destination,
-                        airport: airport.name
+                        label: capitalize(destination.name) + " (" + destination.iataCode + "), " + capitalize(destination.address.countryName),
+                        cityName: destination.name,
+                        countryCode: destination.address.countryCode,
+                        iataCode: destination.iataCode,
+                        airport: destination.name
                     });
                 });
                 setDestinationOptions(options);
+                setDestination(options[0])
             }).catch((e) => {
                 console.log(e);
                 setDestinationOptions([]);
                 setDestination(undefined);
             }).finally(() => setPendingDestSearch(false))
-        }
+
     }
     const loadDestinationOption = (iata: string) => {
-        let airport = getAirportByIATA(iata);
-        if (!airport) return;
-        const option = {
-            value: 0,
-            label: capitalize(airport.city) + ", " + airport.name + " (" + iata + "), " + capitalize(airport.country),
-            cityName: airport.city,
-            countryCode: countryCodes.find(row => row.iata === iata)?.iso || "",
-            iataCode: iata,
-            airport: airport.name
-        };
-        setDestinationOptions([option]);
-        setDestination(option);
+        for (const destinationOption of destinationOptions) {
+            if (destinationOption.iataCode === iata) {
+                setDestination(destinationOption);
+                destinationOptions.splice(destinationOptions.indexOf(destinationOption), 1);
+                destinationOptions.unshift(destinationOption)
+                setDestinationOptions(destinationOptions);
+                return;
+            }
+        }
     }
     const searchFlights = () => {
         setPendingFlightSearch(true);
         if (origin && destination && departureDate) {
-            logSearchTerms(origin?.iataCode, destination?.iataCode)
+            logSearchTerms(origin?.iataCode, destination?.iataCode);
             searchFlightOffers({origin, destination, departureDate, returnDate, adults, children, maxPrice, oneWay})
                 .then((response => {
                     setFlightList(response.data.data);
-                    setDictionaries(response.data.dictionaries)
-                    console.log(response.data.data[0])
-                    axiosFlyNow.post("flight/book", {flightOffer: response.data.data[0]})
+                    setDictionaries(response.data.dictionaries);
                 }))
                 .catch((e) => {
                     console.error(e);
                     setFlightList([]);
                 }).finally(() => {
-                setPendingFlightSearch(false)
+                setPendingFlightSearch(false);
             });
         }
     }
@@ -204,7 +181,7 @@ export default function FlightSearch({
 
     return (
         <div className={"search gap-3 p-3 d-flex flex-column rounded-2"}>
-            <div className={"d-flex flex-row align-items-start justify-content-evenly"}>
+            <div className={"d-flex search-options "}>
                 <div className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-start"}>
                     <div className={"d-flex flex-row justify-content-center flex-wrap gap-2"}>
                         <label>
@@ -248,8 +225,15 @@ export default function FlightSearch({
                     <label>
                         Origin {origin && <Flag country={origin.countryCode}/>}
                     </label>
-                    <Select options={originOptions} className={"w-50"} onChange={(option) => setOrigin(option)}
-                            styles={customStyles} value={originOptions ? originOptions[0] : undefined}
+                    <Select options={originOptions} className={"w-50"}
+                            onChange={(option) => {
+                                if (option) {
+                                    setOrigin(option)
+                                    destinationOptionsSearch(option)
+                                }
+                            }}
+                            styles={customStyles}
+                            value={origin ? origin : (originOptions && originOptions?.length > 0) ? originOptions[0] : undefined}
                             onInputChange={(inputValue) => {
                                 if (inputValue.length >= 3) {
                                     setOriginSearchTerm(inputValue);
@@ -268,9 +252,11 @@ export default function FlightSearch({
                     <label>Destination {destination && <Flag country={destination.countryCode}/>}</label>
                     {!pendingDestSearch ? destinationOptions && destinationOptions?.length > 0 ?
                             <Select options={destinationOptions} className={"w-50"}
-                                    onChange={(option) => setDestination(option)}
+                                    onChange={(option) => {
+                                        if (option) setDestination(option)
+                                    }}
                                     styles={customStyles}
-                                    value={destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
+                                    value={destination ? destination : destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
                                     components={{
                                         Option: ({innerProps, label, data}) => (
                                             <div className={"options"} {...innerProps}>
@@ -310,6 +296,9 @@ export default function FlightSearch({
                 <Alert variant={"danger"}
                        show={origin != null && departureDate.length > 0 && !(destinationOptions?.length > 0) && !pendingDestSearch}>No
                     available destinations</Alert>
+                <Alert variant={"danger"}
+                       show={!pendingFlightSearch && flightList.length <= 0}>No
+                    available flights</Alert>
                 <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
                     {origin && departureDate && destination && pendingFlightSearch ?
                         <img src={pendingSearchIcon} width={"35%"} height={"50%"}

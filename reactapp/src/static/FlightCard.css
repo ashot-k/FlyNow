@@ -1,6 +1,6 @@
 @media only screen and (max-width: 900px) {
     .flight-card {
-        width: 90%;
+        width: 100%;
     }
 
     .book-btn {
@@ -32,6 +32,11 @@
     transition: box-shadow 0.5s ease, width 0.5s ease;
     animation: fadeInAndMoveIn linear 0.5s;
 }
+.element-shadow.fade {
+    box-shadow: 3px 2px 5px black;
+    transition: box-shadow 0.5s ease, width 0.5s ease;
+    animation: fadeOutAndMoveOut linear 0.5s;
+}
 
 .accordion {
     width: 100%;
@@ -54,6 +59,16 @@
     100% {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+@keyframes fadeOutAndMoveOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0.5;
+        transform: translateX(250px);
     }
 }
 

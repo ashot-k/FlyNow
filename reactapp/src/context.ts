@@ -8,3 +8,5 @@ export interface UserData {
 }
 
 export const AuthContext = createContext<UserData | undefined>(undefined);
+
+export const FlightListContext = createContext<any[] | undefined>(undefined);

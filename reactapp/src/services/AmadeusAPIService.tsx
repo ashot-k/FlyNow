@@ -7,7 +7,7 @@ import {
     getUserLocation, saveAmadeusTokenToStorage,
     Token
 } from "../utils/Utils";
-import {SearchInfo} from "../components/FlightSearch";
+import {Route, SearchInfo} from "../components/FlightSearch";
 
 const max = 25;
 
@@ -79,22 +79,6 @@ export const activitiesInAreaBySquare = (latitude: any, longitude: any) => {
     });
 }
 
-export const activitiesAroundArea = (north: any, west: any, south: any, east: any) => {
-    return axiosAmadeus.get("/v1/shopping/activities/by-square", {
-        params: {
-            north: north, west: west, south: south, east: east
-        }
-    });
-}
-
-export const inspirationSearch = (origin: { iataCode: string; }, oneWay: boolean) => {
-    return axiosAmadeus.get("/v1/shopping/flight-destinations?viewBy=COUNTRY", {
-        params: {
-            origin: origin.iataCode, oneWay: oneWay,
-        }
-    });
-}
-
 export const searchMostTraveledDestinations = (origin: { iataCode: string; }, period: string) => {
     return axiosAmadeus.get("/v1/travel/analytics/air-traffic/traveled", {
         params: {
@@ -119,14 +103,10 @@ export const recoMostTraveled = (iata: string, date: string) => {
     return searchMostTraveledDestinations({iataCode: iata}, date);
 }
 
-export const searchAvailableDestinations = (origin: { iataCode: string },
-                                            oneWay: boolean, nonStop: boolean, departureDate: string) => {
-    return axiosAmadeus.get("/v1/shopping/flight-destinations", {
+export const searchAvailableDestinations = (origin: Route) => {
+    return axiosAmadeus.get("/v1/airport/direct-destinations", {
         params: {
-            origin: origin.iataCode,
-            oneWay: oneWay,
-            nonStop: nonStop,
-            departureDate: departureDate
+            departureAirportCode: origin.iataCode
         }
     });
 }
