@@ -1,5 +1,6 @@
 package org.flynow.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
     @Column(unique = false)
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

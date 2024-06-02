@@ -3,6 +3,7 @@ package org.flynow.entity;
 import com.amadeus.resources.FlightOfferSearch;
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -14,10 +15,8 @@ public class Flight {
     private Long id;
     private String origin;
     private String destination;
-    private int stops;
-    private LocalDate departureDate;
-    private LocalDate returnDate;
-    private Long price;
+    private Instant departureDate;
+    private Instant returnDate;
     private String flightCode;
 
     public Long getId() {
@@ -44,36 +43,20 @@ public class Flight {
         this.destination = destination;
     }
 
-    public int getStops() {
-        return stops;
-    }
-
-    public void setStops(int stops) {
-        this.stops = stops;
-    }
-
-    public LocalDate getDepartureDate() {
+    public Instant getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(LocalDate departureDate) {
+    public void setDepartureDate(Instant departureDate) {
         this.departureDate = departureDate;
     }
 
-    public LocalDate getReturnDate() {
+    public Instant getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
+    public void setReturnDate(Instant returnDate) {
         this.returnDate = returnDate;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
     }
 
     public String getFlightCode() {

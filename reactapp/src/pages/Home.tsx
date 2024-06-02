@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import FlightSearch, {FlightSearchData, Route} from "../components/FlightSearch";
 import SearchInfoHeader from "../components/SearchInfoHeader";
 import {FlightList} from "../components/FlightList";
@@ -15,7 +15,7 @@ import {
     saveAmadeusTokenToStorage,
     Token
 } from "../utils/Utils";
-import axios from "axios";
+import {AuthContext} from "../context";
 
 function Home() {
     const [searchResults, setSearchResults] = useState<FlightSearchData>();
@@ -23,6 +23,8 @@ function Home() {
     const [originReco, setOriginReco] = useState<string>(userArea);
     const [destinationReco, setDestinationReco] = useState<string>();
     const [flightList, setFlightList] = useState<Flight[]>([]);
+
+    const userData = useContext(AuthContext);
 
     const [amadeusToken, setAmadeusToken] = useState<Token | undefined>(undefined)
 
@@ -48,11 +50,10 @@ function Home() {
     useEffect(() => {
         if (!amadeusToken) {
             let tokenObject = getAmadeusTokenFromStorage();
-            if(tokenObject) {
+            if (tokenObject) {
                 setAmadeusToken(tokenObject);
                 axiosAmadeus.defaults.headers.common.Authorization = "Bearer " + tokenObject.token;
-            }
-            else {
+            } else {
                 console.log("token expired")
                 getToken().then(tokenObject => {
                     if (tokenObject) {
@@ -61,10 +62,9 @@ function Home() {
                         axiosAmadeus.defaults.headers.common.Authorization = "Bearer " + tokenObject.token
                         saveAmadeusTokenToStorage(tokenObject);
                     }
-                }).catch((e)=> console.log(e));
+                }).catch((e) => console.log(e));
             }
-        }
-        else if (checkIfExpired(amadeusToken)){
+        } else if (checkIfExpired(amadeusToken)) {
             removeAmadeusTokenFromStorage();
             setAmadeusToken(undefined);
         }
@@ -73,25 +73,27 @@ function Home() {
     return (
         <div className="d-flex w-100 flex-column gap-3 align-items-center">
             {(amadeusToken?.token && amadeusToken?.token.length > 0) ? <>
-                <div className={"d-flex w-75 mt-3 gap-2 justify-content-center align-content-center"}>
-                  {/*  <FlightDestinationRecos originIata={userArea} date={"2017-01"}
-                                            onRecoSelect={handleSelectedDestReco}/>*/}
-                    <SearchRecos onSearchRecoSelect={handleSelectedSearchReco}/>
-                </div>
                 <FlightSearch onSearch={handleFlightSearch} originiataCode={originReco}
                               destinationiataCode={destinationReco ? destinationReco : ''}/>
+                <div className={"d-flex w-75 mt-3 gap-2 justify-content-center align-content-center"}>
+                    {/*  <FlightDestinationRecos originIata={userArea} date={"2017-01"}
+                                            onRecoSelect={handleSelectedDestReco}/>*/}
+                    {userData?.username && <SearchRecos onSearchRecoSelect={handleSelectedSearchReco}/>}
+                </div>
                 {(searchResults ? <>
                     <SearchInfoHeader {...searchResults.searchInfo}/>
-                    {/* <FlightListFilters flightList={searchResults.flightList} dictionaries={searchResults.dictionaries}
-                                   filter={setFilters}/>*/}
+
                     <div className={"w-100 d-flex flex-row"}>
-                        <div className={"w-100 d-flex justify-content-evenly gap-2 p-1"}>
-                            <div className={"w-25"}></div>
+                        <div className={"w-100 d-flex flight-search-results justify-content-center p-1"}>
+                            <div className={"w-25"}>
+                                <FlightListFilters flightList={searchResults.flightList} dictionaries={searchResults.dictionaries}
+                                   filter={setFilters}/>
+                            </div>
                             {(flightList?.length > 0 ?
                                 <FlightList flightList={flightList}
-                                            dictionaries={searchResults.dictionaries}/> : <></>)}
+                                            dictionaries={searchResults.dictionaries}/> : <div className={"flight-list"}></div>)}
                             <div className={"w-25"}>
-                                {/*  <DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>*/}
+                                {/*<DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>*/}
                             </div>
                         </div>
                     </div>

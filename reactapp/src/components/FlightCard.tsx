@@ -71,12 +71,11 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
     function bookConfirmModal(flight: Flight) {
         handleShow();
         if (!userData?.username) {
-            window.location.href = "/login"
+            window.location.href = "/login";
         }
         console.log(flight)
         console.log(dictionaries)
     }
-
     return (
         <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
             <div className={"d-flex flex-column w-100"}>
@@ -92,9 +91,9 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                             {flight.itineraries[0] &&
                                 <div className={'d-grid gap-2 align-items-start w-100'}>
                                     <div className={"d-flex justify-content-between"}>
-                                        <span className={"fs-4"}>Outbound
+                                        <span className={"fs-5"}>Outbound
                                         <span style={{color: "cornflowerblue"}}
-                                              className={'fs-4'}> {flightDateToStringShort(outboundStart)}  </span></span>
+                                              className={'fs-5'}> {flightDateToStringShort(outboundStart)}  </span></span>
                                         <span className={'fs-6'}>
                                         Flights {flight.itineraries[0].segments.length} &
                                         Stops {calculateStops(flight.itineraries[0].segments)}</span>
@@ -110,9 +109,9 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                                     <hr className={"w-100 m-0"}/>
                                     <div className={'d-grid gap-2 align-items-start w-100'}>
                                         <div className={"d-flex justify-content-between"}>
-                                        <span className={"fs-4"}>Return
+                                        <span className={"fs-5"}>Return
                                         <span style={{color: "cornflowerblue"}}
-                                              className={'fs-4'}> {flightDateToStringShort(returnStart)}  </span></span>
+                                              className={'fs-5'}> {flightDateToStringShort(returnStart)}  </span></span>
                                             <span className={'fs-6'}>
                                         Flights {flight.itineraries[1].segments.length} &
                                         Stops {calculateStops(flight.itineraries[1].segments)}</span>

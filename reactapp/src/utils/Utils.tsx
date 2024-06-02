@@ -83,8 +83,24 @@ export const customStyles = {
     })
 };
 
-export function capitalize(word: string | undefined) {
-    if (word?.trim()) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+export function capitalize(str: string | undefined) {
+    if(!str) return;
+    let capitalizedString = "";
+    const words = str.split(" ");
+    for (let i = 0; i < words.length; i++) {
+        if (words[i]?.trim()) {
+            if(words[i].length > 2)
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+            else
+                words[i] = words[i].toLowerCase();
+            capitalizedString += words[i]
+            if(!(i === words.length - 1)){
+                capitalizedString += " ";
+            }
+
+        }
+    }
+    return capitalizedString;
 }
 
 export const checkIfExpired = (jwt: Token) => {

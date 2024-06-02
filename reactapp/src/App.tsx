@@ -13,7 +13,7 @@ import {
     getFlyNowTokenFromStorage, removeFlyNowTokenFromStorage, Token
 } from "./utils/Utils";
 import {axiosFlyNow} from "./services/FlyNowServiceAPI";
-import {AuthContext, UserData} from "./context";
+import {AuthContext, FlightListContext, UserData} from "./context";
 import ScrollToTop from "./utils/ScrollToTop";
 
 
@@ -41,21 +41,20 @@ function App() {
 
     return (
         <AuthContext.Provider value={user}>
-        <BrowserRouter>
-            <ScrollToTop/>
-            <div data-bs-theme="dark">
-            <NavBar/>
-            <div className={"App w-100 justify-content-center d-flex"}>
-                <Routes>
-                        <Route path="/" element={<Home/>}/>
-                        {!flyNowToken && <Route path="/login" element={<Login/>}/>}
-                        {!flyNowToken && <Route path="/register" element={<Register/>}/>}
-                        {flyNowToken && <Route path="/profile" element={<UserProfile/>}/>}
-
-                </Routes>
-            </div>
-            </div>
-        </BrowserRouter>
+            <BrowserRouter>
+                <ScrollToTop/>
+                <div data-bs-theme="dark">
+                    <NavBar/>
+                    <div className={"App w-100 justify-content-center d-flex"}>
+                        <Routes>
+                            <Route path="/" element={<Home/>}/>
+                            {!flyNowToken && <Route path="/login" element={<Login/>}/>}
+                            {!flyNowToken && <Route path="/register" element={<Register/>}/>}
+                            {flyNowToken && <Route path="/profile" element={<UserProfile/>}/>}
+                        </Routes>
+                    </div>
+                </div>
+            </BrowserRouter>
         </AuthContext.Provider>
     );
 }
