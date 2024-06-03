@@ -12,6 +12,7 @@ import {
 } from "../services/AmadeusAPIService";
 import {Dictionaries, Flight} from "./FlightCard";
 import {logSearchTerms} from "../services/FlyNowServiceAPI";
+import "../static/Search.css"
 
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
@@ -43,7 +44,7 @@ export interface FlightSearchData {
     dictionaries: Dictionaries;
 }
 
-export interface preloadedSearchInfo {
+interface preloadedSearchInfo {
     originiataCode: string;
     destinationiataCode: string;
 }
@@ -70,6 +71,8 @@ export default function FlightSearch({
     const [originSearchTerm, setOriginSearchTerm] = useState<string>('');
     const [flightList, setFlightList] = useState<any[]>([]);
     const [dictionaries, setDictionaries] = useState<any>();
+
+    const [noResultsAlert, setNoResultsAlert] = useState<boolean>(false)
 
     const returnSearchResults = () => {
         if (origin && destination)
@@ -163,6 +166,10 @@ export default function FlightSearch({
             logSearchTerms(origin?.iataCode, destination?.iataCode);
             searchFlightOffers({origin, destination, departureDate, returnDate, adults, children, maxPrice, oneWay})
                 .then((response => {
+                    setNoResultsAlert(true)
+                    setTimeout(()=>{
+                        setNoResultsAlert(false);
+                    },2000);
                     setFlightList(response.data.data);
                     setDictionaries(response.data.dictionaries);
                 }))
@@ -180,13 +187,13 @@ export default function FlightSearch({
     }
 
     return (
-        <div className={"search gap-3 p-3 d-flex flex-column rounded-2"}>
-            <div className={"d-flex search-options "}>
-                <div className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-start"}>
-                    <div className={"d-flex flex-row justify-content-center flex-wrap gap-2"}>
+        <div className={"search component-box p-3 d-flex flex-column rounded-1"}>
+            <div className={"d-flex search-options"}>
+                <div className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-center fs-5"}>
+                    <div className={"w-100 d-flex flex-row justify-content-center gap-2"}>
                         <label>
                             <h5>Departure</h5>
-                            <input className={"form-control form-control-sm"}
+                            <input className={"form-control fs-5"}
                                    type={"date"}
                                    min={new Date().toISOString().substring(0, 10)}
                                    defaultValue={new Date().toISOString().substring(0, 10)}
@@ -196,13 +203,13 @@ export default function FlightSearch({
                         </label>
                         <label>
                             <h5>Return</h5>
-                            <input className={"form-control form-control-sm"}
+                            <input className={"form-control fs-5"}
                                    type={"date"}
                                    min={departureDate} disabled={oneWay}
                                    onChange={(e) => setReturnDate(e.target.value)}/>
                         </label>
                     </div>
-                    <div>
+                    <div className={"w-100 d-flex flex-row justify-content-around gap-2"}>
                         <div className="form-check">
                             <input type={"radio"} className={"form-check-input"}
                                    name={"oneWayCheck"}
@@ -220,12 +227,11 @@ export default function FlightSearch({
                         </div>
                     </div>
                 </div>
-                <div
-                    className={"location-select p-2 gap-3 d-flex flex-column align-items-center justify-content-start"}>
-                    <label>
+                <div className={"location-select p-2 d-flex flex-column align-items-center justify-content-start gap-2"}>
+                    <label className={"fs-5"}>
                         Origin {origin && <Flag country={origin.countryCode}/>}
                     </label>
-                    <Select options={originOptions} className={"w-50"}
+                    <Select options={originOptions} className={"w-100"}
                             onChange={(option) => {
                                 if (option) {
                                     setOrigin(option)
@@ -249,9 +255,9 @@ export default function FlightSearch({
                                     </div>)
                             }}
                     />
-                    <label>Destination {destination && <Flag country={destination.countryCode}/>}</label>
+                    <label className={"fs-5"}>Destination {destination && <Flag country={destination.countryCode}/>}</label>
                     {!pendingDestSearch ? destinationOptions && destinationOptions?.length > 0 ?
-                            <Select options={destinationOptions} className={"w-50"}
+                            <Select options={destinationOptions} className={"w-100"}
                                     onChange={(option) => {
                                         if (option) setDestination(option)
                                     }}
@@ -263,7 +269,7 @@ export default function FlightSearch({
                                                 <span><Flag country={data.countryCode}/> {label}</span>
                                             </div>)
                                     }}
-                            /> : <Select className={"w-50"} isDisabled={true} styles={customStyles}/> :
+                            /> : <Select className={"w-100"} isDisabled={true} styles={customStyles}/> :
                         <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
                 </div>
                 <div className={"settings p-2 d-flex flex-column align-items-start justify-content-start"}>
@@ -297,7 +303,7 @@ export default function FlightSearch({
                        show={origin != null && departureDate.length > 0 && !(destinationOptions?.length > 0) && !pendingDestSearch}>No
                     available destinations</Alert>
                 <Alert variant={"danger"}
-                       show={!pendingFlightSearch && flightList.length <= 0}>No
+                       show={!pendingFlightSearch && flightList.length <= 0 && noResultsAlert}>No
                     available flights</Alert>
                 <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
                     {origin && departureDate && destination && pendingFlightSearch ?

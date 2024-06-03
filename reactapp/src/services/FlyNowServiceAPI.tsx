@@ -10,7 +10,6 @@ export const axiosFlyNow = axios.create({
     baseURL: "http://192.168.1.64:8079/api"
 });
 
-
 export const register = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/register", {
         username: userDetails.username,

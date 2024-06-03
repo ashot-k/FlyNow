@@ -26,6 +26,30 @@ export async function getToken() {
     }
 }
 
+axiosAmadeus.interceptors.request.use(async function (config) {
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+
+axiosAmadeus.interceptors.response.use((response) => {
+    return response
+}, async function (error) {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401) {
+        console.log(error)
+        console.log("refreshing")
+        originalRequest._retry = true;
+        const tokenObject = await getToken();
+        console.log(tokenObject)
+        saveAmadeusTokenToStorage(tokenObject);
+        axiosAmadeus.defaults.headers.common['Authorization'] = 'Bearer ' + tokenObject.token;
+        return axiosAmadeus(originalRequest);
+    }
+    return Promise.reject(error);
+});
+
 export const searchFlightOffers = ({
                                        origin,
                                        destination,
