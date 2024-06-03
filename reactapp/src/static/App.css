@@ -7,11 +7,12 @@ svgs #04D7FF
 
 body {
     background-color: #202124 !important;
-    min-height: 1250px;
+    min-height: 1500px;
 }
 .App {
     color: #E8EAED !important;
 }
+
 .form-range::-webkit-slider-thumb {
     background-color: #04D7FF !important;
 }
@@ -24,8 +25,10 @@ body {
     background-color: #04D7FF !important;
 }
 
+
 .form-check-input {
-    border-color: #04D7FF !important;
+    border-color: #3ce4ff !important;
+    background-color: transparent !important;
 }
 
 .form-control {
@@ -45,33 +48,7 @@ body {
     background-color: #36373A;
 }
 
-.search {
-    margin-top: 60px;
-    background-color: #36373A;
-    width: 75%;
-    box-shadow: 3px 2px 5px black;
-}
-
 @media only screen and (max-width: 900px) {
-    .search{
-        width: 100%;
-    }
-    .search-options{
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .date-select {
-        width: 100%;
-    }
-
-    .settings {
-        width: 100%;
-    }
-
-    .location-select {
-        width:100%;
-    }
     .flight-list{
         width: 100%;
     }
@@ -84,23 +61,8 @@ body {
 }
 
 @media only screen and (min-width: 1000px) {
-    .search-options{
-        align-items: start;
-    }
-
-    .date-select {
-        width: 25%;
-    }
-
-    .settings {
-        width: 25%;
-    }
-
-    .location-select {
-        width: 50%;
-    }
     .flight-list{
-        width: 40%;
+        width: 50%;
     }
 
     .activities{
@@ -108,46 +70,57 @@ body {
     }
 }
 
-
-
 .component-box{
     background-color: #36373A;
     box-shadow: 3px 2px 5px black;
+    transition: box-shadow 0.5s ease, width 0.5s ease;
+    animation: fadeInAndMoveIn linear 0.5s;
+}
+.component-box:hover{
+    box-shadow: 8px 8px 8px black;
+}
+
+@keyframes fadeInAndMoveIn {
+    0% {
+        opacity: 0.5;
+        transform: translateX(250px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fadeOutAndMoveOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0.5;
+        transform: translateX(250px);
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 
-.modal-dialog > *{
-    background-color: #36373A !important;
+.search-reco{
+    width: fit-content;
+    min-width: 10%;
+    height: 75px;
 }
 
-.search-info {
-    position: sticky;
-    background-color: #202124;
-    top: 65px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    box-shadow: 1px 2px 5px black;
-    z-index: 4;
-    animation: fadeIn 1s;
-}
 
-.options {
-    background-color: #36373A;
-    padding: 5px 8px;
-}
-.options:nth-child(even) {
-    background-color: rgb(104, 105, 108, 0.1);
-}
-
-.options:hover {
-    cursor: pointer;
-    background-color: #4a4b4e;
-}
-
-.carousel-img{
-    width: 100%;
-    height: 175px;
+.element-shadow {
+    box-shadow: 3px 2px 5px black;
+    transition: box-shadow 0.5s ease;
+    animation: fadeInAndMoveIn linear 0.5s;
 }
 
 

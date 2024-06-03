@@ -14,28 +14,13 @@
     }
 
     .book-btn {
-        width: 35%;
-    }
-
-    .flight-card:hover {
-        box-shadow: 10px 10px 10px black;
+        width: 45%;
     }
 }
 
 .flight-card {
     background-color: #36373A !important;
     height: fit-content;
-}
-
-.element-shadow {
-    box-shadow: 3px 2px 5px black;
-    transition: box-shadow 0.5s ease, width 0.5s ease;
-    animation: fadeInAndMoveIn linear 0.5s;
-}
-.element-shadow.fade {
-    box-shadow: 3px 2px 5px black;
-    transition: box-shadow 0.5s ease, width 0.5s ease;
-    animation: fadeOutAndMoveOut linear 0.5s;
 }
 
 .accordion {
@@ -50,37 +35,6 @@
 .card-head {
     border-bottom: #4a4b4e solid 1px;
 }
-
-@keyframes fadeInAndMoveIn {
-    0% {
-        opacity: 0.5;
-        transform: translateX(250px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-@keyframes fadeOutAndMoveOut {
-    0% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    100% {
-        opacity: 0.5;
-        transform: translateX(250px);
-    }
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 
 .table-transparent {
     cursor: default;
@@ -105,8 +59,6 @@ button:hover {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 5px #04D7FF !important;
 }
 
-.price {
-    color: white;
-    font-weight: bold;
-    padding: 3px;
+.modal-dialog > *{
+    background-color: #36373A !important;
 }

@@ -1,5 +1,6 @@
 import {Dictionaries, Flight} from "./FlightCard";
 import React, {useEffect, useState} from "react";
+import {capitalize} from "../utils/Utils";
 
 interface FlightListFilterProps {
     flightList: Flight[],
@@ -19,7 +20,7 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
             carriers.push(dictionaries.carriers[carriersKey]);
         }
         setAirlines(carriers);
-    }, []);
+    }, [flightList, dictionaries]);
 
     useEffect(() => {
         console.log(selectedAirlines)
@@ -37,19 +38,18 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
 
     return (
         <div
-            className={"w-100 d-flex flex-column justify-content-center align-items-center gap-2"}>
+            className={"w-100  d-flex flex-column justify-content-start align-items-center gap-2"}>
             <h2>Filters</h2>
-            <div className={"w-100 component-box p-2 rounded-1"}>
-                <div className={"d-flex flex-column align-items-center"}>
-                    <h3>Airlines</h3>
-                    <div className={"w-75 d-flex flex-column align-items-center p-3"}>
+            <div className={"w-100 component-box element-shadow p-2 rounded-1 d-flex flex-column align-items-center"}>
+                    <h5 className={"fw-bold"}>Airlines</h5>
+                    <hr className={"w-100 m-1 m-auto"}/>
+                    <div className={"w-100 d-flex flex-column align-items-start p-3"}>
                         {airlines?.map((airline, index) => (
-                            <div className={"d-flex justify-content-between w-100 gap-2"}>
-                                <label>{airline}</label>
+                            <div className={"d-flex justify-content-start align-items-center w-75 gap-2"}>
                                 <input
                                     type="checkbox"
                                     key={index}
-                                    value={airline}
+                                    value={airline} className={"form-check-input"}
                                     onChange={(e) => {
                                         const isChecked = e.target.checked;
                                         setSelectedAirlines(prevSelectedAirlines => {
@@ -61,9 +61,9 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
                                         });
                                     }}
                                 />
+                                <label className={"fs-5"}>{capitalize(airline)}</label>
                             </div>
                         ))}
-                    </div>
                 </div>
             </div>
         </div>

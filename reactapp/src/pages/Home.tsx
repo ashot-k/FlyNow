@@ -31,7 +31,6 @@ function Home() {
     const handleFlightSearch = (searchData: FlightSearchData) => {
         setSearchResults(searchData);
         setFlightList(searchData.flightList);
-        console.log((searchData.flightList))
     }
     const handleSelectedDestReco = (destination: string, originIata: string) => {
         setOriginReco(userArea)
@@ -83,11 +82,11 @@ function Home() {
                 {(searchResults ? <>
                     <SearchInfoHeader {...searchResults.searchInfo}/>
 
-                    <div className={"w-100 d-flex flex-row"}>
-                        <div className={"w-100 d-flex flight-search-results justify-content-center p-1"}>
+                    <div className={"w-100 d-flex flex-row justify-content-center"}>
+                        <div className={"w-75 d-flex flight-search-results justify-content-center p-1"}>
                             <div className={"w-25"}>
-                                <FlightListFilters flightList={searchResults.flightList} dictionaries={searchResults.dictionaries}
-                                   filter={setFilters}/>
+                                {flightList?.length > 0 && <FlightListFilters flightList={searchResults.flightList} dictionaries={searchResults.dictionaries}
+                                   filter={setFilters}/>}
                             </div>
                             {(flightList?.length > 0 ?
                                 <FlightList flightList={flightList}
@@ -95,8 +94,8 @@ function Home() {
                             <div className={"w-25"}>
                                 {/*<DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>*/}
                             </div>
+                            </div>
                         </div>
-                    </div>
                 </> : <></>)
                 }
             </> : <></>}

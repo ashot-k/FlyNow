@@ -73,11 +73,21 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
         if (!userData?.username) {
             window.location.href = "/login";
         }
-        console.log(flight)
-        console.log(dictionaries)
+        console.log(flight);
+        let flights = [];
+
+        flights.push({
+            origin: flight.itineraries[0].segments[0].departure.iataCode,
+            destination: flight.itineraries[flight.itineraries.length - 1]
+                .segments[flight.itineraries[flight.itineraries.length - 1].segments.length - 1]
+                .arrival.iataCode,
+            departureDate: flight.itineraries[0].segments[0].departure.at,
+            price: flight.price.total
+        })
+        axiosFlyNow.post("flight/book", flights)
     }
     return (
-        <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
+        <div className={"flight-card component-box element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
             <div className={"d-flex flex-column w-100"}>
                 <div className={"h5"}>
                     Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}
@@ -175,7 +185,7 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
             </Accordion>
             <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
                 <button className={"btn book-btn"} onClick={() => bookConfirmModal(flight)}>Book
-                    for <span className={"price"}>{flight.price.total} {flight.price.currency}</span></button>
+                    for <span className={"fw-bold"}>{flight.price.total} {flight.price.currency}</span></button>
                 <Modal show={show} onHide={handleClose} size={"xl"} centered data-bs-theme="dark"
                        className={"text-white"}>
                     <Modal.Header closeButton>
