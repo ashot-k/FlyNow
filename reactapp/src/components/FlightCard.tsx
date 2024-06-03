@@ -73,8 +73,18 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
         if (!userData?.username) {
             window.location.href = "/login";
         }
-        console.log(flight)
-        console.log(dictionaries)
+        console.log(flight);
+        let flights = [];
+
+        flights.push({
+            origin: flight.itineraries[0].segments[0].departure.iataCode,
+            destination: flight.itineraries[flight.itineraries.length - 1]
+                .segments[flight.itineraries[flight.itineraries.length - 1].segments.length - 1]
+                .arrival.iataCode,
+            departureDate: flight.itineraries[0].segments[0].departure.at,
+            price: flight.price.total
+        })
+        axiosFlyNow.post("flight/book", flights)
     }
     return (
         <div className={"flight-card element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
