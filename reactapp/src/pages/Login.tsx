@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
 import {login} from "../services/FlyNowServiceAPI";
 
-interface LoginProps{
+interface LoginProps {
     onLogin: (token: string) => void;
 }
 
@@ -27,8 +27,8 @@ export default function Login() {
                     if (r) {
                         setLoginStatus(true)
                         setShowAlert(true);
-                        setTimeout(()=> {
-                           window.location.href = "/"
+                        setTimeout(() => {
+                            window.location.href = "/"
                         }, 350);
                     } else {
                         setLoginStatus(false);
@@ -39,7 +39,7 @@ export default function Login() {
                     setShowAlert(true)
                     setLoginStatus(false);
                     console.log(e);
-                }).finally(()=> setPendingLogin(false));
+                }).finally(() => setPendingLogin(false));
         }
     }
 
@@ -55,7 +55,8 @@ export default function Login() {
                 <input className={"form-control"} type={"password"} placeholder={"Enter password"}
                        onChange={e => setPassword(e.target.value)}/>
             </label>
-            <Button variant={"btn"} className={""} type={"submit"} disabled={!(username.trim().length > 0 && password.trim().length > 0)}>Login</Button>
+            <Button variant={"btn"} className={""} type={"submit"}
+                    disabled={!(username.trim().length > 0 && password.trim().length > 0)}>Login</Button>
             <Alert variant={loginStatus ? "success" : "danger"} show={!pendingLogin && showAlert}>{
                 loginStatus ? "Successful Login" : "Wrong Credentials"}
             </Alert>

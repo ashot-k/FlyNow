@@ -38,32 +38,32 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
 
     return (
         <div
-            className={"w-100  d-flex flex-column justify-content-start align-items-center gap-2"}>
+            className={"w-100 d-flex flex-column justify-content-start align-items-center gap-2"}>
             <h2>Filters</h2>
             <div className={"w-100 component-box element-shadow p-2 rounded-1 d-flex flex-column align-items-center"}>
-                    <h5 className={"fw-bold"}>Airlines</h5>
-                    <hr className={"w-100 m-1 m-auto"}/>
-                    <div className={"w-100 d-flex flex-column align-items-start p-3"}>
-                        {airlines?.map((airline, index) => (
-                            <div className={"d-flex justify-content-start align-items-center w-75 gap-2"}>
-                                <input
-                                    type="checkbox"
-                                    key={index}
-                                    value={airline} className={"form-check-input"}
-                                    onChange={(e) => {
-                                        const isChecked = e.target.checked;
-                                        setSelectedAirlines(prevSelectedAirlines => {
-                                            if (isChecked) {
-                                                return [...prevSelectedAirlines, airline];
-                                            } else {
-                                                return prevSelectedAirlines.filter(selectedAirline => selectedAirline !== airline);
-                                            }
-                                        });
-                                    }}
-                                />
-                                <label className={"fs-5"}>{capitalize(airline)}</label>
-                            </div>
-                        ))}
+                <h5 className={"fw-bold"}>Airlines</h5>
+                <hr className={"w-100 m-1 m-auto"}/>
+                <div className={"w-100 d-flex flex-column align-items-start p-3"}>
+                    {airlines?.map((airline, index) => (
+                        <div className={"d-flex justify-content-start align-items-center w-75 gap-2"}>
+                            <input
+                                type="checkbox"
+                                key={index}
+                                value={airline} className={"form-check-input"}
+                                onChange={(e) => {
+                                    const isChecked = e.target.checked;
+                                    setSelectedAirlines(prevSelectedAirlines => {
+                                        if (isChecked) {
+                                            return [...prevSelectedAirlines, airline];
+                                        } else {
+                                            return prevSelectedAirlines.filter(selectedAirline => selectedAirline !== airline);
+                                        }
+                                    });
+                                }}
+                            />
+                            <label className={"fs-5"}>{capitalize(airline)}</label>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

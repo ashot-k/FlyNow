@@ -1,12 +1,5 @@
 import axios from "axios";
-import {
-    addZero,
-    checkIfExpired,
-    getAirportByCityName,
-    getAmadeusTokenFromStorage,
-    getUserLocation, saveAmadeusTokenToStorage,
-    Token
-} from "../utils/Utils";
+import {saveAmadeusTokenToStorage, Token} from "../utils/Utils";
 import {Route, SearchInfo} from "../components/FlightSearch";
 
 const max = 25;
@@ -17,7 +10,7 @@ export const axiosAmadeus = axios.create({
 
 export async function getToken() {
     try {
-        const r = await axiosAmadeus.get("http://192.168.1.64:8079/amadeus/token", {headers:{Authorization: ""}});
+        const r = await axiosAmadeus.get("http://192.168.1.64:8079/amadeus/token", {headers: {Authorization: ""}});
         const token: Token = r.data;
         return token;
     } catch (e) {
@@ -37,12 +30,9 @@ axiosAmadeus.interceptors.response.use((response) => {
 }, async function (error) {
     const originalRequest = error.config;
 
-    if (error.response.status === 401) {
-        console.log(error)
-        console.log("refreshing")
+    if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         const tokenObject = await getToken();
-        console.log(tokenObject)
         saveAmadeusTokenToStorage(tokenObject);
         axiosAmadeus.defaults.headers.common['Authorization'] = 'Bearer ' + tokenObject.token;
         return axiosAmadeus(originalRequest);
@@ -94,37 +84,13 @@ export const activitiesInArea = (latitude: any, longitude: any) => {
     });
 }
 
-export const activitiesInAreaBySquare = (latitude: any, longitude: any) => {
-    return axiosAmadeus.get("/v1/shopping/activities/by-square", {
-        params: {
-            //   north: (latitude + 0.001), west: (longitude + 0.001), south: (latitude - 0.001), east: (longitude - 0.001)
-            north: latitude, west: longitude, south: latitude - 0.05, east: longitude - 0.05
-        }
-    });
-}
-
 export const searchMostTraveledDestinations = (origin: { iataCode: string; }, period: string) => {
     return axiosAmadeus.get("/v1/travel/analytics/air-traffic/traveled", {
         params: {
             originCityCode: origin.iataCode,
             period: period
-            // date.getFullYear() + "-" + date.getMonth()
         }
     })
-}
-
-export const recoMostTraveledFromUserLocation = async () => {
-    let airport: any;
-    await getUserLocation().then(r => {
-        airport = getAirportByCityName(r.data.city);
-    })
-    const date = new Date();
-    if (airport && airport.iata)
-        return searchMostTraveledDestinations({iataCode: airport.iata}, date.getFullYear() + "-" + addZero(date.getMonth()));
-}
-
-export const recoMostTraveled = (iata: string, date: string) => {
-    return searchMostTraveledDestinations({iataCode: iata}, date);
 }
 
 export const searchAvailableDestinations = (origin: Route) => {
