@@ -18,13 +18,19 @@
     .date-select {
         width: 100%;
     }
+
     .location-select {
         width: 100%;
     }
+
     .settings {
         width: 100%;
     }
+    .passenger-selection{
+        flex-direction: row;
+    }
 }
+
 @media only screen and (min-width: 1000px) {
     .search-options {
         align-items: start;
@@ -34,11 +40,17 @@
     .date-select {
         width: 25%;
     }
+
     .location-select {
         width: 25%;
     }
+
     .settings {
         width: 25%;
+    }
+
+    .passenger-selection{
+        flex-direction: column;
     }
 }
 
@@ -53,6 +65,7 @@
     z-index: 4;
     animation: fadeIn 1s;
 }
+
 .options {
     background-color: #36373A;
     padding: 5px 15px;
@@ -67,7 +80,7 @@
     background-color: #4a4b4e;
 }
 
-.carousel-img{
+.carousel-img {
     width: 100%;
     height: 175px;
 }

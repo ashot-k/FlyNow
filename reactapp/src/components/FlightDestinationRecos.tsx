@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {getAirportByIATA} from "../utils/Utils";
-import {recoMostTraveled} from "../services/AmadeusAPIService";
+import {searchMostTraveledDestinations} from "../services/AmadeusAPIService";
 import pendingSearchIcon from "../static/infinite-spinner.svg";
 import Flag from "react-flagkit";
 import countryCodes from "../utils/countryCodes.json"
@@ -17,7 +17,7 @@ export interface destinations {
 }
 
 interface RecoSearchProps {
-    onRecoSelect: (destinationIata: string, originIata :string) => void;
+    onRecoSelect: (destinationIata: string, originIata: string) => void;
 }
 
 export default function FlightDestinationRecos({originIata, date, onRecoSelect}: Info & RecoSearchProps) {
@@ -27,25 +27,24 @@ export default function FlightDestinationRecos({originIata, date, onRecoSelect}:
 
     useEffect(() => {
         setPending(true);
-        recoMostTraveled(originIata, date)
+        searchMostTraveledDestinations({iataCode: originIata}, date)
             .then((r) => {
                 let dests = [];
                 let data = r.data.data
                 for (let i = 0; i < data.length; i++) {
-                   if (getAirportByIATA(data[i].destination)?.iata
-                       && getAirportByIATA(data[i].destination)?.city
-                       && getAirportByIATA(data[i].destination)?.name != "All Airports")
-                    dests.push(data[i].destination)
+                    if (getAirportByIATA(data[i].destination)?.iata
+                        && getAirportByIATA(data[i].destination)?.city
+                        && getAirportByIATA(data[i].destination)?.name != "All Airports")
+                        dests.push(data[i].destination);
                 }
                 dests = dests.slice(0, 3);
-
                 setDestinations(dests);
             })
             .catch(e => console.log(e))
             .finally(() => setPending(false))
     }, []);
 
-    function destSelection(destination : string){
+    function destSelection(destination: string) {
         onRecoSelect(destination, originIata);
     }
 

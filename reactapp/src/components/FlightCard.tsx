@@ -1,8 +1,8 @@
 import Flag from "react-flagkit";
-import {Accordion, Modal} from "react-bootstrap";
+import {Accordion, Modal, Table} from "react-bootstrap";
 import {
     calculateStops,
-    flightDateToStringNoYear, flightDateToStringNoYearNoDay,
+    flightDateToStringNoYear,
     flightDateToStringShort,
     flightDateToStringTime,
     getAirportByIATA
@@ -84,8 +84,9 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
             departureDate: flight.itineraries[0].segments[0].departure.at,
             price: flight.price.total
         })
-        axiosFlyNow.post("flight/book", flights)
+        axiosFlyNow.post("flight/book", flights);
     }
+
     return (
         <div className={"flight-card component-box element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
             <div className={"d-flex flex-column w-100"}>
@@ -141,8 +142,8 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                                 {index === 0 ?
                                     <h4 className={"h5 text-center"}>Outbound {flightDateToStringShort(outboundStart)}</h4> :
                                     <h5 className={"h5 text-center"}>Return {flightDateToStringShort(returnStart)}</h5>}
-                                <table key={index}
-                                       className={"table table-sm table-transparent overflow-auto table-hover table-responsive-sm"}>
+                                <Table key={index} responsive
+                                       size={"sm"} hover className={"table-transparent"}>
                                     <tbody>
                                     <tr>
                                         <th>Origin</th>
@@ -174,7 +175,7 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                                         <td>{segment.carrierCode}{segment.number}</td>
                                     </tr>)}
                                     </tbody>
-                                </table>
+                                </Table>
                             </>
                         })}
                         <div className={"h5"}>

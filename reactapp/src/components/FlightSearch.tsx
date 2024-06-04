@@ -1,18 +1,15 @@
 import Flag from "react-flagkit";
 import Select from "react-select";
-import {capitalize, customStyles, getAirportByIATA} from "../utils/Utils";
+import {capitalize, customStyles} from "../utils/Utils";
 import pendingSearchIcon from "../static/infinite-spinner.svg";
 import {Alert} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import React, {useEffect, useState} from "react";
-import {
-    searchAirport,
-    searchAvailableDestinations,
-    searchFlightOffers
-} from "../services/AmadeusAPIService";
+import {searchAirport, searchAvailableDestinations, searchFlightOffers} from "../services/AmadeusAPIService";
 import {Dictionaries, Flight} from "./FlightCard";
 import {logSearchTerms} from "../services/FlyNowServiceAPI";
 import "../static/Search.css"
+import AsyncSelect from "react-select/async";
 
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
@@ -104,27 +101,52 @@ export default function FlightSearch({
         }
     }, [destinationiataCode, destinationOptions]);
 
-    const originOptionsSearch = (inputValue: string) => {
+    /*const originOptionsSearch = (inputValue: string) => {
         let options: Route[] = [];
         setPendingOriginSearch(true);
         searchAirport(inputValue).then((response: any) => {
-            console.log(response.data)
-            response.data.data.map((originInfo: any, index: number) => {
+            let airports = response.data.data;
+            airports.map((airportInfo: any, index: number) => {
                 options.push({
                     value: index,
-                    // label: capitalize(originInfo.address.cityName) + ", " + capitalize(originInfo.name) + " (" + originInfo.iataCode + "), " + capitalize(originInfo.address.countryName),
-                    label: capitalize(originInfo.name) + " (" + originInfo.iataCode + "), " + capitalize(originInfo.address.countryName),
-                    cityName: originInfo.address.cityName,
-                    countryCode: originInfo.address.countryCode,
-                    iataCode: originInfo.iataCode,
-                    airport: originInfo.name
+                    label: capitalize(airportInfo.name) + " (" + airportInfo.iataCode + "), " + capitalize(airportInfo.address.countryName),
+                    cityName: airportInfo.address.cityName,
+                    countryCode: airportInfo.address.countryCode,
+                    iataCode: airportInfo.iataCode,
+                    airport: airportInfo.name
                 })
             });
+            console.log(options)
             setOriginOptions(options);
             if (options.length > 0)
                 setOrigin(options[0])
-        }).catch((e) => console.log(e)).finally(() => setPendingOriginSearch(false))
-    }
+        }).catch((e) => console.log(e)).finally(() => setPendingOriginSearch(false));
+    }*/
+    const originOptionsSearch = async (inputValue: string) => {
+        try {
+            setPendingOriginSearch(true);
+            const response = await searchAirport(inputValue);
+            const airports = response.data.data;
+            const options = airports.map((airportInfo: any, index: number) => ({
+                value: index,
+                label: capitalize(airportInfo.name) + " (" + airportInfo.iataCode + "), " + capitalize(airportInfo.address.countryName),
+                cityName: airportInfo.address.cityName,
+                countryCode: airportInfo.address.countryCode,
+                iataCode: airportInfo.iataCode,
+                airport: airportInfo.name
+            }));
+            setOriginOptions(options)
+            if (options.length > 0)
+                setOrigin(options[0])
+            return options;
+        } catch (error) {
+            console.log(error);
+            return [];
+        } finally{
+            setPendingOriginSearch(false);
+        }
+    };
+
     const destinationOptionsSearch = (origin: Route) => {
         let options: Route[] = [];
         setPendingDestSearch(true)
@@ -167,9 +189,9 @@ export default function FlightSearch({
             searchFlightOffers({origin, destination, departureDate, returnDate, adults, children, maxPrice, oneWay})
                 .then((response => {
                     setNoResultsAlert(true)
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         setNoResultsAlert(false);
-                    },2000);
+                    }, 2000);
                     setFlightList(response.data.data);
                     setDictionaries(response.data.dictionaries);
                 }))
@@ -189,7 +211,8 @@ export default function FlightSearch({
     return (
         <div className={"search component-box p-3 d-flex flex-column rounded-1"}>
             <div className={"d-flex search-options"}>
-                <div className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-center fs-5"}>
+                <div
+                    className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-center fs-5"}>
                     <div className={"w-100 d-flex flex-row justify-content-center gap-2"}>
                         <label>
                             <h5>Departure</h5>
@@ -200,6 +223,12 @@ export default function FlightSearch({
                                    onChange={(e) => {
                                        setDepartureDate(e.target.value)
                                    }}/>
+                            <div className="form-check">
+                                <input type={"radio"} className={"form-check-input"}
+                                       name={"oneWayCheck"}
+                                       onChange={(e) => setOneWay(true)} checked={oneWay}/>
+                                <label className={"form-check-label"}>One-Way</label>
+                            </div>
                         </label>
                         <label>
                             <h5>Return</h5>
@@ -207,55 +236,50 @@ export default function FlightSearch({
                                    type={"date"}
                                    min={departureDate} disabled={oneWay}
                                    onChange={(e) => setReturnDate(e.target.value)}/>
+                            <div className="form-check">
+                                <input type={"radio"} className={"form-check-input"}
+                                       name={"oneWayCheck"}
+                                       onChange={(e) => {
+                                           setOneWay(false);
+                                           setReturnDate('');
+                                       }}/>
+                                <label className={"form-check-label"}>Roundtrip</label>
+                            </div>
                         </label>
-                    </div>
-                    <div className={"w-100 d-flex flex-row justify-content-around gap-2"}>
-                        <div className="form-check">
-                            <input type={"radio"} className={"form-check-input"}
-                                   name={"oneWayCheck"}
-                                   onChange={(e) => setOneWay(true)} checked={oneWay}/>
-                            <label className={"form-check-label"}>One-Way</label>
-                        </div>
-                        <div className="form-check">
-                            <input type={"radio"} className={"form-check-input"}
-                                   name={"oneWayCheck"}
-                                   onChange={(e) => {
-                                       setOneWay(false);
-                                       setReturnDate('');
-                                   }}/>
-                            <label className={"form-check-label"}>Roundtrip</label>
-                        </div>
+
                     </div>
                 </div>
-                <div className={"location-select p-2 d-flex flex-column align-items-center justify-content-start gap-2"}>
+                <div
+                    className={"location-select p-2 d-flex flex-column align-items-center justify-content-start gap-2"}>
                     <label className={"fs-5"}>
                         Origin {origin && <Flag country={origin.countryCode}/>}
                     </label>
-                    <Select options={originOptions} className={"w-100"}
-                            onChange={(option) => {
-                                if (option) {
-                                    setOrigin(option)
-                                    destinationOptionsSearch(option)
-                                }
-                            }}
-                            styles={customStyles}
-                            value={origin ? origin : (originOptions && originOptions?.length > 0) ? originOptions[0] : undefined}
-                            onInputChange={(inputValue) => {
-                                if (inputValue.length >= 3) {
-                                    setOriginSearchTerm(inputValue);
-                                    originOptionsSearch(inputValue);
-                                    setDestinationOptions([]);
-                                    setDestination(undefined);
-                                }
-                            }}
-                            components={{
-                                Option: ({innerProps, label, data}) => (
-                                    <div className={"options"} {...innerProps}>
-                                        <span><Flag country={data.countryCode}/> {label}</span>
-                                    </div>)
-                            }}
+                    <AsyncSelect className={"w-100"} isLoading={pendingOriginSearch} defaultOptions={originOptions}
+                                 loadOptions={(inputValue) => {
+                                     if (inputValue.length >= 3) {
+                                         setOriginSearchTerm(inputValue);
+                                         setDestinationOptions([]);
+                                         setDestination(undefined);
+                                         return originOptionsSearch(inputValue);
+                                     }
+                                 }}
+                                 onChange={(option) => {
+                                     if (option) {
+                                         setOrigin(option)
+                                         destinationOptionsSearch(option)
+                                     }
+                                 }}
+                                 styles={customStyles}
+                                 value={origin ? origin : (originOptions && originOptions?.length > 0) ? originOptions[0] : undefined}
+                                 components={{
+                                     Option: ({innerProps, label, data}) => (
+                                         <div className={"options"} {...innerProps}>
+                                             <span><Flag country={data.countryCode}/> {label}</span>
+                                         </div>)
+                                 }}
                     />
-                    <label className={"fs-5"}>Destination {destination && <Flag country={destination.countryCode}/>}</label>
+                    <label className={"fs-5"}>Destination {destination &&
+                        <Flag country={destination.countryCode}/>}</label>
                     {!pendingDestSearch ? destinationOptions && destinationOptions?.length > 0 ?
                             <Select options={destinationOptions} className={"w-100"}
                                     onChange={(option) => {
@@ -272,14 +296,14 @@ export default function FlightSearch({
                             /> : <Select className={"w-100"} isDisabled={true} styles={customStyles}/> :
                         <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
                 </div>
-                <div className={"settings p-2 d-flex flex-column align-items-start justify-content-start"}>
+                <div className={"settings p-2 d-flex flex-column align-items-center justify-content-start"}>
+                    <label>
+                        <h5>Max Price {maxPrice + '\u20AC'} </h5>
+                        <input className={"form-range"} type={"range"} min={5} max={1000} value={maxPrice}
+                               onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
+                    </label>
                     <div
-                        className={"passenger-selection d-flex flex-column gap-2 align-items-center justify-content-start"}>
-                        <label>
-                            <h5>Max Price {maxPrice + '\u20AC'} </h5>
-                            <input className={"form-range"} type={"range"} min={5} max={1000} value={maxPrice}
-                                   onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
-                        </label>
+                        className={"d-flex passenger-selection gap-2 align-items-center justify-content-start"}>
                         <label>
                             <h5>Adults</h5>
                             <input className={"form-control"} type={"number"}

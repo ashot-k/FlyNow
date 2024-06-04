@@ -4,7 +4,7 @@ import React from "react";
 import {SearchInfo} from "./FlightSearch";
 
 
-export default function SearchInfoHeader({...searchInfo}: SearchInfo){
+export default function SearchInfoHeader({...searchInfo}: SearchInfo) {
     const scroll = () => {
         const navBar = document.querySelector('#navBar');
         if (navBar)
@@ -35,7 +35,7 @@ export default function SearchInfoHeader({...searchInfo}: SearchInfo){
                 </span>
             <div className={"fs-4 d-flex flex-column justify-content-center align-items-center"}>
                 {departureDate &&
-                    <span >Outbound: {new Date(departureDate).toLocaleDateString("en-GB")}</span>}
+                    <span>Outbound: {new Date(departureDate).toLocaleDateString("en-GB")}</span>}
                 {returnDate && <span>Return: {new Date(returnDate).toLocaleDateString("en-GB")}</span>}
             </div>
         </div>
