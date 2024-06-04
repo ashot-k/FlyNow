@@ -4,7 +4,7 @@ import {Alert} from "react-bootstrap";
 import {register} from "../services/FlyNowServiceAPI";
 import {useNavigate} from 'react-router-dom'
 
-export default function Register(){
+export default function Register() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [pendingRegister, setPendingRegister] = useState<boolean>(false);
@@ -13,7 +13,7 @@ export default function Register(){
     const [responseMessage, setResponseMessage] = useState<string>('');
     const navigate = useNavigate();
 
-    function handleRegistration(e: React.FormEvent){
+    function handleRegistration(e: React.FormEvent) {
         e.preventDefault();
         if ((username.trim() && password.trim())) {
             setPendingRegister(true);
@@ -23,7 +23,7 @@ export default function Register(){
                         setRegisterStatus(true)
                         setShowAlert(true);
                         setResponseMessage(r.message)
-                        setTimeout(()=> {
+                        setTimeout(() => {
                             navigate("/login");
                         }, 750);
                     } else {
@@ -43,6 +43,7 @@ export default function Register(){
                 });
         }
     }
+
     return (
         <form onSubmit={handleRegistration}
               className={"d-flex flex-column w-25 login p-3 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-start"}>
@@ -57,7 +58,8 @@ export default function Register(){
             </label>
 
             <Button variant={"btn"} className={"w-25"} type={"submit"}>Sign up</Button>
-            <Alert variant={registerStatus ? "success" : "danger"} show={!pendingRegister && showAlert}>{responseMessage}</Alert>
+            <Alert variant={registerStatus ? "success" : "danger"}
+                   show={!pendingRegister && showAlert}>{responseMessage}</Alert>
         </form>
     )
 }

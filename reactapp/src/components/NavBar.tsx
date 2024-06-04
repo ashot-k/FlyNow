@@ -15,22 +15,24 @@ export const NavBar = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="w-100 d-flex align-items-center justify-content-between gap-2">
                         <div className={"d-flex "}>
-                        <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
-                        {userData?.username && <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link>}
+                            <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
+                            {userData?.username && <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link>}
                         </div>
                         <div className={"d-flex gap-2 "}>
-                        {!userData?.username &&
-                            <Nav.Link as={Link} className={"btn btn-outline-dark"}  to={"/login"}>Login</Nav.Link>}
-                        {!userData?.username &&
-                            <Nav.Link as={Link} className={"btn btn-outline-dark"} to={"/register"}>Register</Nav.Link>}
-                        {userData?.username && <div className={"d-flex gap-3"}>
-                        <NavbarText className={"text-white"}>Logged in as <span className={"fw-bold"}>{userData?.username}</span>
-                        </NavbarText>
-                            <Button variant={"outline-danger"}  onClick={() => {
-                                removeFlyNowTokenFromStorage();
-                                window.location.href = "/"
-                            }}>Logout</Button>
-                        </div>}
+                            {!userData?.username &&
+                                <Nav.Link as={Link} className={"btn btn-outline-dark"} to={"/login"}>Login</Nav.Link>}
+                            {!userData?.username &&
+                                <Nav.Link as={Link} className={"btn btn-outline-dark"}
+                                          to={"/register"}>Register</Nav.Link>}
+                            {userData?.username && <div className={"d-flex gap-3"}>
+                                <NavbarText className={"text-white"}>Logged in as <span
+                                    className={"fw-bold"}>{userData?.username}</span>
+                                </NavbarText>
+                                <Button variant={"outline-danger"} onClick={() => {
+                                    removeFlyNowTokenFromStorage();
+                                    window.location.href = "/"
+                                }}>Logout</Button>
+                            </div>}
                         </div>
                     </Nav>
                 </Navbar.Collapse>
