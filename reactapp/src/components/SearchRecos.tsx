@@ -11,7 +11,7 @@ export interface SearchReco {
     destination: string;
 }
 
-interface SearchRecoProps{
+interface SearchRecoProps {
     onSearchRecoSelect: (searchReco: SearchReco) => void;
 }
 
@@ -25,33 +25,34 @@ export default function SearchRecos({onSearchRecoSelect}: SearchRecoProps) {
     useEffect(() => {
     }, [recos]);
 
-    function searchRecoSelection(searchReco: SearchReco){
+    function searchRecoSelection(searchReco: SearchReco) {
         onSearchRecoSelect(searchReco);
     }
 
     return (
-       <> {recos?.length > 0 ? <div className={"w-100 p-2"}>
+        <> {recos?.length > 0 ? <div className={"w-100 p-2"}>
             <h3>Search again</h3>
             <div className={"w-100 d-flex flex-wrap gap-3"}>
                 {recos?.map((reco, index) => (
                     <div key={index}
                          className={"search-reco component-box p-4 d-flex flex-column justify-content-center align-items-center"}>
-                        <Button variant={"btn app-btn"} className={"w-100 p-2 ps-3 pe-3 d-flex gap-2 fw-bold fs-6 justify-content-center"}
+                        <Button variant={"btn app-btn"}
+                                className={"w-100 p-2 ps-3 pe-3 d-flex gap-2 fw-bold fs-6 justify-content-center"}
                                 onClick={() => searchRecoSelection(reco)}>
                             <Flag size={24}
-                                country={countryCodes.find(row => row.iata === reco.origin)?.iso}/>
+                                  country={countryCodes.find(row => row.iata === reco.origin)?.iso}/>
                             <span>{getAirportByIATA(reco.origin)?.city}</span>
                             {/*, {getAirportByIATA(reco.origin)?.country}*/}
                             <img src={ArrowRight} width={'24px'} alt={''}/>
                             <Flag size={24}
-                                country={countryCodes.find(row => row.iata === reco.destination)?.iso}/>
+                                  country={countryCodes.find(row => row.iata === reco.destination)?.iso}/>
                             <span>{getAirportByIATA(reco.destination)?.city}</span>
-                                {/*, {getAirportByIATA(reco.destination)?.country}*/}
+                            {/*, {getAirportByIATA(reco.destination)?.country}*/}
                         </Button>
                     </div>
                 ))}
             </div>
-        </div>: <></>}
-       </>
+        </div> : <></>}
+        </>
     )
 }

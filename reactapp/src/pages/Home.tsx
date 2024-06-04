@@ -1,13 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
-import FlightSearch, {FlightSearchData, Route} from "../components/FlightSearch";
+import FlightSearch, {FlightSearchData} from "../components/FlightSearch";
 import SearchInfoHeader from "../components/SearchInfoHeader";
 import {FlightList} from "../components/FlightList";
 import {axiosAmadeus, getToken} from "../services/AmadeusAPIService";
-import {DestinationActivities} from "../components/DestinationActivities";
 import FlightListFilters from "../components/FlightListFilters";
 import {Flight} from "../components/FlightCard";
 import SearchRecos, {SearchReco} from "../components/SearchRecos";
-import FlightDestinationRecos from "../components/FlightDestinationRecos";
 import {
     checkIfExpired,
     getAmadeusTokenFromStorage,
@@ -81,21 +79,22 @@ function Home() {
                 </div>
                 {(searchResults ? <>
                     <SearchInfoHeader {...searchResults.searchInfo}/>
-
                     <div className={"w-100 d-flex flex-row justify-content-center"}>
-                        <div className={"w-75 d-flex flight-search-results justify-content-center p-1"}>
-                            <div className={"w-25"}>
-                                {flightList?.length > 0 && <FlightListFilters flightList={searchResults.flightList} dictionaries={searchResults.dictionaries}
-                                   filter={setFilters}/>}
+                        <div className={"flight-search-results d-flex  justify-content-center p-2 gap-4"}>
+                            <div className={"flight-list-filters-container"}>
+                                {flightList?.length > 0 && <FlightListFilters flightList={searchResults.flightList}
+                                                                              dictionaries={searchResults.dictionaries}
+                                                                              filter={setFilters}/>}
                             </div>
                             {(flightList?.length > 0 ?
                                 <FlightList flightList={flightList}
-                                            dictionaries={searchResults.dictionaries}/> : <div className={"flight-list"}></div>)}
+                                            dictionaries={searchResults.dictionaries}/> :
+                                <div className={"flight-list"}></div>)}
                             <div className={"w-25"}>
                                 {/*<DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>*/}
                             </div>
-                            </div>
                         </div>
+                    </div>
                 </> : <></>)
                 }
             </> : <></>}

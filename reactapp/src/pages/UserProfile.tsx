@@ -1,7 +1,7 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import {AuthContext} from "../context";
 
-export default function UserProfile(){
+export default function UserProfile() {
 
     const userData = useContext(AuthContext);
 

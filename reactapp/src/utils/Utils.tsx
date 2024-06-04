@@ -22,14 +22,15 @@ export function getAmadeusTokenFromStorage(): Token | undefined {
     return undefined
 }
 
-export function saveAmadeusTokenToStorage(tokenObject: Token){
-    if(tokenObject){
+export function saveAmadeusTokenToStorage(tokenObject: Token) {
+    if (tokenObject) {
         localStorage.setItem("amadeus_token", tokenObject.token);
         localStorage.setItem("amadeus_token_expiration", tokenObject.expiration.toString());
         localStorage.setItem("amadeus_token_issuedAt", tokenObject.issued_at);
     }
 }
-export function getFlyNowTokenFromStorage(): Token | undefined{
+
+export function getFlyNowTokenFromStorage(): Token | undefined {
     let token = localStorage.getItem("flynow_token");
     let expiration = localStorage.getItem("flynow_token_expiration");
     let issuedAt = localStorage.getItem("flynow_token_issuedAt");
@@ -38,15 +39,15 @@ export function getFlyNowTokenFromStorage(): Token | undefined{
     return undefined
 }
 
-export function saveFlyNowTokenToStorage(tokenObject: Token){
-    if(tokenObject){
+export function saveFlyNowTokenToStorage(tokenObject: Token) {
+    if (tokenObject) {
         localStorage.setItem("flynow_token", "Bearer " + tokenObject.token);
         localStorage.setItem("flynow_token_expiration", tokenObject.expiration.toString());
         localStorage.setItem("flynow_token_issuedAt", tokenObject.issued_at);
     }
 }
 
-export function removeFlyNowTokenFromStorage(){
+export function removeFlyNowTokenFromStorage() {
     localStorage.removeItem("flynow_token");
     localStorage.removeItem("flynow_token_expiration");
     localStorage.removeItem("flynow_token_issuedAt");
@@ -84,17 +85,17 @@ export const customStyles = {
 };
 
 export function capitalize(str: string | undefined) {
-    if(!str) return;
+    if (!str) return;
     let capitalizedString = "";
     const words = str.split(" ");
     for (let i = 0; i < words.length; i++) {
         if (words[i]?.trim()) {
-            if(words[i].length > 2)
+            if (words[i].length > 2)
                 words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
             else
                 words[i] = words[i].toLowerCase();
             capitalizedString += words[i]
-            if(!(i === words.length - 1)){
+            if (!(i === words.length - 1)) {
                 capitalizedString += " ";
             }
 
@@ -138,6 +139,7 @@ export function flightDateToStringNoYear(date: string) {
     const str = new Date(date);
     return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes()) + " UTC";
 }
+
 export function flightDateToStringNoYearNoDay(date: string) {
     const str = new Date(date);
     return str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes()) + " UTC";

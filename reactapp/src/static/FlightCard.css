@@ -51,7 +51,7 @@
     min-width: 35%;
 }
 
-.book-btn, .search-btn, .app-btn{
+.book-btn, .search-btn, .app-btn {
     background-color: rgba(4, 215, 255, 0.39) !important;
 }
 
@@ -59,6 +59,6 @@ button:hover {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 5px #04D7FF !important;
 }
 
-.modal-dialog > *{
+.modal-dialog > * {
     background-color: #36373A !important;
 }
