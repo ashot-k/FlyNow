@@ -5,9 +5,14 @@
 
 - [x] Flight search using the AmadeusAPI
 - [x] Recommendations based on user location
+- [x] Flight recommendation based on previous searches/bookings
+- [ ] Result filtering
+- [ ] Tour planning
+- [ ] Hotel and car rental search
 - [x] Recommendations according to trends in destination area
 - [ ] Booked flight info storing on the FlyNow service
-- [x] Flight recommendation based on previous searches/bookings
-- [x] User registration to the FlyNow service
-- [ ] Flight booking using AmadeusAPI
+- [x] User authentication to the FlyNow service
+- [ ] User profile page
+- [ ] airline reviews and ratings
+- [ ] Flight booking and payment.
 
