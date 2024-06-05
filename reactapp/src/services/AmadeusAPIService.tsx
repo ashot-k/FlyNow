@@ -10,7 +10,8 @@ export const axiosAmadeus = axios.create({
 
 export async function getToken() {
     try {
-        const r = await axiosAmadeus.get("https://localhost:8079/amadeus/token", {headers: {Authorization: ""}});
+        //3.120.129.221
+        const r = await axiosAmadeus.get("https://3.120.129.221 :8079/amadeus/token", {headers: {Authorization: ""}});
         const token: Token = r.data;
         return token;
     } catch (e) {
