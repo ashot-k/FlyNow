@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -53,8 +54,8 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(request -> corsConfigurationSource().getCorsConfiguration(request)))
-                .csrf().disable()
+       // .requiresChannel(channel -> channel.anyRequest().requiresSecure()).cors(cors -> cors.configurationSource(request -> corsConfigurationSource().getCorsConfiguration(request)))
+        http.csrf().disable().cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/amadeus/token").permitAll().anyRequest().authenticated())
@@ -66,7 +67,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://192.168.1.64:3000", "http://172.17.80.1:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://192.168.1.64:3000", "http://172.17.80.1:3000", "http://3.74.56.55:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
 

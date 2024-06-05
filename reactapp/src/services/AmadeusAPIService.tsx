@@ -10,8 +10,9 @@ export const axiosAmadeus = axios.create({
 
 export async function getToken() {
     try {
-        //3.120.129.221
-        const r = await axiosAmadeus.get("https://3.120.129.221:8079/amadeus/token", {headers: {Authorization: ""}});
+        const flynowBaseURL = "http://" + process.env.REACT_APP_FLY_NOW_INSTANCE_IP + ":" + process.env.REACT_APP_FLY_NOW_INSTANCE_PORT;
+        const tokenURL = flynowBaseURL + "/amadeus/token";
+        const r = await axiosAmadeus.get(tokenURL, {headers: {Authorization: ""}});
         const token: Token = r.data;
         return token;
     } catch (e) {

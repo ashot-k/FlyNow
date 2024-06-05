@@ -5,9 +5,8 @@ export interface Credentials {
     username: string
     password: string
 }
-//3.120.129.221
 export const axiosFlyNow = axios.create({
-    baseURL: "https://3.120.129.221:8079/api"
+    baseURL: "http://" + process.env.REACT_APP_FLY_NOW_INSTANCE_IP + ":" + process.env.REACT_APP_FLY_NOW_INSTANCE_PORT + "/api"
 });
 
 export const register = async (userDetails: Credentials) => {
