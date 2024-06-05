@@ -57,7 +57,7 @@ export default function FlightDestinationRecos({originIata, date, onRecoSelect}:
                     {destinations.map((dest, index) => (
                         (getAirportByIATA(dest)?.iata && getAirportByIATA(dest)?.city && getAirportByIATA(dest)?.name != "All Airports") ?
                             <div key={index}
-                                 className={"component-box p-4 d-flex flex-column justify-content-center align-items-center"}>
+                                 className={"search-reco component-box p-4 d-flex flex-column justify-content-center align-items-center"}>
 
                                 <Button variant={"btn app-btn"} className={"w-100 p-2 ps-3 pe-3 d-flex gap-2 fw-bold fs-6 justify-content-center"} onClick={() => destSelection(dest)}>
                                     <Flag country={countryCodes.find(row => row.iata === dest)?.iso}/> {getAirportByIATA(dest)?.city}, {getAirportByIATA(dest)?.country}
