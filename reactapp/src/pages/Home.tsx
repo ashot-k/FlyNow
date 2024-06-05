@@ -14,6 +14,8 @@ import {
     Token
 } from "../utils/Utils";
 import {AuthContext} from "../context";
+import {DestinationActivities} from "../components/DestinationActivities";
+import FlightDestinationRecos from "../components/FlightDestinationRecos";
 
 function Home() {
     const [searchResults, setSearchResults] = useState<FlightSearchData>();
@@ -73,8 +75,8 @@ function Home() {
                 <FlightSearch onSearch={handleFlightSearch} originiataCode={originReco}
                               destinationiataCode={destinationReco ? destinationReco : ''}/>
                 <div className={"d-flex w-75 mt-3 gap-2 justify-content-center align-content-center"}>
-                    {/*  <FlightDestinationRecos originIata={userArea} date={"2017-01"}
-                                            onRecoSelect={handleSelectedDestReco}/>*/}
+                      <FlightDestinationRecos originIata={userArea} date={"2017-01"}
+                                            onRecoSelect={handleSelectedDestReco}/>
                     {userData?.username && <SearchRecos onSearchRecoSelect={handleSelectedSearchReco}/>}
                 </div>
                 {(searchResults ? <>
@@ -91,7 +93,7 @@ function Home() {
                                             dictionaries={searchResults.dictionaries}/> :
                                 <div className={"flight-list"}></div>)}
                             <div className={"w-25"}>
-                                {/*<DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>*/}
+                                <DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>
                             </div>
                         </div>
                     </div>
