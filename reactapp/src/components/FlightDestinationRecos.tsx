@@ -53,15 +53,15 @@ export default function FlightDestinationRecos({originIata, date, onRecoSelect}:
             {pending ? <img src={pendingSearchIcon} width={"25%"} height={"25%"}
                             alt={""}/> : (destinations?.length > 0 && <div className={'w-50 p-2'}>
                 <h3 className={''}>Popular destinations from your area</h3>
-                <div className={'d-flex gap-3 justify-content-center shadow-sm flex-wrap'}>
+                <div className={'w-100 d-flex flex-wrap gap-3'}>
                     {destinations.map((dest, index) => (
                         (getAirportByIATA(dest)?.iata && getAirportByIATA(dest)?.city && getAirportByIATA(dest)?.name != "All Airports") ?
                             <div key={index}
-                                 className={"w-25 component-box p-3 gap-2 d-flex flex-column justify-content-between"}>
-                                <h5><Flag
-                                    country={countryCodes.find(row => row.iata === dest)?.iso}/> {getAirportByIATA(dest)?.city}, {getAirportByIATA(dest)?.country}
-                                </h5>
-                                <Button variant={"primary"} onClick={() => destSelection(dest)}>Select</Button>
+                                 className={"component-box p-4 d-flex flex-column justify-content-center align-items-center"}>
+
+                                <Button variant={"btn app-btn"} className={"w-100 p-2 ps-3 pe-3 d-flex gap-2 fw-bold fs-6 justify-content-center"} onClick={() => destSelection(dest)}>
+                                    <Flag country={countryCodes.find(row => row.iata === dest)?.iso}/> {getAirportByIATA(dest)?.city}, {getAirportByIATA(dest)?.country}
+                                </Button>
                             </div> : <></>
                     ))}
                 </div>

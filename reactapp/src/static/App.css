@@ -77,6 +77,9 @@ body {
     .flight-search-results {
         width: 75%;
     }
+    .flight-list-filters-container{
+        width: 25%;
+    }
 
     .activities {
         width: 75%;
