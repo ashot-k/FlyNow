@@ -7,7 +7,7 @@ export interface Credentials {
 }
 
 export const axiosFlyNow = axios.create({
-    baseURL: "http://3.120.129.221:8079/api"
+    baseURL: "https://3.120.129.221:8079/api"
 });
 
 export const register = async (userDetails: Credentials) => {
