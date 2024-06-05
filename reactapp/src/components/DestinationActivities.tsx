@@ -44,6 +44,7 @@ export const DestinationActivities = ({dest}: Destination) => {
         activitiesInArea(airport.latitude, airport.longitude).then(r => {
             let data = r.data.data
             setRecos(data);
+            console.log(r.data)
             setPending(false)
         }).catch(e => console.log(e));
     }
