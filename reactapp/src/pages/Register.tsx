@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
 import {register} from "../services/FlyNowServiceAPI";
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 export default function Register() {
     const [username, setUsername] = useState<string>('');
@@ -56,8 +56,8 @@ export default function Register() {
                 <input className={"form-control"} type={"password"} placeholder={"Enter password"}
                        onChange={e => setPassword(e.target.value)}/>
             </label>
-
             <Button variant={"btn"} className={"w-25"} type={"submit"}>Sign up</Button>
+            <Link to={"/login"}>Already signed up? Log in</Link>
             <Alert variant={registerStatus ? "success" : "danger"}
                    show={!pendingRegister && showAlert}>{responseMessage}</Alert>
         </form>

@@ -12,7 +12,7 @@ import {useContext, useState} from "react";
 import {AuthContext} from "../context";
 import Button from "react-bootstrap/Button";
 import {axiosFlyNow} from "../services/FlyNowServiceAPI";
-
+import {useNavigate} from "react-router-dom";
 export interface Flight {
     itineraries: {
         segments: {
@@ -56,7 +56,7 @@ interface FlightCardProps {
 
 const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
     const userData = useContext(AuthContext);
-
+    const navigate = useNavigate();
     const outboundStart = flight.itineraries[0]?.segments[0].departure.at;
     const outboundEnd = flight.itineraries[0]?.segments[flight.itineraries[0].segments.length - 1].arrival.at;
 
@@ -64,16 +64,14 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
     const returnEnd = flight.itineraries[1]?.segments[flight.itineraries[1].segments.length - 1].arrival.at;
 
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     function bookConfirmModal(flight: Flight) {
         handleShow();
         if (!userData?.username) {
-            window.location.href = "/login";
+            navigate("/login")
         }
-        console.log(flight);
         let flights = [];
 
         flights.push({
@@ -84,7 +82,10 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
             departureDate: flight.itineraries[0].segments[0].departure.at,
             price: flight.price.total
         })
-        axiosFlyNow.post("flight/book", flights);
+        axiosFlyNow.post("flight/book", flights).then(r=> {
+            if(r.status === 200)
+                handleClose();
+        });
     }
 
     return (
