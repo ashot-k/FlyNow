@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
 import {login} from "../services/FlyNowServiceAPI";
+import {Link} from "react-router-dom";
 
 interface LoginProps {
     onLogin: (token: string) => void;
@@ -57,6 +58,7 @@ export default function Login() {
             </label>
             <Button variant={"btn"} className={""} type={"submit"}
                     disabled={!(username.trim().length > 0 && password.trim().length > 0)}>Login</Button>
+            <Link to={"/register"}>New? Sign up here</Link>
             <Alert variant={loginStatus ? "success" : "danger"} show={!pendingLogin && showAlert}>{
                 loginStatus ? "Successful Login" : "Wrong Credentials"}
             </Alert>

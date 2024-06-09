@@ -74,7 +74,7 @@ function Home() {
             {(amadeusToken?.token && amadeusToken?.token.length > 0) ? <>
                 <FlightSearch onSearch={handleFlightSearch} originiataCode={originReco}
                               destinationiataCode={destinationReco ? destinationReco : ''}/>
-                <div className={"d-flex w-75 mt-3 gap-2 justify-content-center align-content-center"}>
+                <div className={"d-flex w-75 mt-3 gap-2 justify-content-start align-content-center"}>
                       <FlightDestinationRecos originIata={userArea} date={"2017-01"}
                                             onRecoSelect={handleSelectedDestReco}/>
                     {userData?.username && <SearchRecos onSearchRecoSelect={handleSelectedSearchReco}/>}
