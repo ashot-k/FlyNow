@@ -46,21 +46,20 @@ export default function Login() {
 
     return (
         <form onSubmit={handleLogin}
-              className={"w-25 login p-3 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-center"}>
+              className={"login-page p-3 pb-4 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-center"}>
             <h3>Login</h3>
-            <label>Username
-                <input className={"form-control"} type={"text"} placeholder={"Enter username"}
+            <div className={"w-100 d-flex flex-column align-items-center gap-2"}>
+                <label className={"w-50"}>Username</label>
+                <input className={"form-control w-50"} type={"text"} placeholder={"Enter username"}
                        onChange={e => setUsername(e.target.value)}/>
-            </label>
-            <label>Password
-                <input className={"form-control"} type={"password"} placeholder={"Enter password"}
+                <label className={"w-50"}>Password</label>
+                <input className={"form-control w-50"} type={"password"} placeholder={"Enter password"}
                        onChange={e => setPassword(e.target.value)}/>
-            </label>
-            <Button variant={"btn"} className={""} type={"submit"}
-                    disabled={!(username.trim().length > 0 && password.trim().length > 0)}>Login</Button>
-            <Link to={"/register"}>New? Sign up here</Link>
-            <Alert variant={loginStatus ? "success" : "danger"} show={!pendingLogin && showAlert}>{
-                loginStatus ? "Successful Login" : "Wrong Credentials"}
+            </div>
+            <Button variant={"btn"} className={"w-50 rounded-5"} type={"submit"}>Login</Button>
+            <span>New here? <Link to={"/register"}>Sign up</Link></span>
+            <Alert variant={loginStatus ? "success" : "danger"}
+                   show={!pendingLogin && showAlert}>{loginStatus ? "Successful Login" : "Wrong Credentials"}
             </Alert>
         </form>
     )

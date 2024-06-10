@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
 import {register} from "../services/FlyNowServiceAPI";
@@ -12,6 +12,10 @@ export default function Register() {
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [responseMessage, setResponseMessage] = useState<string>('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setShowAlert(false);
+    }, [username, password]);
 
     function handleRegistration(e: React.FormEvent) {
         e.preventDefault();
@@ -29,7 +33,6 @@ export default function Register() {
                     } else {
                         setRegisterStatus(false);
                         setShowAlert(true);
-                        console.log(r.response.data)
                         setResponseMessage(r);
                     }
                     setPendingRegister(false)
@@ -46,20 +49,20 @@ export default function Register() {
 
     return (
         <form onSubmit={handleRegistration}
-              className={"d-flex flex-column w-25 login p-3 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-start"}>
+              className={"register-page p-3 pb-4 element-shadow mt-3 gap-3 d-flex flex-column align-items-center justify-content-center"}>
             <h3>Register</h3>
-            <label>Username
-                <input className={"form-control"} type={"text"} placeholder={"Enter username"}
+            <div className={"w-100 d-flex flex-column align-items-center gap-2"}>
+                <label className={"w-50"}>Username</label>
+                <input className={"form-control w-50"} type={"text"} placeholder={"Enter username"}
                        onChange={e => setUsername(e.target.value)}/>
-            </label>
-            <label>Password
-                <input className={"form-control"} type={"password"} placeholder={"Enter password"}
+
+                <label className={"w-50"}>Password</label>
+                <input className={"form-control w-50"} type={"password"} placeholder={"Enter password"}
                        onChange={e => setPassword(e.target.value)}/>
-            </label>
-            <Button variant={"btn"} className={"w-25"} type={"submit"}>Sign up</Button>
-            <Link to={"/login"}>Already signed up? Log in</Link>
-            <Alert variant={registerStatus ? "success" : "danger"}
-                   show={!pendingRegister && showAlert}>{responseMessage}</Alert>
+            </div>
+            <Button variant={"btn"} className={"w-50 rounded-5"} type={"submit"}>Sign up</Button>
+            <span>Already signed up? <Link to={"/login"}>Log in</Link></span>
+            <Alert variant={registerStatus ? "success" : "danger"} show={!pendingRegister && showAlert}>{responseMessage}</Alert>
         </form>
     )
 }

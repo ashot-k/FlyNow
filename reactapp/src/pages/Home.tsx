@@ -5,7 +5,7 @@ import {FlightList} from "../components/FlightList";
 import {axiosAmadeus, getToken} from "../services/AmadeusAPIService";
 import FlightListFilters from "../components/FlightListFilters";
 import {Flight} from "../components/FlightCard";
-import SearchRecos, {SearchReco} from "../components/SearchRecos";
+import UserSearchesRecos, {SearchReco} from "../components/UserSearchesRecos";
 import {
     checkIfExpired,
     getAmadeusTokenFromStorage,
@@ -19,6 +19,7 @@ import FlightDestinationRecos from "../components/FlightDestinationRecos";
 
 function Home() {
     const [searchResults, setSearchResults] = useState<FlightSearchData>();
+    //hardcoded due to AmadeusAPI test version limitations
     const userArea = "MAD";
     const [originReco, setOriginReco] = useState<string>(userArea);
     const [destinationReco, setDestinationReco] = useState<string>();
@@ -70,14 +71,14 @@ function Home() {
     }, [amadeusToken]);
 
     return (
-        <div className="d-flex w-100 flex-column gap-3 align-items-center">
+        <div className="d-flex home p-1 flex-column gap-3 align-items-center">
             {(amadeusToken?.token && amadeusToken?.token.length > 0) ? <>
                 <FlightSearch onSearch={handleFlightSearch} originiataCode={originReco}
                               destinationiataCode={destinationReco ? destinationReco : ''}/>
-                <div className={"d-flex w-75 mt-3 gap-2 justify-content-start align-content-center"}>
+                <div className={"d-flex w-100 mt-3 gap-2 justify-content-start align-content-center"}>
                       <FlightDestinationRecos originIata={userArea} date={"2017-01"}
                                             onRecoSelect={handleSelectedDestReco}/>
-                    {userData?.username && <SearchRecos onSearchRecoSelect={handleSelectedSearchReco}/>}
+                    {userData?.username && <UserSearchesRecos onSearchRecoSelect={handleSelectedSearchReco}/>}
                 </div>
                 {(searchResults ? <>
                     <SearchInfoHeader {...searchResults.searchInfo}/>

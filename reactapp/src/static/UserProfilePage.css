@@ -1,0 +1,13 @@
+
+.user-profile-page{
+}
+@media only screen and (max-width: 900px) {
+    .user-profile-page{
+        width: 100%;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    .user-profile-page{
+        width: 50%;
+    }
+}

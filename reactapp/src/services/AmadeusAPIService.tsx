@@ -33,11 +33,11 @@ axiosAmadeus.interceptors.response.use((response) => {
     const originalRequest = error.config;
 
     if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
+       /* originalRequest._retry = true;
         const tokenObject = await getToken();
         saveAmadeusTokenToStorage(tokenObject);
         axiosAmadeus.defaults.headers.common['Authorization'] = 'Bearer ' + tokenObject.token;
-        return axiosAmadeus(originalRequest);
+        return axiosAmadeus(originalRequest);*/
     }
     return Promise.reject(error);
 });

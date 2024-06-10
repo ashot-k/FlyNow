@@ -61,7 +61,7 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
                                     });
                                 }}
                             />
-                            <label className={"fs-5"}>{capitalize(airline)}</label>
+                            <label className={"fs-6"}>{capitalize(airline)}</label>
                         </div>
                     ))}
                 </div>
