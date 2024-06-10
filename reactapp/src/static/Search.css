@@ -1,15 +1,15 @@
 
 .search {
     margin-top: 60px;
-    width: 75%;
+    width: 100%;
+    button, button:hover {
+        background-color: rgba(4, 215, 255, 0.40);
+    }
 }
 
 @media only screen and (max-width: 900px) {
-    .search {
-        width: 100%;
-    }
-
     .search-options {
+        gap: 0.5rem;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -67,12 +67,12 @@
 }
 
 .options {
-    background-color: #36373A;
+    background-color: #242529;
     padding: 5px 15px;
 }
 
 .options:nth-child(even) {
-    background-color: rgb(104, 105, 108, 0.1);
+    background-color: rgb(12, 12, 14, 0.1);
 }
 
 .options:hover {

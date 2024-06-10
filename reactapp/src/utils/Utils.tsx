@@ -70,7 +70,7 @@ export const customStyles = {
         ...provided,
         paddingTop: '8px', /* Add top padding to create a gap */
         paddingBottom: '8px',
-        background: '#36373A',
+        background: '#242529',
         color: 'white',
         zIndex: '5'
     }),

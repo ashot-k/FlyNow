@@ -5,6 +5,7 @@ import pendingSearchIcon from "../static/infinite-spinner.svg";
 import Flag from "react-flagkit";
 import countryCodes from "../utils/countryCodes.json"
 import Button from "react-bootstrap/Button";
+import '../static/SearchRecos.css'
 
 interface Info {
     originIata: string,
@@ -51,16 +52,19 @@ export default function FlightDestinationRecos({originIata, date, onRecoSelect}:
     return (
         <>
             {pending ? <img src={pendingSearchIcon} width={"25%"} height={"25%"}
-                            alt={""}/> : (destinations?.length > 0 && <div className={'w-50 p-2'}>
+                            alt={""}/> : (destinations?.length > 0 && <div className={'search-reco-container p-2'}>
                 <h3 className={''}>Popular destinations from your area</h3>
                 <div className={'w-100 d-flex flex-wrap gap-3'}>
                     {destinations.map((dest, index) => (
                         (getAirportByIATA(dest)?.iata && getAirportByIATA(dest)?.city && getAirportByIATA(dest)?.name != "All Airports") ?
                             <div key={index}
-                                 className={"search-reco component-box p-4 d-flex flex-column justify-content-center align-items-center"}>
-
-                                <Button variant={"btn app-btn"} className={"w-100 p-2 ps-3 pe-3 d-flex gap-2 fw-bold fs-6 justify-content-center"} onClick={() => destSelection(dest)}>
-                                    <Flag country={countryCodes.find(row => row.iata === dest)?.iso}/> {getAirportByIATA(dest)?.city}, {getAirportByIATA(dest)?.country}
+                                 className={"search-reco component-box p-2 ps-3 pe-3 d-flex flex-column justify-content-center align-items-center"}>
+                                <Button variant={"btn"}
+                                        className={"w-100 p-2 ps-3 pe-3 d-flex gap-2 fw-bold fs-6 justify-content-center rounded-2"}
+                                        onClick={() => destSelection(dest)}>
+                                    <Flag
+                                        size={24}
+                                        country={countryCodes.find(row => row.iata === dest)?.iso}/> {getAirportByIATA(dest)?.city}, {getAirportByIATA(dest)?.country}
                                 </Button>
                             </div> : <></>
                     ))}

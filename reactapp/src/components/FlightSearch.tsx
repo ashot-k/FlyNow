@@ -101,27 +101,6 @@ export default function FlightSearch({
         }
     }, [destinationiataCode, destinationOptions]);
 
-    /*const originOptionsSearch = (inputValue: string) => {
-        let options: Route[] = [];
-        setPendingOriginSearch(true);
-        searchAirport(inputValue).then((response: any) => {
-            let airports = response.data.data;
-            airports.map((airportInfo: any, index: number) => {
-                options.push({
-                    value: index,
-                    label: capitalize(airportInfo.name) + " (" + airportInfo.iataCode + "), " + capitalize(airportInfo.address.countryName),
-                    cityName: airportInfo.address.cityName,
-                    countryCode: airportInfo.address.countryCode,
-                    iataCode: airportInfo.iataCode,
-                    airport: airportInfo.name
-                })
-            });
-            console.log(options)
-            setOriginOptions(options);
-            if (options.length > 0)
-                setOrigin(options[0])
-        }).catch((e) => console.log(e)).finally(() => setPendingOriginSearch(false));
-    }*/
     const originOptionsSearch = async (inputValue: string) => {
         try {
             setPendingOriginSearch(true);
@@ -209,7 +188,7 @@ export default function FlightSearch({
     }
 
     return (
-        <div className={"search component-box p-3 d-flex flex-column rounded-1"}>
+        <div className={"search gap-3 component-box p-3 d-flex flex-column rounded-1"}>
             <div className={"d-flex search-options"}>
                 <div
                     className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-center fs-5"}>
@@ -250,7 +229,7 @@ export default function FlightSearch({
                     </div>
                 </div>
                 <div
-                    className={"location-select p-2 d-flex flex-column align-items-center justify-content-start gap-2"}>
+                    className={"location-select p-2 d-flex flex-column align-items-center justify-content-start gap-3"}>
                     <label className={"fs-5"}>
                         Origin {origin && <Flag country={origin.countryCode}/>}
                     </label>
@@ -319,7 +298,7 @@ export default function FlightSearch({
                     </div>
                 </div>
             </div>
-            <div className={"w-100 d-flex flex-column justify-content-center align-items-center"}>
+            <div className={"w-100 d-flex flex-column justify-content-center align-items-center gap-3"}>
                 <Alert variant={"danger"}
                        show={originSearchTerm.length > 0 && !originOptions?.length && !pendingOriginSearch}>No
                     available origin</Alert>
@@ -329,12 +308,12 @@ export default function FlightSearch({
                 <Alert variant={"danger"}
                        show={!pendingFlightSearch && flightList.length <= 0 && noResultsAlert}>No
                     available flights</Alert>
-                <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
+                <div className={"w-50 d-flex justify-content-center align-items-center "}>
                     {origin && departureDate && destination && pendingFlightSearch ?
                         <img src={pendingSearchIcon} width={"35%"} height={"50%"}
                              alt={""}/> :
-                        <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn search-btn"}
-                                className={"w-25"} disabled={!checkIfSearchInfoEntered()}
+                        <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn"}
+                                className={"w-50 rounded-5"} disabled={!checkIfSearchInfoEntered()}
                                 onClick={searchFlights}>Search</Button>}
                     {/*<Button variant={"btn search-btn"} className={"w-25"}>Trip Planner</Button>*/}
                 </div>

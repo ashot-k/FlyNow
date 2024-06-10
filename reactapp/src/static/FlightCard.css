@@ -19,7 +19,6 @@
 }
 
 .flight-card {
-    background-color: #36373A !important;
     height: fit-content;
 }
 
@@ -41,7 +40,7 @@
 }
 
 .table-transparent tbody th, .table-transparent tbody td {
-    background-color: #36373A;
+    background-color: transparent;
     width: fit-content;
     min-width: 25%;
 }
@@ -52,7 +51,6 @@
 }
 
 .book-btn, .search-btn, .app-btn {
-    background-color: rgba(4, 215, 255, 0.39) !important;
 }
 
 button:hover {
