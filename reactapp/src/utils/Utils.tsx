@@ -1,6 +1,10 @@
 import airportData from "./airports.json";
 import axios from "axios";
 
+
+export const userArea = "MAD"
+
+
 export interface Token {
     expiration: number,
     issued_at: string,
@@ -53,6 +57,13 @@ export function removeFlyNowTokenFromStorage() {
     localStorage.removeItem("flynow_token_issuedAt");
 }
 
+export const checkIfExpired = (jwt: Token) => {
+    const issuedAt = new Date(jwt.issued_at);
+    const expirationTime = new Date(issuedAt).getTime() + jwt.expiration * 1000;
+    const currentTime = new Date().getTime();
+    return currentTime >= expirationTime
+}
+
 export const customStyles = {
     control: (provided: any) => ({
         ...provided,
@@ -64,7 +75,8 @@ export const customStyles = {
         '&:hover': {
             borderColor: '#04D7FF'
         },
-        borderColor: 'white'
+        borderColor: 'gray',
+        borderRadius: '10px',
     }),
     menu: (provided: any) => ({
         ...provided,
@@ -102,13 +114,6 @@ export function capitalize(str: string | undefined) {
         }
     }
     return capitalizedString;
-}
-
-export const checkIfExpired = (jwt: Token) => {
-    const issuedAt = new Date(jwt.issued_at);
-    const expirationTime = new Date(issuedAt).getTime() + jwt.expiration * 1000;
-    const currentTime = new Date().getTime();
-    return currentTime >= expirationTime
 }
 
 export function getAirportByIATA(iataCode: string) {

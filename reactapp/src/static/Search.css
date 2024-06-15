@@ -1,57 +1,34 @@
 
 .search {
     margin-top: 60px;
-    width: 100%;
     button, button:hover {
         background-color: rgba(4, 215, 255, 0.40);
     }
 }
 
 @media only screen and (max-width: 900px) {
-    .search-options {
-        gap: 0.5rem;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .date-select {
+    .search{
         width: 100%;
     }
-
-    .location-select {
+    .search-options{
+        gap: 2rem;
+    }
+    .date-select *{
         width: 100%;
     }
-
-    .settings {
+    .search-btn{
         width: 100%;
-    }
-    .passenger-selection{
-        flex-direction: row;
     }
 }
 
 @media only screen and (min-width: 1000px) {
-    .search-options {
-        align-items: start;
-        justify-content: space-around;
+    .search{
+        width: 75%;
+    }
+    .search-btn{
+        width: 50%;
     }
 
-    .date-select {
-        width: 25%;
-    }
-
-    .location-select {
-        width: 25%;
-    }
-
-    .settings {
-        width: 25%;
-    }
-
-    .passenger-selection{
-        flex-direction: column;
-    }
 }
 
 .search-info {
@@ -68,7 +45,7 @@
 
 .options {
     background-color: #242529;
-    padding: 5px 15px;
+    padding: 5px 15px
 }
 
 .options:nth-child(even) {

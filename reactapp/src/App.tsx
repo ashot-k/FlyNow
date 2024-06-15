@@ -19,7 +19,7 @@ function App() {
                 <ScrollToTop/>
                 <div data-bs-theme="dark">
                     <NavBar/>
-                    <div className={"App w-100 d-flex justify-content-center"}>
+                    <div className={"App d-flex justify-content-center"}>
                         <Routes>
                             <Route path="/" element={<Home/>}/>
                             {!user?.username && <Route path="/login" element={<Login/>}/>}

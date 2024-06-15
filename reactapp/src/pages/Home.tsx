@@ -2,105 +2,61 @@ import React, {useContext, useEffect, useState} from "react";
 import FlightSearch, {FlightSearchData} from "../components/FlightSearch";
 import SearchInfoHeader from "../components/SearchInfoHeader";
 import {FlightList} from "../components/FlightList";
-import {axiosAmadeus, getToken} from "../services/AmadeusAPIService";
 import FlightListFilters from "../components/FlightListFilters";
 import {Flight} from "../components/FlightCard";
-import UserSearchesRecos, {SearchReco} from "../components/UserSearchesRecos";
-import {
-    checkIfExpired,
-    getAmadeusTokenFromStorage,
-    removeAmadeusTokenFromStorage,
-    saveAmadeusTokenToStorage,
-    Token
+import { userArea
 } from "../utils/Utils";
-import {AuthContext} from "../context";
-import {DestinationActivities} from "../components/DestinationActivities";
-import FlightDestinationRecos from "../components/FlightDestinationRecos";
+import SearchSuggestions, {SearchSuggestion} from "../components/search-suggestions/SearchSuggestions";
+import useAmadeusToken from "../hooks/useAmadeusToken";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 function Home() {
     const [searchResults, setSearchResults] = useState<FlightSearchData>();
-    //hardcoded due to AmadeusAPI test version limitations
-    const userArea = "MAD";
-    const [originReco, setOriginReco] = useState<string>(userArea);
-    const [destinationReco, setDestinationReco] = useState<string>();
-    const [flightList, setFlightList] = useState<Flight[]>([]);
-
-    const userData = useContext(AuthContext);
-
-    const [amadeusToken, setAmadeusToken] = useState<Token | undefined>(undefined)
+    //hardcoded userArea due to AmadeusAPI test version limitations
+    const [originSuggestion, setOriginSuggestion] = useState<string>(userArea);
+    const [destinationSuggestion, setDestinationSuggestion] = useState<string>();
+    const [flightList, setFlightList] = useState<Flight[]>();
+    const amadeusToken = useAmadeusToken();
 
     const handleFlightSearch = (searchData: FlightSearchData) => {
         setSearchResults(searchData);
         setFlightList(searchData.flightList);
     }
-    const handleSelectedDestReco = (destination: string, originIata: string) => {
-        setOriginReco(userArea)
-        setDestinationReco(destination);
-    }
-
-    const handleSelectedSearchReco = (searchReco: SearchReco) => {
-        setOriginReco(searchReco.origin);
-        setDestinationReco(searchReco.destination);
+    const handleSelectedSuggestion = (suggestion: SearchSuggestion) => {
+        setOriginSuggestion(suggestion.originIATA)
+        setDestinationSuggestion(suggestion.destinationIATA);
     }
 
     const setFilters = (filteredFlightList: Flight[]) => {
         setFlightList(filteredFlightList);
     }
 
-    useEffect(() => {
-        if (!amadeusToken) {
-            let tokenObject = getAmadeusTokenFromStorage();
-            if (tokenObject) {
-                setAmadeusToken(tokenObject);
-                axiosAmadeus.defaults.headers.common.Authorization = "Bearer " + tokenObject.token;
-            } else {
-                console.log("token expired")
-                getToken().then(tokenObject => {
-                    if (tokenObject) {
-                        console.log(tokenObject)
-                        setAmadeusToken(tokenObject)
-                        axiosAmadeus.defaults.headers.common.Authorization = "Bearer " + tokenObject.token
-                        saveAmadeusTokenToStorage(tokenObject);
-                    }
-                }).catch((e) => console.log(e));
-            }
-        } else if (checkIfExpired(amadeusToken)) {
-            removeAmadeusTokenFromStorage();
-            setAmadeusToken(undefined);
-        }
-    }, [amadeusToken]);
-
     return (
-        <div className="d-flex home p-1 flex-column gap-3 align-items-center">
-            {(amadeusToken?.token && amadeusToken?.token.length > 0) ? <>
-                <FlightSearch onSearch={handleFlightSearch} originiataCode={originReco}
-                              destinationiataCode={destinationReco ? destinationReco : ''}/>
-                <div className={"d-flex w-100 mt-3 gap-2 justify-content-start align-content-center"}>
-                      <FlightDestinationRecos originIata={userArea} date={"2017-01"}
-                                            onRecoSelect={handleSelectedDestReco}/>
-                    {userData?.username && <UserSearchesRecos onSearchRecoSelect={handleSelectedSearchReco}/>}
-                </div>
-                {(searchResults ? <>
+        <div className="d-flex w-100 p-1 flex-column gap-3 align-items-center">
+            {amadeusToken?.token && amadeusToken?.token.length > 0 ? <>
+                <FlightSearch onSearch={handleFlightSearch} originiataCode={originSuggestion}
+                              destinationiataCode={destinationSuggestion ? destinationSuggestion : ''}/>
+                {/*<SearchSuggestions getSearchSuggestion={handleSelectedSuggestion}/>*/}
+                {searchResults  ? !searchResults.pending ? <>
                     <SearchInfoHeader {...searchResults.searchInfo}/>
                     <div className={"w-100 d-flex flex-row justify-content-center"}>
-                        <div className={"flight-search-results d-flex  justify-content-center p-2 gap-4"}>
+                        <div className={"flight-search-results d-flex  justify-content-center gap-4"}>
                             <div className={"flight-list-filters-container"}>
-                                {flightList?.length > 0 && <FlightListFilters flightList={searchResults.flightList}
+                                {!searchResults.pending && searchResults.flightList && <FlightListFilters flightList={searchResults.flightList}
                                                                               dictionaries={searchResults.dictionaries}
                                                                               filter={setFilters}/>}
                             </div>
-                            {(flightList?.length > 0 ?
+                            {(flightList && flightList?.length > 0 ?
                                 <FlightList flightList={flightList}
                                             dictionaries={searchResults.dictionaries}/> :
                                 <div className={"flight-list"}></div>)}
                             <div className={"w-25"}>
-                                <DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>
+                              {/*  <DestinationActivities dest={searchResults.searchInfo.destination.iataCode}/>*/}
                             </div>
                         </div>
                     </div>
-                </> : <></>)
-                }
-            </> : <></>}
+                </> : <LoadingAnimation width={"25%"} height={"25%"}/>: <></>}
+                </> : <></>}
         </div>
     );
 }

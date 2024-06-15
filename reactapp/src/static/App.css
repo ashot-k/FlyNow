@@ -7,12 +7,13 @@ svgs #04D7FF
 
 body {
     background-color: #202124 !important;
-    min-height: 1500px;
+    min-height: 1200px;
 }
 
 .App {
     color: #E8EAED !important;
 }
+
 .form-range::-webkit-slider-thumb {
     background-color: #04D7FF !important;
 }
@@ -42,56 +43,59 @@ body {
 }
 
 
-
 .login-page, .register-page {
     button, button:hover {
         background-color: rgba(4, 215, 255, 0.40);
     }
+
     background-color: #242529;
 }
 
 @media only screen and (max-width: 900px) {
-    .home{
-        width: 100%;
-    }
     .flight-list {
         width: 100%;
     }
-    .flight-list-container{
+
+    .flight-list-container {
         width: 100%;
     }
+
     .flight-search-results {
         flex-direction: column;
         width: 100%;
     }
+
     .activities {
         width: 100%;
     }
-    .register-page, .login-page{
+
+    .register-page, .login-page {
         width: 100%;
     }
 }
 
 @media only screen and (min-width: 1000px) {
-    .home{
-        width: 75%;
-    }
-    .flight-list-container{
+    .flight-list-container {
         width: 25%;
     }
+
     .flight-list {
         width: 50%;
     }
+
     .flight-search-results {
         width: 75%;
     }
-    .flight-list-filters-container{
+
+    .flight-list-filters-container {
         width: 25%;
     }
+
     .activities {
         width: 75%;
     }
-    .register-page, .login-page{
+
+    .register-page, .login-page {
         width: 30%;
     }
 }
@@ -105,6 +109,24 @@ body {
 
 .component-box:hover {
     box-shadow: 6px 6px 8px black;
+}
+
+.form-control {
+}
+
+.form-label {
+    position: absolute;
+    left: 0.7rem;
+    top: -1rem;
+    background-color: #242529;
+    transition: all 0.3s ease-in-out;
+    font-size: 1.15rem;
+}
+
+.form-control:focus + .form-label {
+    font-size: 1rem;
+    top: -0.8rem;
+    left: 0.8rem;
 }
 
 @keyframes fadeInAndMoveIn {
@@ -138,8 +160,12 @@ body {
     }
 }
 
-
-
+.airline-filter {
+    .airline-logo {
+        width: 1.5rem;
+        border-radius: 50%;
+    }
+}
 
 .element-shadow {
     box-shadow: 3px 2px 5px black;

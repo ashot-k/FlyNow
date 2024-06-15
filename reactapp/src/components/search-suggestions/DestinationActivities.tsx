@@ -1,8 +1,8 @@
-import {activitiesInArea} from "../services/AmadeusAPIService";
+import {activitiesInArea} from "../../services/AmadeusAPIService";
 import React, {useEffect, useState} from "react";
 import {Carousel} from "react-bootstrap";
-import pendingSearchIcon from "../static/infinite-spinner.svg";
-import {getAirportByIATA} from "../utils/Utils";
+import pendingSearchIcon from "../../static/infinite-spinner.svg";
+import {getAirportByIATA} from "../../utils/Utils";
 
 interface Destination {
     dest: string

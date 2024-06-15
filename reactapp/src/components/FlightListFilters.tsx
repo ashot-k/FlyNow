@@ -2,6 +2,7 @@ import {Dictionaries, Flight} from "./FlightCard";
 import React, {useEffect, useState} from "react";
 import {capitalize} from "../utils/Utils";
 
+import airlineData from '../utils/airlines.json';
 interface FlightListFilterProps {
     flightList: Flight[],
     dictionaries: Dictionaries
@@ -14,8 +15,10 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
     const [airlines, setAirlines] = useState<string[]>();
     const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
 
+
     useEffect(() => {
         let carriers = [];
+        if(!dictionaries) return;
         for (const carriersKey in dictionaries.carriers) {
             carriers.push(dictionaries.carriers[carriersKey]);
         }
@@ -23,7 +26,6 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
     }, [flightList, dictionaries]);
 
     useEffect(() => {
-        console.log(selectedAirlines)
         if (selectedAirlines?.length > 0)
             filterAirline();
         else
@@ -32,7 +34,6 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
 
     function filterAirline() {
         const filtered = flightList.filter((flight: Flight) => selectedAirlines.includes(dictionaries.carriers[flight.validatingAirlineCodes]));
-        console.log(filtered)
         filter(filtered);
     }
 
@@ -45,7 +46,7 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
                 <hr className={"w-100 m-1 m-auto"}/>
                 <div className={"w-100 d-flex flex-column align-items-start p-3"}>
                     {airlines?.map((airline, index) => (
-                        <div className={"d-flex justify-content-start align-items-center w-75 gap-2"}>
+                        <div className={"d-flex airline-filter p-1 justify-content-start align-items-center w-75 gap-2"}>
                             <input
                                 type="checkbox"
                                 key={index}
@@ -62,6 +63,8 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
                                 }}
                             />
                             <label className={"fs-6"}>{capitalize(airline)}</label>
+                            <img className={"airline-logo"}
+                                 src={airlineData.find(airlineInfo => airlineInfo.name.toLowerCase() === airline.toLowerCase())?.logo}/>
                         </div>
                     ))}
                 </div>
