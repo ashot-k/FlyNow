@@ -1,13 +1,13 @@
 import axios from "axios";
-import {Token} from "../utils/Utils";
+import {getAmadeusTokenFromStorage, saveAmadeusTokenToStorage, Token} from "../utils/Utils";
 
 const max = 25;
 
-export const axiosAmadeus = axios.create({
+const axiosAmadeus = axios.create({
     baseURL: "https://test.api.amadeus.com",
 });
 
-export async function getToken() {
+async function getToken() {
     try {
         const flynowBaseURL = "http://" + process.env.REACT_APP_FLY_NOW_INSTANCE_IP + ":" + process.env.REACT_APP_FLY_NOW_INSTANCE_PORT;
         const tokenURL = flynowBaseURL + "/amadeus/token";
@@ -21,7 +21,13 @@ export async function getToken() {
 }
 
 axiosAmadeus.interceptors.request.use(async function (config) {
-    return config;
+    if (config.url === "http://3.74.56.55:8079/amadeus/token") {
+        config.headers.Authorization = "";
+        return config;
+    } else {
+        config.headers.Authorization = "Bearer " + getAmadeusTokenFromStorage()?.token;
+        return config;
+    }
 }, function (error) {
     return Promise.reject(error);
 });
@@ -31,15 +37,20 @@ axiosAmadeus.interceptors.response.use((response) => {
 }, async function (error) {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-       /* originalRequest._retry = true;
-        const tokenObject = await getToken();
-        saveAmadeusTokenToStorage(tokenObject);
-        axiosAmadeus.defaults.headers.common['Authorization'] = 'Bearer ' + tokenObject.token;
-        return axiosAmadeus(originalRequest);*/
+    if (error.response.status === 401) {
+        try {
+            const response = await getToken();
+            const {token, expiration, issued_at} = response;
+            saveAmadeusTokenToStorage({token, expiration, issued_at});
+            const originalRequest = error.config;
+            return Promise.resolve(axiosAmadeus({...originalRequest}))
+        } catch (e) {
+            console.log(e);
+        }
     }
-    return Promise.reject(error);
+    return Promise.reject(error.response);
 });
+
 interface FlightSearchInfo {
     departureDate: string;
     oneWay: boolean;

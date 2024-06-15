@@ -7,7 +7,7 @@ import {
     flightDateToStringTime,
     getAirportByIATA
 } from "../utils/Utils";
-import ArrowRight from '../static/arrow-right.svg'
+import ArrowRight from '../static/assets/arrow-right.svg'
 import {useContext, useState} from "react";
 import {AuthContext} from "../context";
 import Button from "react-bootstrap/Button";
@@ -56,31 +56,34 @@ interface FlightCardProps {
     dictionaries: Dictionaries
 }
 
-const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
+export default function FlightCard({flight, dictionaries}: FlightCardProps) {
     const userData = useContext(AuthContext);
     const navigate = useNavigate();
     const outboundStart = flight.itineraries[0]?.segments[0].departure.at;
     const outboundEnd = flight.itineraries[0]?.segments[flight.itineraries[0].segments.length - 1].arrival.at;
 
-    const returnStart = flight.itineraries[1]?.segments[0].arrival.at;
+    const returnStart = flight.itineraries[1]?.segments[0].departure.at;
     const returnEnd = flight.itineraries[1]?.segments[flight.itineraries[1].segments.length - 1].arrival.at;
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const airlineInfo = airlines.find(airline => airline.name.toLowerCase() === dictionaries?.carriers[flight.validatingAirlineCodes].toLowerCase());
+    const airlineInfo = airlines.find(airline => airline.name.toLowerCase() === dictionaries?.carriers[flight.validatingAirlineCodes]?.toLowerCase());
+
+    let totalFlights = flight.itineraries[0].segments.length
+    if(flight.itineraries[1])
+        totalFlights += flight.itineraries[1].segments.length;
 
     function bookConfirmModal() {
         handleShow();
         if (!userData?.username) {
             navigate("/login")
         }
-
     }
-    function book(flight: Flight){
-        let flights = [];
 
+    function book(flight: Flight) {
+        let flights = [];
         flights.push({
             origin: flight.itineraries[0].segments[0].departure.iataCode,
             destination: flight.itineraries[flight.itineraries.length - 1]
@@ -89,34 +92,42 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
             departureDate: flight.itineraries[0].segments[0].departure.at,
             price: flight.price.total
         })
-        axiosFlyNow.post("flight/book", flights).then(r=> {
-            if(r.status === 200){
+        axiosFlyNow.post("flight/book", flights).then(r => {
+            if (r.status === 200) {
                 handleClose();
             }
         });
     }
+
     return (
-        <div className={"flight-card component-box element-shadow rounded-2 pb-3  d-flex flex-column gap-2"}>
-            <div className={"d-flex flex-column w-100 card-header align-content-between justify-content-between"}>
-                <div className={"d-flex align-items-center card-header"}>
-                    <img className={"airline-logo"} src={airlineInfo?.logo || "https://www.emme2servizi.it/wp-content/uploads/2020/12/no-image.jpg"} alt={"image unavailable"}/>
-                    <span className={"ps-3"}>{dictionaries.carriers[flight.validatingAirlineCodes]}</span>
+        <div className={"flight-card component-box element-shadow rounded-2 pb-3  d-flex flex-column gap-1"}>
+            <div className={"d-flex ps-2 pe-2 flex-column w-100 card-header align-content-between justify-content-between"}>
+                <div className={"w-100 d-flex align-items-center justify-content-between card-header"}>
+                    <div className={"w-75 d-flex align-items-center"}>
+                        <img className={"p-2 airline-logo rounded-circle"}
+                             src={airlineInfo?.logo || "https://www.emme2servizi.it/wp-content/uploads/2020/12/no-image.jpg"}
+                             alt={"image unavailable"}/>
+                        <span
+                            className={"w-75 ps-2 fs-5 fw-medium text-start overflow-auto"}>{dictionaries.carriers[flight.validatingAirlineCodes]} ({flight.validatingAirlineCodes})</span>
+                    </div>
+                    <div className={"p-2 d-flex flex-column justify-content-end fw-normal"}>
+                        <span className={'fs-6 text-end'}>Flights: {totalFlights}</span>
+                        <span className={'fs-6 text-end'}>Stops: {calculateStops(flight.itineraries[0].segments)}</span>
+                    </div>
                 </div>
-                <hr className={"w-100 m-0"}/>
             </div>
             <Accordion flush>
                 <Accordion.Item eventKey="0" className={'bg-transparent'}>
-                    <Accordion.Header className={'bg-transparent'}>
-                        <div className={"d-flex flex-column gap-4 align-items-center justify-content-start w-100"}>
+                    <Accordion.Header className={'bg-transparent according-header'}>
+                        <div className={"d-flex flex-column gap-3 align-items-center justify-content-start w-100"}>
                             {flight.itineraries[0] &&
-                                <div className={'d-grid gap-2 align-items-start w-100'}>
-                                    <div className={"d-flex justify-content-between"}>
+                                <div className={'d-grid gap-1 align-items-start'}>
+                                    <div className={"d-flex justify-content-center"}>
                                         <span className={"fs-5"}>Outbound
-                                        <span style={{color: "cornflowerblue"}}
-                                              className={'fs-5'}> {flightDateToStringShort(outboundStart)}  </span></span>
-                                        <span className={'fs-6'}>
-                                        Flights {flight.itineraries[0].segments.length} &
-                                        Stops {calculateStops(flight.itineraries[0].segments)}</span>
+                                            <span style={{color: "cornflowerblue"}}
+                                                  className={'fs-5'}> {flightDateToStringShort(outboundStart)}
+                                            </span>
+                                        </span>
                                     </div>
                                     <div className={"d-flex align-items-center justify-content-center gap-2"}>
                                         <span className={"fs-5"}> {flightDateToStringTime(outboundStart)}</span>
@@ -126,15 +137,14 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                                 </div>}
                             {flight.itineraries[1] &&
                                 <>
-                                    <hr className={"w-100 m-0"}/>
-                                    <div className={'d-grid gap-2 align-items-start w-100'}>
+                                    <hr className={"w-75  m-0"}/>
+                                    <div className={'d-grid gap-1 align-items-start'}>
                                         <div className={"d-flex justify-content-between"}>
-                                        <span className={"fs-5"}>Return
-                                        <span style={{color: "cornflowerblue"}}
-                                              className={'fs-5'}> {flightDateToStringShort(returnStart)}  </span></span>
-                                            <span className={'fs-6'}>
-                                        Flights {flight.itineraries[1].segments.length} &
-                                        Stops {calculateStops(flight.itineraries[1].segments)}</span>
+                                            <span className={"fs-5"}>Return
+                                                <span style={{color: "cornflowerblue"}}
+                                                      className={'fs-5'}> {flightDateToStringShort(returnStart)}
+                                                </span>
+                                            </span>
                                         </div>
                                         <div className={"d-flex align-items-center justify-content-center gap-2"}>
                                             <span className={"fs-5"}> {flightDateToStringTime(returnStart)}</span>
@@ -202,8 +212,13 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                         <Modal.Title>Booking Confirmation</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <h3>Flight </h3>
-                        <h5>Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}</h5>
+                        <div className={"w-75 d-flex align-items-center"}>
+                            <img className={"p-2 airline-logo rounded-circle"}
+                                 src={airlineInfo?.logo || "https://www.emme2servizi.it/wp-content/uploads/2020/12/no-image.jpg"}
+                                 alt={"image unavailable"}/>
+                            <span
+                                className={"w-75 ps-2 fs-5 fw-medium text-start overflow-auto"}>{dictionaries.carriers[flight.validatingAirlineCodes]} ({flight.validatingAirlineCodes})</span>
+                        </div>
                         {flight.itineraries.map((itinerary: any, index: any) => {
                             return <>
                                 {index === 0 ?
@@ -213,8 +228,9 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                                     <h4 className={"h5 text-center"}>Return <span
                                         style={{color: "cornflowerblue"}}>{flightDateToStringShort(returnStart)}</span>
                                     </h4>}
-                                <table key={index}
-                                       className={"table table-sm table-transparent overflow-auto table-hover table-responsive-sm"}>
+                                <div className={"overflow-auto"}>
+                                <Table key={index}
+                                       className={"table block table-transparent overflow-scroll table-hover fs-5"}>
                                     <tbody>
                                     <tr>
                                         <th>Origin</th>
@@ -246,7 +262,8 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                                         <td>{segment.carrierCode}{segment.number}</td>
                                     </tr>)}
                                     </tbody>
-                                </table>
+                                </Table>
+                                </div>
                             </>
                         })}
                         <div>
@@ -268,5 +285,3 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
         </div>
     );
 };
-
-export default FlightCard;

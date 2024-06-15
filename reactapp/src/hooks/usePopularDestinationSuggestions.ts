@@ -5,12 +5,12 @@ import {userArea} from "../context";
 
 export default function usePopularDestinationSuggestions(period: string) {
     const userOriginIATA = useContext(userArea);
-    /*const [pending, setPending] = useState(false);
+    const [pending, setPending] = useState(false);
     const [popularDestinations, setPopularDestinations] = useState<string[]>([])
 
     useEffect(() => {
         setPending(true);
-        searchMostTraveledDestinations({iataCode: userOriginIATA}, period)
+        searchMostTraveledDestinations(userOriginIATA, period)
             .then((r) => {
                 let destinations = [];
                 let data = r.data.data
@@ -25,8 +25,8 @@ export default function usePopularDestinationSuggestions(period: string) {
             })
             .catch(e => console.log(e))
             .finally(() => setPending(false))
-    }, []);*/
-    const pending = false
-    const popularDestinations = ["MAD", "BCN", "ATH", "KRW", "ABC", "BEG", "BLQ", "ASU", "MUC", "MEX"];
+    }, []);
+   /* const pending = false
+    const popularDestinations = ["MAD", "BCN", "ATH", "KRW", "ABC", "BEG", "BLQ", "ASU", "MUC", "MEX"];*/
     return {popularDestinations, pending};
 }

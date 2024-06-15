@@ -2,7 +2,7 @@ import Flag from "react-flagkit";
 import {capitalize} from "../utils/Utils";
 import React from "react";
 import {Route} from "./FlightSearch";
-
+import arrowRight from '../static/assets/arrow-right.svg';
 interface SearchInfoHeaderProps {
     departureDate: string;
     oneWay: boolean;
@@ -15,10 +15,11 @@ interface SearchInfoHeaderProps {
 }
 
 export default function SearchInfoHeader({...searchInfo}: SearchInfoHeaderProps) {
+
     const scroll = () => {
-        const navBar = document.querySelector('#navBar');
+        const navBar = document.getElementsByClassName('navbar');
         if (navBar)
-            navBar.scrollIntoView({behavior: 'smooth', block: 'start'});
+            navBar[0].scrollIntoView({behavior: 'smooth', block: 'start'});
     };
     let origin = searchInfo.origin;
     let destination = searchInfo.destination;
@@ -38,12 +39,12 @@ export default function SearchInfoHeader({...searchInfo}: SearchInfoHeaderProps)
                 </svg>
             </a>
             <span className={"fs-5 d-flex justify-content-center align-items-center gap-1"}>
-                    <Flag size={32} country={origin.countryCode}/> {capitalize(origin.cityName)} ({origin.iataCode})
-                {' '}-{' '}
-                <Flag size={32}
+                    <Flag className={"flag-img"} country={origin.countryCode}/> {capitalize(origin.cityName)} ({origin.iataCode})
+                <img src={arrowRight} width={'28px'} alt={''}/>
+                <Flag className={"flag-img"}
                       country={destination.countryCode}/> {capitalize(destination.cityName)} ({destination.iataCode})
                 </span>
-            <div className={"fs-4 d-flex flex-column justify-content-center align-items-center"}>
+            <div className={"fs-6 d-flex flex-column justify-content-center align-items-center"}>
                 {departureDate &&
                     <span>Outbound: {new Date(departureDate).toLocaleDateString("en-GB")}</span>}
                 {returnDate && <span>Return: {new Date(returnDate).toLocaleDateString("en-GB")}</span>}

@@ -46,7 +46,7 @@ export default function FlightListFilters({flightList, dictionaries, filter}: Fl
                 <hr className={"w-100 m-1 m-auto"}/>
                 <div className={"w-100 d-flex flex-column align-items-start p-3"}>
                     {airlines?.map((airline, index) => (
-                        <div className={"d-flex airline-filter p-1 justify-content-start align-items-center w-75 gap-2"}>
+                        <div className={"d-flex airline-filter p-1 justify-content-start align-items-center w-100 gap-2"}>
                             <input
                                 type="checkbox"
                                 key={index}

@@ -2,9 +2,10 @@ import Button from "react-bootstrap/Button";
 import Flag from "react-flagkit";
 import countryCodes from "../../utils/countryCodes.json";
 import {getAirportByIATA} from "../../utils/Utils";
-import ArrowRight from "../../static/arrow-right.svg";
+import ArrowRight from "../../static/assets/arrow-right.svg";
 import React from "react";
 import {SearchSuggestion} from "./SearchSuggestions";
+import '../../static/SearchSuggestions.css'
 
 interface UserSearchSuggestionProps {
     suggestion: SearchSuggestion,

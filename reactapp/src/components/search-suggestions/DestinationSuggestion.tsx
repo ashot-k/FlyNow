@@ -5,6 +5,7 @@ import {getAirportByIATA} from "../../utils/Utils";
 import React, {useContext} from "react";
 import {SearchSuggestion} from "./SearchSuggestions";
 import {userArea} from "../../context";
+import '../../static/SearchSuggestions.css'
 
 interface DestinationSuggestionProps {
     destIATA: string,

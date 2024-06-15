@@ -1,5 +1,11 @@
 import axios from "axios";
-import {saveFlyNowTokenToStorage, Token} from "../utils/Utils";
+import {
+    getAmadeusTokenFromStorage,
+    getFlyNowTokenFromStorage,
+    saveAmadeusTokenToStorage,
+    saveFlyNowTokenToStorage,
+    Token
+} from "../utils/Utils";
 
 export interface Credentials {
     username: string
@@ -9,11 +15,39 @@ export const axiosFlyNow = axios.create({
     baseURL: "http://" + process.env.REACT_APP_FLY_NOW_INSTANCE_IP + ":" + process.env.REACT_APP_FLY_NOW_INSTANCE_PORT + "/api"
 });
 
+const noAuthUrls = [axiosFlyNow.defaults.baseURL + "/auth/register",
+    axiosFlyNow.defaults.baseURL + "/auth/login",
+    axiosFlyNow.defaults.baseURL + "/auth/refresh",
+    axiosFlyNow.defaults.baseURL + "/auth/logout",
+]
+
+axiosFlyNow.interceptors.request.use(async function (config) {
+    if (config.url === "http://3.74.56.55:8079/amadeus/token" || (config.url && noAuthUrls.includes(config?.url))) {
+        config.headers.Authorization = "";
+        return config;
+    } else {
+        config.headers.Authorization = getFlyNowTokenFromStorage()?.token;
+        return config;
+    }
+}, function (error) {
+    return Promise.reject(error);
+});
+
+axiosFlyNow.interceptors.response.use((response) => {
+    return response
+}, async function (error) {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 || error.response.status === 403) {
+        window.location.href = "/login"
+    }
+    return Promise.reject(error.response);
+});
 export const register = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/register", {
         username: userDetails.username,
         password: userDetails.password
-    }, {headers: {Authorization: ""}});
+    });
     return (r.status === 200) ? ({
         username: userDetails.username,
         message: "Successfully created user: " + userDetails.username
@@ -24,9 +58,9 @@ export const login = async (userDetails: Credentials) => {
     const r = await axiosFlyNow.post("/auth/login", {
         username: userDetails.username,
         password: userDetails.password
-    }, {headers: {Authorization: ""}});
-    saveFlyNowTokenToStorage(r.data)
-    return r.status === 200
+    });
+    saveFlyNowTokenToStorage(r.data);
+    return r.status === 200;
 }
 
 export const refresh = async (token: Token) => {
@@ -34,9 +68,9 @@ export const refresh = async (token: Token) => {
         return;
     const r = await axiosFlyNow.post("/auth/refresh", {
         token: token,
-    }, {headers: {Authorization: ""}});
-    saveFlyNowTokenToStorage(r.data)
-    return r.status === 200
+    });
+    saveFlyNowTokenToStorage(r.data);
+    return r.status === 200;
 }
 
 export function logSearchTerms(origin: string, destination: string) {

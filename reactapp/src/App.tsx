@@ -1,12 +1,11 @@
 import './static/App.css';
-import './static/NavBar.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import {NavBar} from "./components/NavBar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfile from "./pages/UserProfile";
-import {AuthContext, UserData} from "./context";
+import {AuthContext} from "./context";
 import ScrollToTop from "./utils/ScrollToTop";
 import {useUserToken} from "./hooks/useUserToken";
 

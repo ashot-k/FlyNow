@@ -137,17 +137,17 @@ export var Days = ['Sunday', 'Monday', 'Tuesday',
 
 export function flightDateToStringFull(date: string) {
     const str = new Date(date);
-    return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()] + " " + str.getFullYear() + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes()) + " UTC";
+    return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()] + " " + str.getFullYear() + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes());// + " UTC";
 }
 
 export function flightDateToStringNoYear(date: string) {
     const str = new Date(date);
-    return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes()) + " UTC";
+    return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes());// + " UTC";
 }
 
 export function flightDateToStringNoYearNoDay(date: string) {
     const str = new Date(date);
-    return str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes()) + " UTC";
+    return str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes());// + " UTC";
 }
 
 export function flightDateToStringShort(date: string) {
@@ -157,7 +157,7 @@ export function flightDateToStringShort(date: string) {
 
 export function flightDateToStringTime(date: string) {
     const str = new Date(date);
-    return addZero(str.getHours()) + ":" + addZero(str.getMinutes()) + " UTC";
+    return addZero(str.getHours()) + ":" + addZero(str.getMinutes()); //+ " UTC";
 }
 
 export function calculateStops(segments: any[]) {

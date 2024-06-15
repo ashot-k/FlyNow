@@ -2,9 +2,8 @@
 import React, {useContext} from "react";
 import {AuthContext} from "../../context";
 import UserSearchSuggestionsList from "./UserSearchSuggestionsList";
-import '../../static/SearchSuggestions.css'
 import PopularDestinationSuggestionsList from "./PopularDestinationSuggestionsList";
-
+import '../../static/SearchSuggestions.css'
 export interface SearchSuggestion {
     originIATA: string;
     destinationIATA: string;

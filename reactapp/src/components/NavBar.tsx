@@ -4,6 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {AuthContext} from "../context";
 import Button from "react-bootstrap/Button";
 import {removeFlyNowTokenFromStorage} from "../utils/Utils";
+import '../static/NavBar.css'
 
 export const NavBar = () => {
     const userData = useContext(AuthContext);
