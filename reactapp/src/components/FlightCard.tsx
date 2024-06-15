@@ -13,6 +13,8 @@ import {AuthContext} from "../context";
 import Button from "react-bootstrap/Button";
 import {axiosFlyNow} from "../services/FlyNowServiceAPI";
 import {useNavigate} from "react-router-dom";
+import airlines from '../utils/airlines.json';
+
 export interface Flight {
     itineraries: {
         segments: {
@@ -67,11 +69,16 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    function bookConfirmModal(flight: Flight) {
+    const airlineInfo = airlines.find(airline => airline.name.toLowerCase() === dictionaries?.carriers[flight.validatingAirlineCodes].toLowerCase());
+
+    function bookConfirmModal() {
         handleShow();
         if (!userData?.username) {
             navigate("/login")
         }
+
+    }
+    function book(flight: Flight){
         let flights = [];
 
         flights.push({
@@ -83,18 +90,19 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
             price: flight.price.total
         })
         axiosFlyNow.post("flight/book", flights).then(r=> {
-            if(r.status === 200)
+            if(r.status === 200){
                 handleClose();
+            }
         });
     }
-
     return (
-        <div className={"flight-card component-box element-shadow rounded-2 p-3 d-flex flex-column gap-2"}>
-            <div className={"d-flex flex-column w-100"}>
-                <div className={"h5"}>
-                    Airline: {dictionaries.carriers[flight.validatingAirlineCodes]}
+        <div className={"flight-card component-box element-shadow rounded-2 pb-3  d-flex flex-column gap-2"}>
+            <div className={"d-flex flex-column w-100 card-header align-content-between justify-content-between"}>
+                <div className={"d-flex align-items-center card-header"}>
+                    <img className={"airline-logo"} src={airlineInfo?.logo || "https://www.emme2servizi.it/wp-content/uploads/2020/12/no-image.jpg"} alt={"image unavailable"}/>
+                    <span className={"ps-3"}>{dictionaries.carriers[flight.validatingAirlineCodes]}</span>
                 </div>
-                <hr className={"w-100 mt-1 m-auto"}/>
+                <hr className={"w-100 m-0"}/>
             </div>
             <Accordion flush>
                 <Accordion.Item eventKey="0" className={'bg-transparent'}>
@@ -186,7 +194,7 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                 </Accordion.Item>
             </Accordion>
             <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
-                <button className={"btn book-btn"} onClick={() => bookConfirmModal(flight)}>Book
+                <button className={"btn"} onClick={() => bookConfirmModal()}>Book
                     for <span className={"fw-bold"}>{flight.price.total} {flight.price.currency}</span></button>
                 <Modal show={show} onHide={handleClose} size={"xl"} centered data-bs-theme="dark"
                        className={"text-white"}>
@@ -251,7 +259,7 @@ const FlightCard = ({flight, dictionaries}: FlightCardProps) => {
                         <Button size={"lg"} variant="secondary" onClick={handleClose}>
                             Cancel
                         </Button>
-                        <Button size={"lg"} variant={"btn app-btn"}>
+                        <Button size={"lg"} variant={"btn"} onClick={() => book(flight)}>
                             Book for <span className={"fw-bold"}>{flight.price.total} {flight.price.currency}</span>
                         </Button>
                     </Modal.Footer>

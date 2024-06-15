@@ -1,25 +1,48 @@
 @media only screen and (max-width: 900px) {
     .flight-card {
         width: 100%;
+        .airline-logo {
+            width: 4rem;
+            height: 4rem;
+        }
     }
 
     .book-btn {
         width: 50%;
+    }
+
+
+    .card-header {
+        height: 4rem;
     }
 }
 
 @media only screen and (min-width: 1000px) {
     .flight-card {
         width: 75%;
+
+        .airline-logo {
+            width: 5rem;
+            height: 5rem;
+        }
     }
 
     .book-btn {
         width: 45%;
     }
+
+    .card-header {
+        height: 5rem;
+    }
 }
 
 .flight-card {
     height: fit-content;
+
+    button, button:hover {
+        background-color: rgba(4, 215, 255, 0.40);
+    }
+
 }
 
 .accordion {
@@ -50,13 +73,17 @@
     min-width: 35%;
 }
 
-.book-btn, .search-btn, .app-btn {
-}
 
 button:hover {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 5px #04D7FF !important;
 }
 
 .modal-dialog > * {
-    background-color: #36373A !important;
+    background-color: #242529 !important;
+}
+
+.modal-dialog {
+    button, button:hover {
+        background-color: rgba(4, 215, 255, 0.40);
+    }
 }

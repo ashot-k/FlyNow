@@ -13,12 +13,12 @@ export const NavBar = () => {
         <Navbar id={'navBar'} sticky="top" expand="lg" className="w-100 nav-bar fs-5">
             <Container>
                 <Nav.Link as={Link} to={"/"}>
-                    <Navbar.Brand className={"fs-3"} href={"#"}>FlyNow</Navbar.Brand>
+                    <Navbar.Brand className={"fs-1"} href={"#"}>FlyNow</Navbar.Brand>
                 </Nav.Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="w-100 d-flex align-items-center justify-content-between gap-2">
-                        <div className={"d-flex "}>
+                    <Nav className="w-100 d-flex align-items-center justify-content-between gap-1">
+                        <div className={"d-flex gap-2"}>
                             <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
                             {userData?.username && <Nav.Link as={Link} to={"/profile"}>Profile</Nav.Link>}
                         </div>

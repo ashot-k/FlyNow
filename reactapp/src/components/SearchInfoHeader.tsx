@@ -1,10 +1,20 @@
 import Flag from "react-flagkit";
 import {capitalize} from "../utils/Utils";
 import React from "react";
-import {SearchInfo} from "./FlightSearch";
+import {Route} from "./FlightSearch";
 
+interface SearchInfoHeaderProps {
+    departureDate: string;
+    oneWay: boolean;
+    returnDate: string;
+    adults: number;
+    children: number;
+    origin: Route;
+    destination: Route;
+    maxPrice: number;
+}
 
-export default function SearchInfoHeader({...searchInfo}: SearchInfo) {
+export default function SearchInfoHeader({...searchInfo}: SearchInfoHeaderProps) {
     const scroll = () => {
         const navBar = document.querySelector('#navBar');
         if (navBar)

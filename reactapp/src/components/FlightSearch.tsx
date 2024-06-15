@@ -1,15 +1,20 @@
 import Flag from "react-flagkit";
 import Select from "react-select";
-import {capitalize, customStyles} from "../utils/Utils";
+import {customStyles} from "../utils/Utils";
 import pendingSearchIcon from "../static/infinite-spinner.svg";
 import {Alert} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import React, {useEffect, useState} from "react";
-import {searchAirport, searchAvailableDestinations, searchFlightOffers} from "../services/AmadeusAPIService";
 import {Dictionaries, Flight} from "./FlightCard";
-import {logSearchTerms} from "../services/FlyNowServiceAPI";
 import "../static/Search.css"
 import AsyncSelect from "react-select/async";
+import {SearchSuggestion} from "./search-suggestions/SearchSuggestions";
+import useSearchDestinationOptions from "../hooks/useSearchDestinationOptions";
+import useSearchOriginOptions from "../hooks/useSearchOriginOptions";
+import UserSearchSuggestion from "./search-suggestions/UserSearchSuggestion";
+import useUserSearchSuggestions from "../hooks/useUserSearchSuggestions";
+import useSearchFlights from "../hooks/useSearchFlights";
+import "../static/SearchSuggestions.css"
 
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
@@ -24,7 +29,7 @@ export interface Route {
     airport: string
 }
 
-export interface SearchInfo {
+ interface SearchInfo {
     departureDate: string;
     oneWay: boolean;
     returnDate: string;
@@ -37,6 +42,7 @@ export interface SearchInfo {
 
 export interface FlightSearchData {
     searchInfo: SearchInfo;
+    pending: boolean;
     flightList: Flight[];
     dictionaries: Dictionaries;
 }
@@ -52,170 +58,122 @@ export default function FlightSearch({
                                          destinationiataCode
                                      }: FlightSearchProps & preloadedSearchInfo) {
 
-    const [pendingFlightSearch, setPendingFlightSearch] = useState<boolean>(false);
-    const [pendingOriginSearch, setPendingOriginSearch] = useState<boolean>(false);
-    const [pendingDestSearch, setPendingDestSearch] = useState<boolean>(false);
+    const [preloadedOriginIATA, setPreloadedOriginIATA] = useState<string>(originiataCode);
+    const [preloadedDestinationIATA, setPreloadedDestinationIATA] = useState<string>(destinationiataCode);
+
     const [departureDate, setDepartureDate] = useState<string>(new Date().toISOString().substring(0, 10));
     const [oneWay, setOneWay] = useState<boolean>(true)
     const [returnDate, setReturnDate] = useState<string>('');
     const [adults, setAdults] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
-    const [originOptions, setOriginOptions] = useState<Route[]>([]);
-    const [destinationOptions, setDestinationOptions] = useState<Route[]>([]);
-    const [origin, setOrigin] = useState<Route>();
-    const [destination, setDestination] = useState<Route>();
     const [maxPrice, setMaxPrice] = useState<number>(1000);
     const [originSearchTerm, setOriginSearchTerm] = useState<string>('');
-    const [flightList, setFlightList] = useState<any[]>([]);
-    const [dictionaries, setDictionaries] = useState<any>();
 
-    const [noResultsAlert, setNoResultsAlert] = useState<boolean>(false)
+    const [noResultsAlert, setNoResultsAlert] = useState<boolean>(false);
+    const {userSearchSuggestions, pendingUserSearchSuggestions} = useUserSearchSuggestions();
+
+    const {
+        pendingOriginSearch,
+        searchOriginOptions, origin, setOrigin,
+        originOptions, setOriginOptions
+    } = useSearchOriginOptions();
+
+    const {
+        pendingDestSearch, searchDestinationOptions,
+        destination, setDestination,
+        destinationOptions, setDestinationOptions,
+        loadDestinationOption
+    } = useSearchDestinationOptions(departureDate, origin?.iataCode);
+
+    const {
+        searchFlights,
+        pendingFlightSearch,
+        flightList,
+        setFlightList,
+        dictionaries,
+        setDictionaries,
+        noResults
+    } = useSearchFlights();
+
+    function triggerFlightSearch() {
+        if (origin && destination && departureDate)
+            searchFlights(origin?.iataCode, destination?.iataCode, departureDate, oneWay, returnDate, adults, children, maxPrice);
+    }
+
+    function onSuggestionSelect(suggestion: SearchSuggestion) {
+        setPreloadedOriginIATA(suggestion.originIATA);
+        setPreloadedDestinationIATA(suggestion.destinationIATA);
+    }
 
     const returnSearchResults = () => {
         if (origin && destination)
             onSearch({
-                searchInfo: {origin, destination, departureDate, returnDate, oneWay, adults, children, maxPrice},
+                searchInfo: {
+                    origin: origin,
+                    destination: destination,
+                    departureDate, returnDate, oneWay, adults, children, maxPrice
+                },
                 flightList,
-                dictionaries
+                dictionaries,
+                pending: pendingFlightSearch
             });
     }
 
     useEffect(() => {
-        if (origin && departureDate) {
-            destinationOptionsSearch(origin)
-        }
-    }, [origin, departureDate])
-    useEffect(() => {
-        if (flightList.length > 0 && dictionaries) {
-            returnSearchResults();
-        }
+        returnSearchResults();
     }, [flightList, dictionaries]);
+
     useEffect(() => {
-        if (originiataCode?.length > 0) {
-            originOptionsSearch(originiataCode)
+        setPreloadedDestinationIATA(destinationiataCode);
+        if(!(originiataCode === preloadedOriginIATA)){
+            setPreloadedOriginIATA(originiataCode)
         }
-    }, [originiataCode]);
+    }, [destinationiataCode]);
+
     useEffect(() => {
-        if (destinationiataCode?.length > 0 && destinationOptions?.length > 0) {
-            loadDestinationOption(destinationiataCode)
+        if (preloadedOriginIATA?.length > 0) {
+          searchOriginOptions(preloadedOriginIATA).then(()=> searchDestinationOptions(preloadedOriginIATA));
         }
-    }, [destinationiataCode, destinationOptions]);
+    }, [preloadedOriginIATA]);
 
-    const originOptionsSearch = async (inputValue: string) => {
-        try {
-            setPendingOriginSearch(true);
-            const response = await searchAirport(inputValue);
-            const airports = response.data.data;
-            const options = airports.map((airportInfo: any, index: number) => ({
-                value: index,
-                label: capitalize(airportInfo.name) + " (" + airportInfo.iataCode + "), " + capitalize(airportInfo.address.countryName),
-                cityName: airportInfo.address.cityName,
-                countryCode: airportInfo.address.countryCode,
-                iataCode: airportInfo.iataCode,
-                airport: airportInfo.name
-            }));
-            setOriginOptions(options)
-            if (options.length > 0)
-                setOrigin(options[0])
-            return options;
-        } catch (error) {
-            console.log(error);
-            return [];
-        } finally{
-            setPendingOriginSearch(false);
+    useEffect(() => {
+        if (preloadedDestinationIATA?.length > 0 && destinationOptions?.length > 0) {
+            loadDestinationOption(preloadedDestinationIATA)
         }
-    };
-
-    const destinationOptionsSearch = (origin: Route) => {
-        let options: Route[] = [];
-        setPendingDestSearch(true)
-        if (departureDate)
-            searchAvailableDestinations(origin).then(availableDestinations => {
-                availableDestinations.data.data.map((destination: any, index: number) => {
-                    options.push({
-                        value: index,
-                        label: capitalize(destination.name) + " (" + destination.iataCode + "), " + capitalize(destination.address.countryName),
-                        cityName: destination.name,
-                        countryCode: destination.address.countryCode,
-                        iataCode: destination.iataCode,
-                        airport: destination.name
-                    });
-                });
-                setDestinationOptions(options);
-                setDestination(options[0])
-            }).catch((e) => {
-                console.log(e);
-                setDestinationOptions([]);
-                setDestination(undefined);
-            }).finally(() => setPendingDestSearch(false))
-
-    }
-    const loadDestinationOption = (iata: string) => {
-        for (const destinationOption of destinationOptions) {
-            if (destinationOption.iataCode === iata) {
-                setDestination(destinationOption);
-                destinationOptions.splice(destinationOptions.indexOf(destinationOption), 1);
-                destinationOptions.unshift(destinationOption)
-                setDestinationOptions(destinationOptions);
-                return;
-            }
-        }
-    }
-    const searchFlights = () => {
-        setPendingFlightSearch(true);
-        if (origin && destination && departureDate) {
-            logSearchTerms(origin?.iataCode, destination?.iataCode);
-            searchFlightOffers({origin, destination, departureDate, returnDate, adults, children, maxPrice, oneWay})
-                .then((response => {
-                    setNoResultsAlert(true)
-                    setTimeout(() => {
-                        setNoResultsAlert(false);
-                    }, 2000);
-                    setFlightList(response.data.data);
-                    setDictionaries(response.data.dictionaries);
-                }))
-                .catch((e) => {
-                    console.error(e);
-                    setFlightList([]);
-                }).finally(() => {
-                setPendingFlightSearch(false);
-            });
-        }
-    }
+    }, [preloadedDestinationIATA, destinationOptions]);
 
     function checkIfSearchInfoEntered() {
         return (origin && destination && departureDate)
     }
 
     return (
-        <div className={"search gap-3 component-box p-3 d-flex flex-column rounded-1"}>
-            <div className={"d-flex search-options"}>
-                <div
-                    className={"date-select p-2 d-flex flex-column gap-2 align-items-center justify-content-center fs-5"}>
-                    <div className={"w-100 d-flex flex-row justify-content-center gap-2"}>
-                        <label>
+        <div className={"search gap-4 component-box p-3 d-flex flex-column rounded-1 fs-5 fw-normal"}>
+            <div className={"row search-options justify-content-center"}>
+                <div className={"col-sm date-select d-flex flex-column align-items-center justify-content-center"}>
+                    <div className={"row w-100 gap-2"}>
+                        <label className={"col-sm"}>
                             <h5>Departure</h5>
-                            <input className={"form-control fs-5"}
+                            <input className={"form-control form-control-lg fw-light"}
                                    type={"date"}
                                    min={new Date().toISOString().substring(0, 10)}
                                    defaultValue={new Date().toISOString().substring(0, 10)}
                                    onChange={(e) => {
                                        setDepartureDate(e.target.value)
                                    }}/>
-                            <div className="form-check">
+                            <div className="form-check mt-2">
                                 <input type={"radio"} className={"form-check-input"}
                                        name={"oneWayCheck"}
                                        onChange={(e) => setOneWay(true)} checked={oneWay}/>
                                 <label className={"form-check-label"}>One-Way</label>
                             </div>
                         </label>
-                        <label>
+                        <label className={"col-sm"}>
                             <h5>Return</h5>
-                            <input className={"form-control fs-5"}
+                            <input className={"form-control form-control-lg fw-light"}
                                    type={"date"}
                                    min={departureDate} disabled={oneWay}
                                    onChange={(e) => setReturnDate(e.target.value)}/>
-                            <div className="form-check">
+                            <div className="form-check mt-2">
                                 <input type={"radio"} className={"form-check-input"}
                                        name={"oneWayCheck"}
                                        onChange={(e) => {
@@ -225,12 +183,11 @@ export default function FlightSearch({
                                 <label className={"form-check-label"}>Roundtrip</label>
                             </div>
                         </label>
-
                     </div>
                 </div>
                 <div
-                    className={"location-select p-2 d-flex flex-column align-items-center justify-content-start gap-3"}>
-                    <label className={"fs-5"}>
+                    className={"col-sm location-select d-flex flex-column align-items-center justify-content-center gap-3"}>
+                    <label>
                         Origin {origin && <Flag country={origin.countryCode}/>}
                     </label>
                     <AsyncSelect className={"w-100"} isLoading={pendingOriginSearch} defaultOptions={originOptions}
@@ -239,13 +196,13 @@ export default function FlightSearch({
                                          setOriginSearchTerm(inputValue);
                                          setDestinationOptions([]);
                                          setDestination(undefined);
-                                         return originOptionsSearch(inputValue);
+                                         return searchOriginOptions(inputValue);
                                      }
                                  }}
                                  onChange={(option) => {
                                      if (option) {
                                          setOrigin(option)
-                                         destinationOptionsSearch(option)
+                                         searchDestinationOptions(option.iataCode)
                                      }
                                  }}
                                  styles={customStyles}
@@ -257,9 +214,9 @@ export default function FlightSearch({
                                          </div>)
                                  }}
                     />
-                    <label className={"fs-5"}>Destination {destination &&
+                    <label>Destination {destination &&
                         <Flag country={destination.countryCode}/>}</label>
-                    {!pendingDestSearch ? destinationOptions && destinationOptions?.length > 0 ?
+                    {!pendingDestSearch ?
                             <Select options={destinationOptions} className={"w-100"}
                                     onChange={(option) => {
                                         if (option) setDestination(option)
@@ -272,33 +229,42 @@ export default function FlightSearch({
                                                 <span><Flag country={data.countryCode}/> {label}</span>
                                             </div>)
                                     }}
-                            /> : <Select className={"w-100"} isDisabled={true} styles={customStyles}/> :
-                        <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
+                                    isDisabled={pendingDestSearch || !destinationOptions || destinationOptions?.length <= 0}
+                            /> : <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
                 </div>
-                <div className={"settings p-2 d-flex flex-column align-items-center justify-content-start"}>
-                    <label>
-                        <h5>Max Price {maxPrice + '\u20AC'} </h5>
-                        <input className={"form-range"} type={"range"} min={5} max={1000} value={maxPrice}
-                               onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
-                    </label>
-                    <div
-                        className={"d-flex passenger-selection gap-2 align-items-center justify-content-start"}>
-                        <label>
-                            <h5>Adults</h5>
-                            <input className={"form-control"} type={"number"}
+                <div className={"col-sm settings d-flex flex-column align-items-center justify-content-center gap-4"}>
+                    <div className={"d-flex justify-content-center align-items-center gap-4 w-100 flex-wrap"}>
+                        <label className={"w-25 position-relative"}>
+                            <input className={"form-control form-control-lg"} type={"number"} id={"adults"}
                                    defaultValue={1} min={1} max={9}
                                    onChange={(e) => setAdults(parseInt(e.target.value))}/>
+                            <label htmlFor={"adults"} className={"form-label"}>Adults</label>
                         </label>
-                        <label>
-                            <h5>Children</h5>
-                            <input className={"form-control"} type={"number"}
+                        <label className={"w-25 position-relative"}>
+                            <input className={"form-control form-control-lg"} type={"number"} id={"children"}
                                    defaultValue={0} min={0} max={9}
                                    onChange={(e) => setChildren(parseInt(e.target.value))}/>
+                            <label htmlFor={"children"} className={"form-label"}>Children</label>
+                        </label>
+                        <label className={"w-50"}>
+                            <h5>Max Price {maxPrice + '\u20AC'} </h5>
+                            <input className={"form-range"} type={"range"} min={5} max={1000} value={maxPrice}
+                                   onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
                         </label>
                     </div>
                 </div>
             </div>
             <div className={"w-100 d-flex flex-column justify-content-center align-items-center gap-3"}>
+                {userSearchSuggestions?.length > 0 &&
+                    <div className={"d-flex search-suggestion-container flex-column justify-content-start align-items-center gap-2"}>
+                        <label className={"fw-lighter fs-6"}>Search Again</label>
+                        <div className="search-suggestion-list w-75 d-flex flex-wrap overflow-y-auto gap-1">
+                            {userSearchSuggestions.map((suggestion, index) => (
+                                <UserSearchSuggestion key={index} selectSuggestion={onSuggestionSelect}
+                                                      suggestion={suggestion}/>
+                            ))}
+                        </div>
+                    </div>}
                 <Alert variant={"danger"}
                        show={originSearchTerm.length > 0 && !originOptions?.length && !pendingOriginSearch}>No
                     available origin</Alert>
@@ -309,12 +275,9 @@ export default function FlightSearch({
                        show={!pendingFlightSearch && flightList.length <= 0 && noResultsAlert}>No
                     available flights</Alert>
                 <div className={"w-50 d-flex justify-content-center align-items-center "}>
-                    {origin && departureDate && destination && pendingFlightSearch ?
-                        <img src={pendingSearchIcon} width={"35%"} height={"50%"}
-                             alt={""}/> :
-                        <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn"}
-                                className={"w-50 rounded-5"} disabled={!checkIfSearchInfoEntered()}
-                                onClick={searchFlights}>Search</Button>}
+                    <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn"}
+                            className={"search-btn rounded-5"} disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
+                            onClick={triggerFlightSearch}>Search</Button>
                     {/*<Button variant={"btn search-btn"} className={"w-25"}>Trip Planner</Button>*/}
                 </div>
             </div>

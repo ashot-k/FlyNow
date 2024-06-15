@@ -1,6 +1,5 @@
 import axios from "axios";
-import {saveAmadeusTokenToStorage, Token} from "../utils/Utils";
-import {Route, SearchInfo} from "../components/FlightSearch";
+import {Token} from "../utils/Utils";
 
 const max = 25;
 
@@ -41,16 +40,26 @@ axiosAmadeus.interceptors.response.use((response) => {
     }
     return Promise.reject(error);
 });
+interface FlightSearchInfo {
+    departureDate: string;
+    oneWay: boolean;
+    returnDate: string;
+    adults: number;
+    children: number;
+    originIATA: string;
+    destinationIATA: string;
+    maxPrice: number;
+}
 
 export const searchFlightOffers = ({
-                                       origin,
-                                       destination,
+                                       originIATA,
+                                       destinationIATA,
                                        departureDate,
                                        returnDate,
                                        adults,
                                        children,
                                        maxPrice, oneWay
-                                   }: SearchInfo) => {
+                                   }: FlightSearchInfo) => {
 
     let returnDateChecked: undefined | string = returnDate;
     if (oneWay)
@@ -58,7 +67,7 @@ export const searchFlightOffers = ({
     return axiosAmadeus.get("/v2/shopping/flight-offers",
         {
             params: {
-                originLocationCode: origin.iataCode, destinationLocationCode: destination.iataCode,
+                originLocationCode: originIATA, destinationLocationCode: destinationIATA,
                 departureDate: departureDate, returnDate: returnDateChecked,
                 adults: adults, children: children,
                 maxPrice: maxPrice,
@@ -86,19 +95,19 @@ export const activitiesInArea = (latitude: any, longitude: any) => {
     });
 }
 
-export const searchMostTraveledDestinations = (origin: { iataCode: string; }, period: string) => {
+export const searchMostTraveledDestinations = (originIATA: string, period: string) => {
     return axiosAmadeus.get("/v1/travel/analytics/air-traffic/traveled", {
         params: {
-            originCityCode: origin.iataCode,
+            originCityCode: originIATA,
             period: period
         }
     })
 }
 
-export const searchAvailableDestinations = (origin: Route) => {
+export const searchAvailableDestinations = (originIATA: string) => {
     return axiosAmadeus.get("/v1/airport/direct-destinations", {
         params: {
-            departureAirportCode: origin.iataCode
+            departureAirportCode: originIATA
         }
     });
 }
