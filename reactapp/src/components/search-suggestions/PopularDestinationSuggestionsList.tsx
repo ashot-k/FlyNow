@@ -1,10 +1,8 @@
 import {getAirportByIATA} from "../../utils/Utils";
-import pendingSearchIcon from "../../static/infinite-spinner.svg";
-import '../../static/SearchSuggestions.css'
+import pendingSearchIcon from "../../static/assets/infinite-spinner.svg";
 import {SearchSuggestion} from "./SearchSuggestions";
 import DestinationSuggestion from "./DestinationSuggestion";
 import usePopularDestinationSuggestions from "../../hooks/usePopularDestinationSuggestions";
-
 
 interface PopularDestinationSuggestionListProps {
     period: string,

@@ -1,7 +1,7 @@
 import Flag from "react-flagkit";
 import Select from "react-select";
 import {customStyles} from "../utils/Utils";
-import pendingSearchIcon from "../static/infinite-spinner.svg";
+import pendingSearchIcon from "../static/assets/infinite-spinner.svg";
 import {Alert} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import React, {useEffect, useState} from "react";
@@ -29,7 +29,7 @@ export interface Route {
     airport: string
 }
 
- interface SearchInfo {
+interface SearchInfo {
     departureDate: string;
     oneWay: boolean;
     returnDate: string;
@@ -69,13 +69,13 @@ export default function FlightSearch({
     const [maxPrice, setMaxPrice] = useState<number>(1000);
     const [originSearchTerm, setOriginSearchTerm] = useState<string>('');
 
-    const [noResultsAlert, setNoResultsAlert] = useState<boolean>(false);
     const {userSearchSuggestions, pendingUserSearchSuggestions} = useUserSearchSuggestions();
 
     const {
         pendingOriginSearch,
-        searchOriginOptions, origin, setOrigin,
-        originOptions, setOriginOptions
+        searchOriginOptions,
+        origin, setOrigin,
+        originOptions
     } = useSearchOriginOptions();
 
     const {
@@ -89,9 +89,7 @@ export default function FlightSearch({
         searchFlights,
         pendingFlightSearch,
         flightList,
-        setFlightList,
         dictionaries,
-        setDictionaries,
         noResults
     } = useSearchFlights();
 
@@ -125,14 +123,14 @@ export default function FlightSearch({
 
     useEffect(() => {
         setPreloadedDestinationIATA(destinationiataCode);
-        if(!(originiataCode === preloadedOriginIATA)){
+        if (!(originiataCode === preloadedOriginIATA)) {
             setPreloadedOriginIATA(originiataCode)
         }
     }, [destinationiataCode]);
 
     useEffect(() => {
         if (preloadedOriginIATA?.length > 0) {
-          searchOriginOptions(preloadedOriginIATA).then(()=> searchDestinationOptions(preloadedOriginIATA));
+            searchOriginOptions(preloadedOriginIATA).then(() => searchDestinationOptions(preloadedOriginIATA));
         }
     }, [preloadedOriginIATA]);
 
@@ -217,20 +215,20 @@ export default function FlightSearch({
                     <label>Destination {destination &&
                         <Flag country={destination.countryCode}/>}</label>
                     {!pendingDestSearch ?
-                            <Select options={destinationOptions} className={"w-100"}
-                                    onChange={(option) => {
-                                        if (option) setDestination(option)
-                                    }}
-                                    styles={customStyles}
-                                    value={destination ? destination : destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
-                                    components={{
-                                        Option: ({innerProps, label, data}) => (
-                                            <div className={"options"} {...innerProps}>
-                                                <span><Flag country={data.countryCode}/> {label}</span>
-                                            </div>)
-                                    }}
-                                    isDisabled={pendingDestSearch || !destinationOptions || destinationOptions?.length <= 0}
-                            /> : <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
+                        <Select options={destinationOptions} className={"w-100"}
+                                onChange={(option) => {
+                                    if (option) setDestination(option)
+                                }}
+                                styles={customStyles}
+                                value={destination ? destination : destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
+                                components={{
+                                    Option: ({innerProps, label, data}) => (
+                                        <div className={"options"} {...innerProps}>
+                                            <span><Flag country={data.countryCode}/> {label}</span>
+                                        </div>)
+                                }}
+                                isDisabled={pendingDestSearch || !destinationOptions || destinationOptions?.length <= 0}
+                        /> : <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
                 </div>
                 <div className={"col-sm settings d-flex flex-column align-items-center justify-content-center gap-4"}>
                     <div className={"d-flex justify-content-center align-items-center gap-4 w-100 flex-wrap"}>
@@ -256,7 +254,8 @@ export default function FlightSearch({
             </div>
             <div className={"w-100 d-flex flex-column justify-content-center align-items-center gap-3"}>
                 {userSearchSuggestions?.length > 0 &&
-                    <div className={"d-flex search-suggestion-container flex-column justify-content-start align-items-center gap-2"}>
+                    <div
+                        className={"d-flex search-suggestion-container flex-column justify-content-start align-items-center gap-2"}>
                         <label className={"fw-lighter fs-6"}>Search Again</label>
                         <div className="search-suggestion-list w-75 d-flex flex-wrap overflow-y-auto gap-1">
                             {userSearchSuggestions.map((suggestion, index) => (
@@ -272,11 +271,12 @@ export default function FlightSearch({
                        show={origin != null && departureDate.length > 0 && !(destinationOptions?.length > 0) && !pendingDestSearch}>No
                     available destinations</Alert>
                 <Alert variant={"danger"}
-                       show={!pendingFlightSearch && flightList.length <= 0 && noResultsAlert}>No
+                       show={!pendingFlightSearch && flightList.length <= 0 && noResults}>No
                     available flights</Alert>
                 <div className={"w-50 d-flex justify-content-center align-items-center "}>
                     <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn"}
-                            className={"search-btn rounded-5"} disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
+                            className={"search-btn rounded-5"}
+                            disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
                             onClick={triggerFlightSearch}>Search</Button>
                     {/*<Button variant={"btn search-btn"} className={"w-25"}>Trip Planner</Button>*/}
                 </div>

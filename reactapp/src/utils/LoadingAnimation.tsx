@@ -1,4 +1,4 @@
-import pendingSearchIcon from "../static/infinite-spinner.svg";
+import pendingSearchIcon from "../static/assets/infinite-spinner.svg";
 import React from "react";
 
 

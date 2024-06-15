@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {getSearchTerms} from "../../services/FlyNowServiceAPI";
 import {SearchSuggestion} from "./SearchSuggestions";
 import UserSearchSuggestion from "./UserSearchSuggestion";
-import pendingSearchIcon from "../../static/infinite-spinner.svg";
+import pendingSearchIcon from "../../static/assets/infinite-spinner.svg";
 import useUserSearchSuggestions from "../../hooks/useUserSearchSuggestions";
 
 interface SearchSuggestionProps {
