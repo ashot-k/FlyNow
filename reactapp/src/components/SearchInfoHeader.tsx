@@ -17,9 +17,7 @@ interface SearchInfoHeaderProps {
 export default function SearchInfoHeader({...searchInfo}: SearchInfoHeaderProps) {
 
     const scroll = () => {
-        const navBar = document.getElementsByClassName('navbar');
-        if (navBar)
-            navBar[0].scrollIntoView({behavior: 'smooth', block: 'start'});
+        window.scrollTo({top: 0, behavior: "auto"});
     };
     let origin = searchInfo.origin;
     let destination = searchInfo.destination;
@@ -27,9 +25,8 @@ export default function SearchInfoHeader({...searchInfo}: SearchInfoHeaderProps)
     let returnDate = searchInfo.returnDate;
 
     return (
-        <div
-            className={"search-info d-flex flex-column justify-content-center align-items-center p-2 w-100"}>
-            <a onClick={scroll} href={'#'}>
+        <div className={"w-full fixed bottom-0 z-10 py-2 bg-flyNow-component flex flex-col justify-center items-center shadow-black shadow-md"}>
+            <a onClick={scroll} href={'#'} >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
                      className="bi bi-chevron-double-up" viewBox="0 0 16 16">
                     <path fillRule="evenodd"
@@ -38,13 +35,13 @@ export default function SearchInfoHeader({...searchInfo}: SearchInfoHeaderProps)
                           d="M7.646 6.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 7.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
                 </svg>
             </a>
-            <span className={"fs-5 d-flex justify-content-center align-items-center gap-1"}>
-                    <Flag className={"flag-img"} country={origin.countryCode}/> {capitalize(origin.cityName)} ({origin.iataCode})
-                <img src={arrowRight} width={'28px'} alt={''}/>
-                <Flag className={"flag-img"}
+            <span className={"text-lg sm:text-2xl w-full flex justify-center items-center gap-2"}>
+                    <Flag className={"w-6 h-6 sm:w-8 sm:h-8"} country={origin.countryCode}/> {capitalize(origin.cityName)} ({origin.iataCode})
+                <img src={arrowRight} width={'w-8'} alt={''}/>
+                <Flag className={"w-6 h-6 sm:w-8 sm:h-8"}
                       country={destination.countryCode}/> {capitalize(destination.cityName)} ({destination.iataCode})
                 </span>
-            <div className={"fs-6 d-flex flex-column justify-content-center align-items-center"}>
+            <div className={"text-lg flex flex-col justify-center items-center"}>
                 {departureDate &&
                     <span>Outbound: {new Date(departureDate).toLocaleDateString("en-GB")}</span>}
                 {returnDate && <span>Return: {new Date(returnDate).toLocaleDateString("en-GB")}</span>}

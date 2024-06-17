@@ -1,12 +1,7 @@
-import Flag from "react-flagkit";
-import Select from "react-select";
+import Select, {components, ControlProps, OptionProps, SingleValueProps} from "react-select";
 import {customStyles} from "../utils/Utils";
-import pendingSearchIcon from "../static/assets/infinite-spinner.svg";
-import {Alert} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import React, {useEffect, useState} from "react";
 import {Dictionaries, Flight} from "./FlightCard";
-import "../static/Search.css"
 import AsyncSelect from "react-select/async";
 import {SearchSuggestion} from "./search-suggestions/SearchSuggestions";
 import useSearchDestinationOptions from "../hooks/useSearchDestinationOptions";
@@ -14,10 +9,16 @@ import useSearchOriginOptions from "../hooks/useSearchOriginOptions";
 import UserSearchSuggestion from "./search-suggestions/UserSearchSuggestion";
 import useUserSearchSuggestions from "../hooks/useUserSearchSuggestions";
 import useSearchFlights from "../hooks/useSearchFlights";
-import "../static/SearchSuggestions.css"
+import {Button, Input} from "@headlessui/react";
+import Flag from "react-flagkit";
+import pendingSearchIcon from '../static/assets/infinite-spinner.svg'
+import calendarIcon from '../static/assets/calendar-color-icon.svg'
+import successIcon from "../static/assets/success-svgrepo-com.svg";
+import errorIcon from "../static/assets/error-svgrepo-com.svg";
 
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
+    className?: string;
 }
 
 export interface Route {
@@ -52,8 +53,45 @@ interface preloadedSearchInfo {
     destinationiataCode: string;
 }
 
+
+const option = ({innerProps, label, data}: OptionProps<Route, false>) => (<div
+        className={"flex gap-2 py-2 px-2 even:bg-flyNow-even-option odd:bg-flyNow-odd-option hover:bg-cyan-800 cursor-pointer"} {...innerProps}>
+        <Flag className={"w-6 h-6"} country={data.countryCode}/>
+        <span className={"text-lg"}>
+                {label}
+            </span>
+    </div>
+)
+const originControl = ({children, ...props}: ControlProps<Route>) => {
+    return (
+        <components.Control {...props}>
+            <h3 className={"absolute px-3 -top-4 left-6 bg-flyNow-component"}>Origin</h3>
+            {children}
+        </components.Control>
+    )
+};
+const destinationControl = ({children, ...props}: ControlProps<Route>) => {
+    return (
+        <components.Control{...props}>
+            <label htmlFor={"destination-selection"}
+                   className={"absolute px-3 -top-4 left-6 bg-flyNow-component"}>Destination</label>
+            {children}
+        </components.Control>
+    )
+};
+const singleValue = ({data, children, ...props}: SingleValueProps<Route>) => {
+    return (
+        <components.SingleValue data={data}
+                                className={"flex gap-2 items-center bg-transparent cursor-pointer"}  {...props}>
+            <Flag className={"w-6 h-6"} country={data.countryCode}/>
+            <span className={"text-lg"}>{data.label}</span>
+        </components.SingleValue>
+    )
+}
+
+
 export default function FlightSearch({
-                                         onSearch,
+                                         onSearch, className,
                                          originiataCode,
                                          destinationiataCode
                                      }: FlightSearchProps & preloadedSearchInfo) {
@@ -130,7 +168,7 @@ export default function FlightSearch({
 
     useEffect(() => {
         if (preloadedOriginIATA?.length > 0) {
-            searchOriginOptions(preloadedOriginIATA).then(() => searchDestinationOptions(preloadedOriginIATA));
+          // searchOriginOptions(preloadedOriginIATA).then(() => searchDestinationOptions(preloadedOriginIATA));
         }
     }, [preloadedOriginIATA]);
 
@@ -144,141 +182,169 @@ export default function FlightSearch({
         return (origin && destination && departureDate)
     }
 
+
+    function loadOriginOptions(inputValue: string) {
+        if (inputValue.length >= 3) {
+            setOriginSearchTerm(inputValue);
+            setDestinationOptions([]);
+            setDestination(undefined);
+            return searchOriginOptions(inputValue);
+        }
+    }
+
     return (
-        <div className={"search gap-4 component-box p-3 d-flex flex-column rounded-1 fs-5 fw-normal"}>
-            <div className={"row search-options justify-content-center"}>
-                <div className={"col-sm date-select d-flex flex-column align-items-center justify-content-center"}>
-                    <div className={"row w-100 gap-2"}>
-                        <label className={"col-sm"}>
-                            <h5>Departure</h5>
-                            <input className={"form-control form-control-lg fw-light"}
-                                   type={"date"}
-                                   min={new Date().toISOString().substring(0, 10)}
-                                   defaultValue={new Date().toISOString().substring(0, 10)}
+        <div
+            className={className}>
+            <div className={"flex flex-col sm:flex sm:flex-row gap-4 sm:gap-2 justify-center"}>
+                <div className={"sm:w-1/4 py-1 sm:py-3 flex flex-col items-center justify-start sm:gap-8"}>
+                    <div className={"relative w-full"}>
+                        <label htmlFor={"departure-date"}>
+                            <h5 className={"absolute -top-4 px-3 w-fit left-6 text-lg bg-flyNow-component flex items-center gap-2"}>Departure<img
+                                className={"w-4 h-4 sm:hidden"} src={calendarIcon} alt={""}/></h5>
+                        </label>
+                        <Input name={"departure-date"}
+                               className={"w-full rounded-xl sm:rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-cyan-300 py-3 sm:py-2 px-5 text-white"}
+                               type={"date"}
+                               min={new Date().toISOString().substring(0, 10)}
+                               defaultValue={new Date().toISOString().substring(0, 10)}
+                               onChange={(e) => {
+                                   setReturnDate('');
+                                   setDepartureDate(e.target.value);
+                               }}/>
+                        {/*<div className={"flex gap-2 items-center justify-center"}>
+                            <Input name={"one-way-check"} type={"radio"} className={"checked:accent-flyNow-light"}
+                                   radioGroup={"one-way-check"}
+                                   onClick={(e) => setOneWay(true)} checked={oneWay}/>
+                            <label htmlFor={"one-way"} className={"text-lg"}>One-Way</label>
+                            <Input name={"one-way-check"} type={"radio"} className={"checked:accent-flyNow-light"}
                                    onChange={(e) => {
-                                       setDepartureDate(e.target.value)
+                                       setReturnDate('');
+                                       setOneWay(false);
                                    }}/>
-                            <div className="form-check mt-2">
-                                <input type={"radio"} className={"form-check-input"}
-                                       name={"oneWayCheck"}
-                                       onChange={(e) => setOneWay(true)} checked={oneWay}/>
-                                <label className={"form-check-label"}>One-Way</label>
-                            </div>
+                            <label htmlFor={"round-trip"} className={"text-lg"}>Roundtrip</label>
+                        </div>*/}
+                    </div>
+                    <div className={"relative w-full"}>
+                        <label htmlFor={"return-date"}>
+                            <h5 className={"absolute -top-4 px-2 w-fit right-6 text-lg bg-flyNow-component flex items-center gap-2"}>
+                                Return <img className={"w-4 h-4 sm:hidden"} src={calendarIcon} alt={""}/></h5>
                         </label>
-                        <label className={"col-sm"}>
-                            <h5>Return</h5>
-                            <input className={"form-control form-control-lg fw-light"}
-                                   type={"date"}
-                                   min={departureDate} disabled={oneWay}
-                                   onChange={(e) => setReturnDate(e.target.value)}/>
-                            <div className="form-check mt-2">
-                                <input type={"radio"} className={"form-check-input"}
-                                       name={"oneWayCheck"}
-                                       onChange={(e) => {
-                                           setOneWay(false);
-                                           setReturnDate('');
-                                       }}/>
-                                <label className={"form-check-label"}>Roundtrip</label>
-                            </div>
-                        </label>
+                        <Input name={"return-date"} radioGroup={"one-way-check"}  placeholder={"dd/mm/yyyy"}
+                               className={"w-full  rounded-xl sm:rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-cyan-300 py-3 sm:py-2 px-5 text-white"}
+                               type={"date"}
+                               min={departureDate} value={returnDate}
+                               onChange={(e) => setReturnDate(e.target.value)}/>
                     </div>
                 </div>
-                <div
-                    className={"col-sm location-select d-flex flex-column align-items-center justify-content-center gap-3"}>
-                    <label>
-                        Origin {origin && <Flag country={origin.countryCode}/>}
-                    </label>
-                    <AsyncSelect className={"w-100"} isLoading={pendingOriginSearch} defaultOptions={originOptions}
-                                 loadOptions={(inputValue) => {
-                                     if (inputValue.length >= 3) {
-                                         setOriginSearchTerm(inputValue);
-                                         setDestinationOptions([]);
-                                         setDestination(undefined);
-                                         return searchOriginOptions(inputValue);
-                                     }
-                                 }}
+                <hr className={"mt-1 mb-1 border-gray-700 sm:hidden"}/>
+                <div className={"sm:w-2/4 py-1 sm:py-3 flex flex-col items-center justify-start gap-8"}>
+                    <AsyncSelect placeholder={"Choose origin location"} name={"origin-selection"}
+                                 className={"w-full sm:w-10/12 text-lg"} isLoading={pendingOriginSearch}
+                                 defaultOptions={originOptions}
+                                 loadOptions={loadOriginOptions}
+                                 value={origin ? origin : (originOptions && originOptions?.length > 0) ? originOptions[0] : undefined}
                                  onChange={(option) => {
                                      if (option) {
-                                         setOrigin(option)
-                                         searchDestinationOptions(option.iataCode)
+                                         setOrigin(option);
+                                         searchDestinationOptions(option.iataCode);
                                      }
                                  }}
                                  styles={customStyles}
-                                 value={origin ? origin : (originOptions && originOptions?.length > 0) ? originOptions[0] : undefined}
                                  components={{
-                                     Option: ({innerProps, label, data}) => (
-                                         <div className={"options"} {...innerProps}>
-                                             <span><Flag country={data.countryCode}/> {label}</span>
-                                         </div>)
+                                     Control: originControl,
+                                     Option: option,
+                                     SingleValue: singleValue
                                  }}
                     />
-                    <label>Destination {destination &&
-                        <Flag country={destination.countryCode}/>}</label>
                     {!pendingDestSearch ?
-                        <Select options={destinationOptions} className={"w-100"}
+                        <Select placeholder={"Choose destination location"} name={"destination-selection"}
+                                className={"w-full sm:w-10/12 text-lg"}
+                                options={destinationOptions}
+                                value={destination ? destination : destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
                                 onChange={(option) => {
-                                    if (option) setDestination(option)
+                                    if (option)
+                                        setDestination(option)
                                 }}
                                 styles={customStyles}
-                                value={destination ? destination : destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
                                 components={{
-                                    Option: ({innerProps, label, data}) => (
-                                        <div className={"options"} {...innerProps}>
-                                            <span><Flag country={data.countryCode}/> {label}</span>
-                                        </div>)
+                                    Control: destinationControl,
+                                    Option: option,
+                                    SingleValue: singleValue
                                 }}
                                 isDisabled={pendingDestSearch || !destinationOptions || destinationOptions?.length <= 0}
                         /> : <img src={pendingSearchIcon} width={"30%"} height={"30%"} alt={""}/>}
                 </div>
-                <div className={"col-sm settings d-flex flex-column align-items-center justify-content-center gap-4"}>
-                    <div className={"d-flex justify-content-center align-items-center gap-4 w-100 flex-wrap"}>
-                        <label className={"w-25 position-relative"}>
-                            <input className={"form-control form-control-lg"} type={"number"} id={"adults"}
-                                   defaultValue={1} min={1} max={9}
-                                   onChange={(e) => setAdults(parseInt(e.target.value))}/>
-                            <label htmlFor={"adults"} className={"form-label"}>Adults</label>
-                        </label>
-                        <label className={"w-25 position-relative"}>
-                            <input className={"form-control form-control-lg"} type={"number"} id={"children"}
-                                   defaultValue={0} min={0} max={9}
-                                   onChange={(e) => setChildren(parseInt(e.target.value))}/>
-                            <label htmlFor={"children"} className={"form-label"}>Children</label>
-                        </label>
-                        <label className={"w-50"}>
-                            <h5>Max Price {maxPrice + '\u20AC'} </h5>
-                            <input className={"form-range"} type={"range"} min={5} max={1000} value={maxPrice}
+                <hr className={"mt-2 mb-2 border-gray-700 sm:hidden"}/>
+                <div className={"sm:w-1/4 py-1 sm:py-3 flex flex-col items-center justify-start gap-4"}>
+                    <div className={"w-full flex flex-wrap justify-center items-center"}>
+                        <div className={"flex w-full gap-2 justify-evenly"}>
+                        <div className={"relative w-1/2 flex flex-col gap-2"}>
+                            <Input
+                                className={"w-full rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-cyan-300 py-2 px-5 text-white"}
+                                type={"number"} name={"adults"}
+                                defaultValue={1} min={1} max={9}
+                                onChange={(e) => setAdults(parseInt(e.target.value))}/>
+                            <label htmlFor={"adults"}>
+                                <h5 className={"absolute -top-4 px-3 w-fit left-6 text-sm bg-flyNow-component"}>Adults</h5>
+                            </label>
+                        </div>
+                        <div className={"relative w-1/2 flex flex-col gap-2"}>
+                            <Input
+                                className={"w-full rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-cyan-300 py-2 px-5 text-white"}
+                                type={"number"} name={"children"}
+                                defaultValue={0} min={0} max={9}
+                                onChange={(e) => setChildren(parseInt(e.target.value))}/>
+                            <label htmlFor={"children"}>
+                                <h5 className={"absolute -top-3 px-3 w-fit left-2 text-sm bg-flyNow-component"}>Children</h5>
+                            </label>
+                        </div>
+                        </div>
+                        <div className={"w-full p-6 mt-2"}>
+                            <label htmlFor={"max-price"}>
+                                <h5>Maximum price <span className={"font-bold"}>{maxPrice + '\u20AC'}</span></h5>
+                            </label>
+                            <Input name={"max-price"} className={"accent-flyNow-light-secondary w-full"} type={"range"} min={5}
+                                   max={1000} value={maxPrice}
                                    onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
-                        </label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className={"w-100 d-flex flex-column justify-content-center align-items-center gap-3"}>
+            <div className={"w-full flex flex-col justify-center items-center gap-5"}>
                 {userSearchSuggestions?.length > 0 &&
                     <div
-                        className={"d-flex search-suggestion-container flex-column justify-content-start align-items-center gap-2"}>
-                        <label className={"fw-lighter fs-6"}>Search Again</label>
-                        <div className="search-suggestion-list w-75 d-flex flex-wrap overflow-y-auto gap-1">
+                        className={"flex w-full sm:w-3/4 flex-col justify-start items-center gap-2 "}>
+                        <label className={"font-light text-lg"}>Search Again</label>
+                        <div
+                            className={"w-full flex justify-start sm:w-3/4 max-h-32 sm:max-h-16 p-4 border-t-cyan-700 border-t-2 gap-2 overflow-x-scroll sm:overflow-x-auto sm:flex-wrap sm:overflow-y-auto"}>
                             {userSearchSuggestions.map((suggestion, index) => (
                                 <UserSearchSuggestion key={index} selectSuggestion={onSuggestionSelect}
                                                       suggestion={suggestion}/>
                             ))}
                         </div>
                     </div>}
-                <Alert variant={"danger"}
-                       show={originSearchTerm.length > 0 && !originOptions?.length && !pendingOriginSearch}>No
-                    available origin</Alert>
-                <Alert variant={"danger"}
-                       show={origin != null && departureDate.length > 0 && !(destinationOptions?.length > 0) && !pendingDestSearch}>No
-                    available destinations</Alert>
-                <Alert variant={"danger"}
-                       show={!pendingFlightSearch && flightList.length <= 0 && noResults}>No
-                    available flights</Alert>
-                <div className={"w-50 d-flex justify-content-center align-items-center "}>
-                    <Button variant={!checkIfSearchInfoEntered() ? "outline-secondary" : "btn"}
-                            className={"search-btn rounded-5"}
-                            disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
-                            onClick={triggerFlightSearch}>Search</Button>
-                    {/*<Button variant={"btn search-btn"} className={"w-25"}>Trip Planner</Button>*/}
+               {/* <div className={"w-full flex gap-1"}
+                     hidden={!(originSearchTerm.length > 3 && !originOptions?.length && !pendingOriginSearch)}>
+                    No available origin. <img src={errorIcon} className={"w-8 h-8"} alt={""}/>
+                </div>
+                <div className={"w-full flex gap-1"}
+                     hidden={!(origin != null && departureDate.length > 0 && !(destinationOptions?.length > 0) && !pendingDestSearch)}>
+                    No available destinations. <img src={errorIcon} className={"w-8 h-8"} alt={""}/>
+                </div>
+                <div className={"w-full flex gap-1"}
+                     hidden={!(!pendingFlightSearch && flightList.length <= 0 && noResults)}>
+                    No available flights. <img src={errorIcon} className={"w-8 h-8"} alt={""}/>
+                </div>*/}
+                <div className={"w-full flex flex-col sm:flex-row gap-5 justify-center items-center"}>
+                    <Button
+                        className={"transition-all duration-500 w-full text-xl sm:w-1/4 bg-cyan-700 sm:bg-transparent sm:hover:bg-cyan-700 sm:outline-cyan-700  sm:outline-1  sm:outline px-5 py-2 rounded-xl"}
+                        disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
+                        onClick={triggerFlightSearch}>Search
+                    </Button>
+                    <Button
+                        className={"transition-all duration-500 w-full text-xl sm:w-1/6 bg-flyNow-light-secondary  sm:hover:bg-cyan-700 px-5 py-2 rounded-xl"}
+                        disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}>Trip Planner
+                    </Button>
                 </div>
             </div>
         </div>

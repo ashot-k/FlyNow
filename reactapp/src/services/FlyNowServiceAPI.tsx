@@ -6,6 +6,7 @@ import {
     saveFlyNowTokenToStorage,
     Token
 } from "../utils/Utils";
+import config from "tailwindcss/defaultConfig";
 
 export interface Credentials {
     username: string
@@ -37,9 +38,10 @@ axiosFlyNow.interceptors.response.use((response) => {
     return response
 }, async function (error) {
     const originalRequest = error.config;
-
+    console.log(error.config)
+    if(!noAuthUrls.includes(error.config.baseURL + error.config.url))
     if (error.response.status === 401 || error.response.status === 403) {
-        window.location.href = "/login"
+     //   window.location.href = "/login"
     }
     return Promise.reject(error.response);
 });

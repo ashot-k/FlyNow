@@ -19,6 +19,10 @@
     .search-btn{
         width: 100%;
     }
+
+    .activity-container{
+        width: 100%;
+    }
 }
 
 @media only screen and (min-width: 1000px) {
@@ -27,6 +31,10 @@
     }
     .search-btn{
         width: 50%;
+    }
+
+    .activity-container{
+        width: 100%;
     }
 
 }
@@ -59,5 +67,12 @@
 
 .carousel-img {
     width: 100%;
-    height: 175px;
+    height: 250px;
+}
+.carousel-caption{
+    transition: opacity 2s ease-out;
+}
+.carousel-caption:hover{
+    opacity: 0;
+    cursor: pointer;
 }

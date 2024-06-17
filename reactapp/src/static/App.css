@@ -1,9 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /*
 background #202124
 boxes #36373A, #242529
 text #E8EAED
 svgs #04D7FF
 */
+
+iframe {
+
+}
+
+/*
 .form-range::-webkit-slider-thumb {
     background-color: #04D7FF !important;
 }
@@ -68,10 +78,6 @@ svgs #04D7FF
         width: 100%;
     }
 
-    .activities {
-        width: 100%;
-    }
-
     .register-page, .login-page {
         width: 100%;
     }
@@ -92,10 +98,6 @@ svgs #04D7FF
 
     .flight-list-filters-container {
         width: 25%;
-    }
-
-    .activities {
-        width: 75%;
     }
 
     .register-page, .login-page {
@@ -161,3 +163,4 @@ svgs #04D7FF
 }
 
 
+*/
