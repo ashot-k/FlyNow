@@ -63,6 +63,7 @@ export const checkIfExpired = (jwt: Token) => {
     const currentTime = new Date().getTime();
     return currentTime >= expirationTime
 }
+const textColor = "white";
 
 export const customStyles = {
     control: (provided: any) => ({
@@ -70,29 +71,30 @@ export const customStyles = {
         background: 'transparent',
         display: 'flex',
         flexWrap: 'nowrap',
-        color: 'white',
+        color: textColor,
         boxShadow: 'none',
+        borderColor: '#6b7280',
         '&:hover': {
             borderColor: '#04D7FF'
         },
-        borderColor: 'gray',
-        borderRadius: '10px',
+        boxSizing: "border-box !important",
+        borderWidth: "1px",
+        borderStyle:"solid",
+        padding: "0.5rem 1.25rem",
+        borderRadius: "9999px",
     }),
     menu: (provided: any) => ({
         ...provided,
-        paddingTop: '8px', /* Add top padding to create a gap */
-        paddingBottom: '8px',
         background: '#242529',
-        color: 'white',
-        zIndex: '5'
+        zIndex: '125'
     }),
     singleValue: (provided: any) => ({
         ...provided,
-        color: 'white'
+        color: textColor
     }),
     input: (provided: any) => ({
         ...provided,
-        color: 'white'
+        color: textColor
     })
 };
 

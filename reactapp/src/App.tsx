@@ -6,30 +6,37 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfile from "./pages/UserProfile";
 import {AuthContext} from "./context";
-import ScrollToTop from "./utils/ScrollToTop";
 import {useUserToken} from "./hooks/useUserToken";
+import Footer from "./components/Footer";
+import './static/animations.css'
+import { faB, faCheckSquare, faCoffee, faDatabase, faHouseLaptop, faS, faWindowMaximize } from '@fortawesome/free-solid-svg-icons';
+import {library} from "@fortawesome/fontawesome-svg-core";
+library.add(faB, faS, faHouseLaptop, faCheckSquare, faCoffee, faDatabase, faWindowMaximize)
 
-function App() {
+interface AppProps {
+    className?: string
+}
+
+export default function App({className}: AppProps) {
     const user = useUserToken();
 
     return (
         <AuthContext.Provider value={user}>
             <BrowserRouter>
-                <ScrollToTop/>
-                <div data-bs-theme="dark">
+                <div className={className}>
                     <NavBar/>
-                    <div className={"App d-flex justify-content-center"}>
+                    <main className={"flex flex-col flex-grow w-full items-center bg-home-page-background bg-no-repeat bg-fixed bg-cover "}>
                         <Routes>
                             <Route path="/" element={<Home/>}/>
                             {!user?.username && <Route path="/login" element={<Login/>}/>}
                             {!user?.username && <Route path="/register" element={<Register/>}/>}
                             {user?.username && <Route path="/profile" element={<UserProfile/>}/>}
                         </Routes>
-                    </div>
+                    </main>
+                    <Footer className={"w-full mt-25 px-4 flex flex-col justify-end items-center from-flyNow-main to-flyNow-component bg-gradient-to-b h-16"}/>
                 </div>
             </BrowserRouter>
+
         </AuthContext.Provider>
     );
 }
-
-export default App;

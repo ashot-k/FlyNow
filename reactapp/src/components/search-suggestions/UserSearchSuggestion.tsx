@@ -1,11 +1,10 @@
-import Button from "react-bootstrap/Button";
+
 import Flag from "react-flagkit";
 import countryCodes from "../../utils/countryCodes.json";
 import {getAirportByIATA} from "../../utils/Utils";
 import ArrowRight from "../../static/assets/arrow-right.svg";
 import React from "react";
 import {SearchSuggestion} from "./SearchSuggestions";
-import '../../static/SearchSuggestions.css'
 
 interface UserSearchSuggestionProps {
     suggestion: SearchSuggestion,
@@ -14,18 +13,17 @@ interface UserSearchSuggestionProps {
 
 export default function UserSearchSuggestion({suggestion, selectSuggestion}: UserSearchSuggestionProps) {
     return (
-        <div className={"search-suggestion element-shadow flex-column justify-content-center align-items-center"}>
-            <Button variant={"btn"}
-                    className={"d-flex gap-1 pe-2 p-1 ps-2 fw-bold fs-6 justify-content-center align-items-center rounded-2"}
+        <div className={"flex-col p-2 px-10 sm:px-5 bg-cyan-700 justify-center items-center rounded-2xl shadow-md shadow-black "}>
+            <button className={"flex gap-1 font-bold text-sm justify-center items-center rounded-2xl"}
                     onClick={() => selectSuggestion(suggestion)}>
-                <Flag size={16} className={"flag-img"}
+                <Flag className={"w-4 h-4"}
                       country={countryCodes.find(row => row.iata === suggestion.originIATA)?.iso}/>
                 <span>{getAirportByIATA(suggestion.originIATA)?.city}</span>
-                <img src={ArrowRight} width={'16px'} alt={''}/>
-                <Flag size={16} className={"flag-img"}
+                <img src={ArrowRight} width={'w-4'} alt={''}/>
+                <Flag className={"w-4 h-4"}
                       country={countryCodes.find(row => row.iata === suggestion.destinationIATA)?.iso}/>
                 <span>{getAirportByIATA(suggestion.destinationIATA)?.city}</span>
-            </Button>
+            </button>
         </div>
     )
 }

@@ -3,9 +3,13 @@
         width: 100%;
 
     }
-    .airline-logo {
-        width: 4rem;
-        height: 4rem;
+    .flight-card .airline-logo {
+        width: 4.5rem;
+        height: 4.5rem;
+    }
+    .modal-dialog .airline-logo{
+        width: 4.5rem;
+        height: 4.5rem;
     }
 
     .book-btn {
@@ -19,11 +23,15 @@
 
 @media only screen and (min-width: 1000px) {
     .flight-card {
-        width: 75%;
+        width: 100%;
     }
     .flight-card .airline-logo {
-        width: 4rem;
-        height: 4rem;
+        width: 6rem;
+        height: 6rem;
+    }
+    .modal-dialog .airline-logo{
+        width: 6rem;
+        height: 6rem;
     }
     .book-btn {
         width: 45%;

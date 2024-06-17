@@ -1,4 +1,3 @@
-
 import React, {useContext} from "react";
 import {AuthContext} from "../../context";
 import UserSearchSuggestionsList from "./UserSearchSuggestionsList";
