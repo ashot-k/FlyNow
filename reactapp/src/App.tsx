@@ -24,11 +24,11 @@ export default function App({className}: AppProps) {
         <AuthContext.Provider value={user}>
             <BrowserRouter>
                 <div className={className}>
-                    <NavBar/>
-                    <main className={"flex flex-col flex-grow w-full items-center bg-home-page-background bg-no-repeat bg-fixed bg-cover "}>
+                    <NavBar className={"w-full fixed flex from-flyNow-main to-flyNow-light sm:to-55% sm:from-flyNow-component sm:to-flyNow-light bg-gradient-to-l z-10 shadow-black shadow-sm"}/>
+                    <main className={"[&>*]:animate-slideInFadeIn w-full flex flex-col flex-grow items-center bg-home-page-background bg-no-repeat bg-fixed bg-cover"}>
                         <Routes>
-                            <Route path="/" element={<Home/>}/>
-                            {!user?.username && <Route path="/login" element={<Login/>}/>}
+                            <Route path="/" element={<Home className={"flex w-full h-full flex-col items-center gap-5"}/>}/>
+                            {!user?.username && <Route path="/login" element={<Login className={"my-40 w-full bg-flyNow-component sm:w-2/3 lg:w-1/2 xl:w-1/3 flex flex-col text-xl text-white shadow-black shadow-[2px_2px_5px_rgba(0,0,0,1)] sm:px-8 py-6 px-5 justify-center items-center gap-5"}/>}/>}
                             {!user?.username && <Route path="/register" element={<Register/>}/>}
                             {user?.username && <Route path="/profile" element={<UserProfile/>}/>}
                         </Routes>

@@ -55,19 +55,22 @@ export default function Register() {
                 <hr className={"mt-5 mb-2 border-gray-500"}/>
             </div>
             <div className={"w-full sm:w-1/2 lg:w-2/3 static flex flex-col items-center gap-3.5"}>
+                <div className={"w-full flex flex-col gap-1.5"}>
                 <label className={"w-full"} htmlFor={"username"}>Username</label>
                 <Input name={"username"} className={
-                    "invalid:visible w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-cyan-300 py-1.5 px-3 text-white"
+                    "invalid:visible w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-1.5 px-3 text-white"
                 } type={"text"}
-                       placeholder={"Enter username"} onChange={e => setUsername(e.target.value)}
-                />
+                       placeholder={"Enter username"} onChange={e => setUsername(e.target.value)}/>
+                </div>
+                <div className={"w-full flex flex-col gap-1.5"}>
                 <label className={"w-full"} htmlFor={"password"}>Password</label>
                 <Input name={"password"}
-                       className={"w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-cyan-300 py-1.5 px-3 text-white"}
+                       className={"w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-1.5 px-3 text-white"}
                        type={"password"} placeholder={"Enter password"}
                        onChange={e => setPassword(e.target.value)}/>
+                </div>
             </div>
-            <button className={"w-full sm:w-3/6 bg-cyan-700 outline-cyan-700 outline px-5 py-2 rounded-xl"}
+            <button className={"w-full sm:w-3/6 bg-flyNow-light outline-flyNow-light outline px-5 py-2 rounded-xl"}
                     type={"submit"}>Register
             </button>
             <div
@@ -84,7 +87,7 @@ export default function Register() {
                                                                                alt={""}/></div>}
             </div>
             <span>Already have an account? <Link to={"/login"}
-                                                 className={"underline text-cyan-300"}>Log in</Link></span>
+                                                 className={"underline text-flyNow-light-secondary"}>Log in</Link></span>
             {/* <Alert variant={registerStatus ? "success" : "danger"} show={!pendingRegister && showAlert}>{responseMessage}</Alert>*/
             }
         </form>

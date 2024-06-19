@@ -65,7 +65,7 @@ export const checkIfExpired = (jwt: Token) => {
 }
 const textColor = "white";
 
-export const customStyles = {
+export const locationSelectStyles = {
     control: (provided: any) => ({
         ...provided,
         background: 'transparent',
@@ -75,7 +75,7 @@ export const customStyles = {
         boxShadow: 'none',
         borderColor: '#6b7280',
         '&:hover': {
-            borderColor: '#04D7FF'
+            borderColor: '#0D7BBA'
         },
         boxSizing: "border-box !important",
         borderWidth: "1px",
@@ -86,7 +86,9 @@ export const customStyles = {
     menu: (provided: any) => ({
         ...provided,
         background: '#242529',
-        zIndex: '125'
+        padding: "0.3rem",
+        borderRadius: "2%",
+        zIndex: '5'
     }),
     singleValue: (provided: any) => ({
         ...provided,

@@ -3,7 +3,7 @@ import {capitalize} from "../utils/Utils";
 import {Route} from "../components/FlightSearch";
 import {useEffect, useState} from "react";
 
-export default function useSearchDestinationOptions(departureDate: string, originIATA: string | undefined) {
+export default function useSearchDestinationOptions(departureDate: string, originIATA?: string) {
 
     const [pendingDestSearch, setPendingDestSearch] = useState<boolean>(false);
     const [destination, setDestination] = useState<Route>();

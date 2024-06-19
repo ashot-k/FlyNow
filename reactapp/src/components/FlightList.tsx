@@ -12,7 +12,7 @@ export const FlightList = ({flightList, dictionaries, className}: FlightListProp
     return (
         <div className={className}>
             {flightList.map((flight: Flight, index: number) =>
-                <FlightCard key={index} className={"w-full sm:w-3/4 flex flex-col bg-zinc-900 shadow-black shadow-md rounded-lg gap-2"}
+                <FlightCard key={index} className={"animate-fadeIn w-full sm:w-3/4 flex flex-col bg-flyNow-component shadow-black shadow-md rounded-lg gap-2"}
                             flight={flight} dictionaries={dictionaries}/>
             )}
         </div>
