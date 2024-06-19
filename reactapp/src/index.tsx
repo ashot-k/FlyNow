@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <App className={"flex flex-col bg-flyNow-main text-slate-300 min-h-screen "}/>
+        <App className={"flex flex-col text-white min-h-screen"}/>
     </React.StrictMode>
 );
 reportWebVitals();

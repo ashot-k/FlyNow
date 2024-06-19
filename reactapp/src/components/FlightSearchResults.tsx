@@ -26,7 +26,7 @@ export default function FlightSearchResults({searchResults}: FlightSearchResultP
     return (
         <>
             {searchResults ? !searchResults.pending ? <>
-            {searchResults.flightList.length > 0 && <SearchInfoHeader {...searchResults?.searchInfo}/>}
+            {searchResults.flightList.length > 0 && <SearchInfoHeader {...searchResults?.searchInfo} children={0}/>}
                 <div className={"w-full flex flex-col justify-center items-center gap-4"}>
                     {/*<DestinationActivities dest={searchResults.searchInfo.destination.iataCode} className={"w-50"}/>*/}
                     <div className={"w-full sm:w-4/6 flex-col sm:flex-row flex justify-center items-center sm:items-start sm:justify-start"}>
@@ -36,7 +36,7 @@ export default function FlightSearchResults({searchResults}: FlightSearchResultP
                                                dictionaries={searchResults.dictionaries}
                                                filter={setFilters}/>}
                         {(filteredList && filteredList.length > 0 &&
-                            <FlightList className={"w-full p-2 sm:w-1/2 flex flex-col flex-wrap justify-center items-center sm:items-center gap-5"} flightList={filteredList} dictionaries={searchResults.dictionaries}/>
+                            <FlightList className={"w-full  mt-8 sm:mt-0 sm:w-1/2 flex flex-col flex-wrap justify-center items-center sm:items-center gap-5"} flightList={filteredList} dictionaries={searchResults.dictionaries}/>
                         )}
                     </div>
                 </div>

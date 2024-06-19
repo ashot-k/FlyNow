@@ -2,9 +2,8 @@ import {searchAirport} from "../services/AmadeusAPIService";
 import {capitalize} from "../utils/Utils";
 import {useEffect, useState} from "react";
 import {Route} from "../components/FlightSearch";
-import {Options} from "react-select";
 
-export default function useSearchOriginOptions() {
+export default function useSearchOriginOptions(originIATA?: string) {
 
     const [pendingOriginSearch, setPendingOriginSearch] = useState<boolean>(false);
     const [origin, setOrigin] = useState<Route>();

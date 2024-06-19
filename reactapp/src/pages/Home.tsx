@@ -3,8 +3,10 @@ import FlightSearch, {FlightSearchData} from "../components/FlightSearch";
 import {userArea} from "../utils/Utils";
 import {SearchSuggestion} from "../components/search-suggestions/SearchSuggestions";
 import FlightSearchResults from "../components/FlightSearchResults";
-
-export default function Home() {
+interface HomePageProps{
+    className?: string;
+}
+export default function Home({className}: HomePageProps) {
     const [searchResults, setSearchResults] = useState<FlightSearchData | undefined>(undefined);
 
     //hardcoded userArea due to AmadeusAPI test version limitations
@@ -21,10 +23,10 @@ export default function Home() {
     }
 
     return (
-        <div className="flex w-full h-full flex-col gap-0.5 items-center">
-            <FlightSearch className={" mt-20 sm:rounded-xl pt-10 px-6 pb-6 sm:mt-64 w-full sm:w-11/12 lg:w-4/6 sm:px-8 sm:py-8 bg-flyNow-component shadow-lg shadow-black gap-2 flex flex-col rounded-1 text-2xl font-normal"}
-                          onSearch={handleFlightSearch} originiataCode={originSuggestion}
-                          destinationiataCode={destinationSuggestion ? destinationSuggestion : ''}/>
+        <div className={className}>
+            <FlightSearch className={"flex flex-col gap-2 text-2xl font-normal rounded-lg sm:outline sm:outline-3 sm:outline-flyNow-light bg-flyNow-component mt-24 sm:rounded-xl pt-10 px-6 pb-6 sm:mt-44 w-full sm:w-11/12 lg:w-4/6 sm:px-12 sm:pt-12 sm:pb-8  shadow-lg shadow-black "}
+                          onSearch={handleFlightSearch} originIATA={originSuggestion}
+                          destinationIATA={destinationSuggestion ? destinationSuggestion : ''}/>
             <FlightSearchResults searchResults={searchResults}/>
         </div>
     );

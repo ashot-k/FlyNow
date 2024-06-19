@@ -7,13 +7,10 @@ export default function UserProfile() {
     const userData = useContext(AuthContext);
 
     return (
-        <div className={"user-profile-page d-flex flex-column justify-content-center align-items-center"}>
-            {userData?.username && <div className={"w-100 component-box mt-3 p-4 d-flex flex-column gap-2"}>
-                <div className={"d-flex align-items-center gap-3"}>
-                    <img alt={""} width={"128px"} height={"128px"}
-                         src={"https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png"}
-                         className={"rounded-circle bg-white"}/>
-                    <h1>{userData.username}</h1>
+        <div className={"mt-36 bg-flyNow-component p-6 w-full sm:w-1/2 flex flex-col justify-center items-center rounded-3xl shadow-md shadow-black"}>
+            {userData?.username && <div className={"w-full flex flex-col gap-2"}>
+                <div className={"flex items-center gap-3"}>
+                    <h1 className={"text-3xl "}>{userData.username}</h1>
                 </div>
                 <h3>Bookings</h3>
             </div>}

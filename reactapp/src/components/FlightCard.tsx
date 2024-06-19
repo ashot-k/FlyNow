@@ -5,6 +5,18 @@ import {axiosFlyNow} from "../services/FlyNowServiceAPI";
 import {useNavigate} from "react-router-dom";
 import airlines from '../utils/airlines.json';
 import ArrowRight from '../static/assets/arrow-right.svg'
+import {
+    Button,
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel
+} from "@headlessui/react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowDown} from '@fortawesome/free-solid-svg-icons'
+import FlightScheduleTable from "./FlightScheduleTable";
 
 export interface Flight {
     itineraries: {
@@ -47,6 +59,7 @@ interface FlightCardProps {
     dictionaries: Dictionaries,
     className?: string
 }
+
 
 export default function FlightCard({flight, dictionaries, className}: FlightCardProps) {
     const userData = useContext(AuthContext);
@@ -95,111 +108,116 @@ export default function FlightCard({flight, dictionaries, className}: FlightCard
 
     return (
         <div className={className}>
-            <div className={"w-full flex items-start justify-between"}>
-                <div className={"w-3/4 p-2 flex items-start sm:items-center"}>
+            <div className={"w-full flex items-start justify-between font-bold text-white rounded-t-lg"}>
+                <div className={"w-2/3 p-2 gap-2 flex items-center sm:items-center"}>
                     <img
-                        className={"relative top-0 left-0 w-9 h-9 sm:w-12 sm:h-12 rounded-full "}
+                        className={"relative top-0 left-0 size-12  sm:size-16 rounded-full"}
                         src={airlineInfo?.logo || "https://www.emme2servizi.it/wp-content/uploads/2020/12/no-image.jpg"}
                         alt={"image unavailable"}/>
                     <span
-                        className={"w-3/4 pt-2 ps-2 sm:ps-2 sm:pt-0 text-xs sm:text-sm font-normal text-start overflow-auto"}>{dictionaries.carriers[flight.validatingAirlineCodes]} ({flight.validatingAirlineCodes})</span>
+                        className={"w-3/4 sm:ps-2 sm:pt-0 text-sm sm:text-sm text-start overflow-auto"}>{dictionaries.carriers[flight.validatingAirlineCodes]} ({flight.validatingAirlineCodes})</span>
                 </div>
-                <div className={"w-1/4 flex flex-col justify-end px-3 pt-3"}>
+                <div className={"w-1/3 p-2 px-5 my-auto flex flex-col justify-end"}>
                     <span className={'text-sm text-end'}>Flights: {totalFlights}</span>
                     <span
                         className={'text-sm text-end'}>Stops: {calculateStops(flight.itineraries[0].segments)}</span>
                 </div>
             </div>
-            <hr className={"border-gray-500 sm:hidden"}/>
-            <div className={"w-full flex flex-col items-center justify-start"}>
-                {flight.itineraries[0] &&
-                    <div className={'grid gap-1 items-start'}>
-                        <div className={"flex justify-center"}>
-                                        <span className={"fs-5"}>Outbound
-                                            <span style={{color: "cornflowerblue"}}
-                                                  className={'fs-5'}> {flightDateToStringShort(outboundStart)}
+            <div className={"w-full flex justify-center"}>
+                <hr className={"w-5/6 border-gray-500 "}/>
+            </div>
+            <Disclosure as={"div"} className={"px-10"} defaultOpen={false}>
+                <DisclosureButton className={"flex w-full items-center justify-between"}>
+                    <div className={"w-1/12"}></div>
+                    <div className={"w-10/12 flex flex-col items-center justify-start"}>
+                        {flight.itineraries[0] &&
+                            <div className={'grid gap-1 items-start'}>
+                                <div className={"flex justify-center"}>
+                                        <span className={"text-xl"}>Outbound <span className={"text-blue-400"}>
+                                                {flightDateToStringShort(outboundStart)}
                                             </span>
                                         </span>
-                        </div>
-                        <div className={"flex items-center justify-center gap-2"}>
-                            <span className={"text-lg "}> {flightDateToStringTime(outboundStart)}</span>
-                            <img src={ArrowRight} width={'24px'} alt={''}/>
-                            <span className={"text-lg"}> {flightDateToStringTime(outboundEnd)}</span>
-                        </div>
-                    </div>}
-                {flight.itineraries[1] &&
-                    <>
-                        <hr className={"w-75 m-0"}/>
-                        <div className={'d-grid gap-1 align-items-start'}>
-                            <div className={"d-flex justify-content-between"}>
-                                            <span className={"fs-5"}>Return
-                                                <span style={{color: "cornflowerblue"}}
-                                                      className={'fs-5'}> {flightDateToStringShort(returnStart)}
+                                </div>
+                                <div className={"flex items-center justify-center text-lg gap-2"}>
+                                    <span> {flightDateToStringTime(outboundStart)}</span>
+                                    <img src={ArrowRight} className={"w-6"} alt={''}/>
+                                    <span> {flightDateToStringTime(outboundEnd)}</span>
+                                </div>
+                            </div>}
+                        {flight.itineraries[1] &&
+                            <>
+                                <hr className={"w-75 m-0"}/>
+                                <div className={'grid gap-1 items-start'}>
+                                    <div className={"flex justify-center"}>
+                                             <span className={"text-xl"}>Outbound <span className={"text-blue-400"}>
+                                                 {flightDateToStringShort(returnStart)}
                                                 </span>
                                             </span>
-                            </div>
-                            <div className={"d-flex align-items-center justify-content-center gap-2"}>
-                                <span className={"fs-5"}> {flightDateToStringTime(returnStart)}</span>
-                                <img src={ArrowRight} width={'24px'} alt={''}/>
-                                <span className={"fs-5"}> {flightDateToStringTime(returnEnd)}</span>
-                            </div>
-                        </div>
-                    </>}
-            </div>
-            <div className={"flex justify-center items-center p-5"}>
-                <button className={"w-3/4 lg:w-5/6 xl:w-1/2 bg-cyan-700 outline-cyan-700 outline px-3 py-1.5 rounded-xl"}
-                        onClick={() => bookConfirmModal()}>Book
+                                    </div>
+                                    <div className={"flex items-center justify-center text-lg gap-2"}>
+                                        <span> {flightDateToStringTime(returnStart)}</span>
+                                        <img src={ArrowRight} className={"w-6"} alt={''}/>
+                                        <span> {flightDateToStringTime(returnEnd)}</span>
+                                    </div>
+                                </div>
+                            </>}
+                    </div>
+                    <FontAwesomeIcon icon={faArrowDown} className="w-1/12 size-7 group-data-[open]:rotate-180"/>
+                </DisclosureButton>
+                <DisclosurePanel className="p-2 overflow-auto text-sm">
+                    <FlightScheduleTable className={"animate-fadeIn"} flight={flight} dictionaries={dictionaries}/>
+                    <div className={"h5"}>
+                        Available Seats: {flight.numberOfBookableSeats}
+                    </div>
+                </DisclosurePanel>
+            </Disclosure>
+            <div className={"flex justify-center items-center px-5 py-4"}>
+                <button
+                    className={"w-4/6 lg:w-5/6 xl:w-5/12 bg-flyNow-light outline-flyNow-light  outline px-3 py-2 rounded-xl"}
+                    onClick={() => bookConfirmModal()}>Book
                     for <span className={"font-bold"}>{flight.price.total} {flight.price.currency}</span></button>
             </div>
-
-
-            {/*<Accordion flush>
-                <Accordion.Item eventKey="0" className={'bg-transparent'}>
-                    <Accordion.Header className={'bg-transparent according-header'}>
-                        <div className={"d-flex flex-column align-items-center justify-content-start w-100"}>
-                            {flight.itineraries[0] &&
-                                <div className={'d-grid gap-1 align-items-start'}>
-                                    <div className={"d-flex justify-content-center"}>
-                                        <span className={"fs-5"}>Outbound
-                                            <span style={{color: "cornflowerblue"}}
-                                                  className={'fs-5'}> {flightDateToStringShort(outboundStart)}
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <div className={"d-flex align-items-center justify-content-center gap-2"}>
-                                        <span className={"fs-5"}> {flightDateToStringTime(outboundStart)}</span>
-                                        <img src={ArrowRight} width={'24px'} alt={''}/>
-                                        <span className={"fs-5"}> {flightDateToStringTime(outboundEnd)}</span>
-                                    </div>
-                                </div>}
-                            {flight.itineraries[1] &&
-                                <>
-                                    <hr className={"w-75 m-0"}/>
-                                    <div className={'d-grid gap-1 align-items-start'}>
-                                        <div className={"d-flex justify-content-between"}>
-                                            <span className={"fs-5"}>Return
-                                                <span style={{color: "cornflowerblue"}}
-                                                      className={'fs-5'}> {flightDateToStringShort(returnStart)}
-                                                </span>
-                                            </span>
-                                        </div>
-                                        <div className={"d-flex align-items-center justify-content-center gap-2"}>
-                                            <span className={"fs-5"}> {flightDateToStringTime(returnStart)}</span>
-                                            <img src={ArrowRight} width={'24px'} alt={''}/>
-                                            <span className={"fs-5"}> {flightDateToStringTime(returnEnd)}</span>
-                                        </div>
-                                    </div>
-                                </>}
+            <Dialog open={show} onClose={handleClose} className={"relative z-100 text-white"}>
+                <div
+                    className={"fixed inset-0 animate-fadeIn flex w-full items-center justify-center sm:p-4 backdrop-blur-sm sm:backdrop-blur-md"}>
+                    <DialogPanel
+                        className={"bg-flyNow-component outline outline-3 outline-flyNow-light w-full p-5 sm:w-1/2 sm:px-12 sm:py-8 sm:rounded-xl flex flex-col justify-center items-start gap-3"}>
+                        <DialogTitle className={"text-3xl"}>Booking Confirmation</DialogTitle>
+                        <div className={"w-full flex-col flex gap-5"}>
+                            <hr className={"border-t-gray-500 pt-5"}/>
+                            <div>
+                                <FlightScheduleTable className={"w-full overflow-auto"} flight={flight}
+                                                     dictionaries={dictionaries}/>
+                                <div className={"h5"}>
+                                    Available Seats: {flight.numberOfBookableSeats}
+                                </div>
+                            </div>
+                            <div>
+                                <h1 className={"text-3xl"}>Traveler </h1>
+                                <hr className={"border-gray-500 pt-5 "}/>
+                                <div>
+                                    <h1 className={"text-xl"}>Username: {userData?.username}</h1>
+                                    <h1 className={"text-xl"}>//more info//</h1>
+                                </div>
+                            </div>
+                            <div className={"flex justify-evenly sm:justify-end gap-5"}>
+                                <Button  className={"transition duration-500 w-4/12 text-lg sm:text-xl sm:w-1/6 bg-gray-500 sm:outline-gray-500  sm:outline-2  sm:outline px-2 py-2 rounded-xl"}
+                                         onClick={handleClose}>
+                                    Cancel
+                                </Button>
+                                <Button  className={"transition duration-500 w-7/12 text-lg sm:text-xl sm:w-1/4 bg-flyNow-light  sm:outline-flyNow-light sm:outline-2 sm:outline px-2 py-2 rounded-xl"}
+                                         onClick={() => book(flight)}>
+                                    Book for <span
+                                    className={"font-bold"}>{flight.price.total} {flight.price.currency}</span>
+                                </Button>
+                            </div>
                         </div>
-                    </Accordion.Header>
-                    <Accordion.Body className={"mt-3"}>
-                        <FlightScheduleTable flight={flight} dictionaries={dictionaries}/>
-                        <div className={"h5"}>
-                            Available Seats: {flight.numberOfBookableSeats}
-                        </div>
-                    </Accordion.Body>
-                </Accordion.Item>
-            </Accordion>
+                    </DialogPanel>
+                </div>
+
+            </Dialog>
+
+            {/*
             <div className={"w-100 d-flex justify-content-center align-items-center gap-3"}>
                 <button className={"btn"} onClick={() => bookConfirmModal()}>Book
                     for <span className={"fw-bold"}>{flight.price.total} {flight.price.currency}</span></button>
