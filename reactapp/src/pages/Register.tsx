@@ -5,7 +5,10 @@ import {Input} from "@headlessui/react";
 import successIcon from "../static/assets/success-svgrepo-com.svg";
 import errorIcon from "../static/assets/error-svgrepo-com.svg";
 
-export default function Register() {
+interface RegisterPageProps{
+    className? :string
+}
+export default function Register({className}:RegisterPageProps) {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [pendingRegister, setPendingRegister] = useState<boolean>(false);
@@ -49,7 +52,7 @@ export default function Register() {
 
     return (
         <form onSubmit={handleRegistration}
-              className={"my-40 w-full bg-flyNow-component sm:w-2/3 lg:w-1/2 xl:w-1/3 flex flex-col text-xl text-white shadow-black shadow-[2px_2px_5px_rgba(0,0,0,1)] sm:px-8 py-6 px-5 justify-center items-center gap-5"}>
+              className={className}>
             <div className={"w-full"}>
                 <h1 className={"text-3xl"}>Create your account</h1>
                 <hr className={"mt-5 mb-2 border-gray-500"}/>
@@ -58,14 +61,14 @@ export default function Register() {
                 <div className={"w-full flex flex-col gap-1.5"}>
                 <label className={"w-full"} htmlFor={"username"}>Username</label>
                 <Input name={"username"} className={
-                    "invalid:visible w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-1.5 px-3 text-white"
+                    "invalid:visible w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-2 sm:py-1.5 px-3 text-white"
                 } type={"text"}
                        placeholder={"Enter username"} onChange={e => setUsername(e.target.value)}/>
                 </div>
                 <div className={"w-full flex flex-col gap-1.5"}>
                 <label className={"w-full"} htmlFor={"password"}>Password</label>
                 <Input name={"password"}
-                       className={"w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-1.5 px-3 text-white"}
+                       className={"w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-2 sm:py-1.5 px-3 text-white"}
                        type={"password"} placeholder={"Enter password"}
                        onChange={e => setPassword(e.target.value)}/>
                 </div>

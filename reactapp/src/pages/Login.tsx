@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {login} from "../services/FlyNowServiceAPI";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {Input} from "@headlessui/react";
 import errorIcon from '../static/assets/error-svgrepo-com.svg'
 import successIcon from '../static/assets/success-svgrepo-com.svg'
@@ -8,6 +8,7 @@ import successIcon from '../static/assets/success-svgrepo-com.svg'
 interface LoginProps {
     onLogin?: (token: string) => void;
     className?: string;
+    previousURL?: string
 }
 
 export default function Login({className}: LoginProps) {
@@ -17,9 +18,17 @@ export default function Login({className}: LoginProps) {
     const [loginStatus, setLoginStatus] = useState<boolean>(false);
     const [showAlert, setShowAlert] = useState<boolean>(false);
 
+    let location = useLocation();
+    const [prevURL, setPrevURL] = useState<string>("");
+
     useEffect(() => {
         setShowAlert(false);
     }, [username, password]);
+
+    useEffect(() => {
+        if(location.state?.prevURL)
+            setPrevURL(location.state.prevURL)
+    }, []);
 
     function handleLogin(e: React.FormEvent) {
         e.preventDefault();
@@ -31,6 +40,8 @@ export default function Login({className}: LoginProps) {
                         setLoginStatus(true)
                         setShowAlert(true);
                         setTimeout(() => {
+                            if(prevURL)
+                                window.location.href = prevURL.toString();
                             window.location.href = "/"
                         }, 350);
                     } else {
@@ -57,14 +68,14 @@ export default function Login({className}: LoginProps) {
                 <div className={"w-full flex flex-col gap-1.5"}>
                     <label className={"w-full"} htmlFor={"username"}>Username</label>
                     <Input name={"username"}
-                           className={"w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-1.5 px-3 text-white"}
+                           className={"w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-2 sm:py-1.5 px-3 text-white"}
                            type={"text"} placeholder={"Enter username"}
                            onChange={e => setUsername(e.target.value)}/>
                 </div>
                 <div className={"w-full flex flex-col gap-1.5"}>
                     <label className={"w-full"} htmlFor={"password"}>Password</label>
                     <Input name={"password"}
-                           className={"w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-1.5 px-3 text-white"}
+                           className={"w-full rounded-lg bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-2 sm:py-1.5 px-3 text-white"}
                            type={"password"} placeholder={"Enter password"}
                            onChange={e => setPassword(e.target.value)}/>
                 </div>

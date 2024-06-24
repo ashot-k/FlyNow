@@ -14,6 +14,7 @@ import Flag from "react-flagkit";
 import pendingSearchIcon from '../static/assets/infinite-spinner.svg'
 import calendarIcon from '../static/assets/calendar-color-icon.svg'
 import ErrorMessage from "./ErrorMessage";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
@@ -64,7 +65,7 @@ const option = ({innerProps, label, data}: OptionProps<Route, false>) => (<div
 const originControl = ({children, ...props}: ControlProps<Route>) => {
     return (
         <components.Control {...props}>
-            <h3 className={"absolute px-3 -top-4 left-6 bg-flyNow-component"}>Origin</h3>
+            <h3 className={"absolute px-2 -top-4 left-6 bg-flyNow-component"}>Origin</h3>
             {children}
         </components.Control>
     )
@@ -73,7 +74,7 @@ const destinationControl = ({children, ...props}: ControlProps<Route>) => {
     return (
         <components.Control{...props}>
             <label htmlFor={"destination-selection"}
-                   className={"absolute px-3 -top-4 left-6 bg-flyNow-component"}>Destination</label>
+                   className={"absolute px-2 -top-4 left-6 bg-flyNow-component"}>Destination</label>
             {children}
         </components.Control>
     )
@@ -94,6 +95,7 @@ export default function FlightSearch({
                                          destinationIATA
                                      }: FlightSearchProps & preloadedSearchInfo) {
 
+    const navigate = useNavigate();
     const [departureDate, setDepartureDate] = useState<string>(new Date().toISOString().substring(0, 10));
     const [oneWay, setOneWay] = useState<boolean>(true)
     const [returnDate, setReturnDate] = useState<string>('');
@@ -103,8 +105,8 @@ export default function FlightSearch({
     const [originSearchTerm, setOriginSearchTerm] = useState<string>('');
     const [preloadedOriginIATA, setPreloadedOriginIATA] = useState<string | undefined>(originIATA);
     const [preloadedDestinationIATA, setPreloadedDestinationIATA] = useState<string | undefined>(destinationIATA);
-
     const {userSearchSuggestions, pendingUserSearchSuggestions} = useUserSearchSuggestions();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const {
         pendingOriginSearch,
@@ -129,8 +131,18 @@ export default function FlightSearch({
     } = useSearchFlights();
 
     function triggerFlightSearch() {
-        if (origin && destination && departureDate)
+        if (origin && destination && departureDate) {
             searchFlights(origin?.iataCode, destination?.iataCode, departureDate, oneWay, returnDate, adults, children, maxPrice);
+            searchParams.set("origin", origin.iataCode);
+            searchParams.set("dest", destination.iataCode)
+            searchParams.set("depDate", departureDate)
+            searchParams.set("oneWay", String(oneWay))
+            searchParams.set("returnDate", returnDate)
+            searchParams.set("adults", String(adults))
+            searchParams.set("children", String(children))
+            searchParams.set("max_price", String(maxPrice))
+            setSearchParams(searchParams);
+        }
     }
 
     function onSuggestionSelect(suggestion: SearchSuggestion) {
@@ -151,6 +163,27 @@ export default function FlightSearch({
                 pending: pendingFlightSearch
             });
     }
+    useEffect(() => {
+        const origin = searchParams.get("origin");
+        const dest = searchParams.get("dest");
+        const departureDate = searchParams.get("depDate");
+        const oneWay = searchParams.get("oneWay");
+        const returnDate = searchParams.get("returnDate");
+        const adults = searchParams.get("adults");
+        const children = searchParams.get("children");
+        const maxPrice = searchParams.get("max_price");
+        if(origin && dest && departureDate) {
+            setOriginSearchTerm(origin);
+            setPreloadedOriginIATA(origin);
+            setPreloadedDestinationIATA(dest);
+            setDepartureDate(departureDate);
+            setMaxPrice(maxPrice ? Number(maxPrice) : 1000);
+            setAdults(adults ? Number(adults) : 1);
+            setChildren(children ? Number(children) : 0);
+            setReturnDate(returnDate ? returnDate : "");
+            setOneWay(oneWay ? Boolean(oneWay) : true);
+        }
+    }, [searchParams]);
 
     useEffect(() => {
         returnSearchResults();
@@ -191,12 +224,12 @@ export default function FlightSearch({
 
     return (
         <div
-            className={className}>
-            <div className={"flex flex-col sm:flex sm:flex-row gap-4 sm:gap-2 justify-center"}>
+            className={className + " relative"}>
+            <div className={"w-full flex flex-col sm:flex sm:flex-row gap-5 sm:gap-2 justify-center"}>
                 <div className={"sm:w-1/4 py-1 sm:py-3 flex flex-col items-center justify-start sm:gap-8"}>
                     <div className={"relative w-full"}>
                         <label htmlFor={"departure-date"}>
-                            <h5 className={"absolute -top-4 px-3 w-fit left-6 text-lg bg-flyNow-component flex items-center gap-2"}>Departure<img
+                            <h5 className={"absolute -top-4 px-2 w-fit left-6 text-lg bg-flyNow-component flex items-center gap-2"}>Departure<img
                                 className={"size-4 sm:hidden"} src={calendarIcon} alt={""}/></h5>
                         </label>
                         <Input name={"departure-date"}
@@ -256,14 +289,13 @@ export default function FlightSearch({
                                     Option: option,
                                     SingleValue: singleValue
                                 }}
-                            //isDisabled={pendingDestSearch || !destinationOptions || destinationOptions?.length <= 0}
                         /> : <img src={pendingSearchIcon} className={"size-36"} alt={""}/>}
                 </div>
                 <hr className={"my-2 border-gray-700 sm:hidden"}/>
                 <div className={"sm:w-1/4 py-1 sm:py-3 flex flex-col items-center justify-start gap-8"}>
-                    <div className={"w-full flex flex-wrap justify-center items-center"}>
+                    <div className={"w-full flex flex-wrap justify-center items-center gap-4"}>
                         <div className={"flex w-full gap-2 justify-evenly"}>
-                            <div className={"relative w-1/2 flex flex-col gap-2"}>
+                            <div className={"relative w-5/12 flex flex-col gap-2"}>
                                 <Input
                                     className={"w-full rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-2 px-5 text-white"}
                                     type={"number"} name={"adults"}
@@ -273,7 +305,7 @@ export default function FlightSearch({
                                     <h5 className={"absolute -top-4 px-3 w-fit left-6 text-sm bg-flyNow-component"}>Adults</h5>
                                 </label>
                             </div>
-                            <div className={"relative w-1/2 flex flex-col gap-2"}>
+                            <div className={"relative w-5/12 flex flex-col gap-2"}>
                                 <Input
                                     className={"w-full rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-2 px-5 text-white"}
                                     type={"number"} name={"children"}
@@ -284,51 +316,48 @@ export default function FlightSearch({
                                 </label>
                             </div>
                         </div>
-                        <div className={"w-full p-6 mt-2"}>
+                        <div className={"w-full px-3 mt-2"}>
                             <label htmlFor={"max-price"}>
                                 <h5>Maximum price <span className={"font-bold"}>{maxPrice + '\u20AC'}</span></h5>
                             </label>
                             <Input name={"max-price"} className={"accent-flyNow-light-secondary w-full"} type={"range"}
                                    min={5}
-                                   max={1000} value={maxPrice}
+                                   max={1000} defaultValue={maxPrice}
                                    onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className={"w-full flex flex-col justify-center items-center gap-5"}>
-                {userSearchSuggestions?.length > 0 &&
+            {userSearchSuggestions?.length > 0 &&
+                <div className={"flex w-full sm:w-3/4 flex-col justify-start items-center gap-2"}>
+                    <label className={"font-light text-lg"}>Search Again</label>
                     <div
-                        className={"flex w-full sm:w-3/4 flex-col justify-start items-center gap-2"}>
-                        <label className={"font-light text-lg"}>Search Again</label>
-                        <div
-                            className={"w-full flex justify-start sm:w-3/4 max-h-32 sm:max-h-20 p-4 border-t-flyNow-secondary border-t-2 gap-2 overflow-x-scroll sm:overflow-x-auto sm:flex-wrap sm:overflow-y-auto"}>
-                            {userSearchSuggestions.map((suggestion, index) => (
-                                <UserSearchSuggestion key={index} selectSuggestion={onSuggestionSelect}
-                                                      suggestion={suggestion}/>
-                            ))}
-                        </div>
-                    </div>}
-                <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
-                              message={"No available origins."}
-                              show={originSearchTerm.length >= 3 && originOptions?.length <= 0 && !pendingOriginSearch}/>
-                <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
-                              message={"No available destinations."}
-                              show={origin != null && originOptions?.length > 0 && departureDate.length > 0 && destinationOptions?.length <= 0 && !pendingDestSearch}/>
-                <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
-                              message={"No available flights."}
-                              show={!pendingFlightSearch && flightList.length <= 0 && noResults}/>
-                <div className={"w-full flex flex-row sm:flex-row gap-5 justify-center items-center"}>
-                    <Button
-                        className={"transition-all duration-500 w-7/12 text-lg sm:xl sm:w-1/4 bg-flyNow-light sm:bg-transparent sm:hover:bg-flyNow-light sm:outline-flyNow-light  sm:outline-2  sm:outline px-5 py-2 rounded-xl"}
-                        disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
-                        onClick={triggerFlightSearch}>Search
-                    </Button>
-                    <Button
-                        className={"transition-all duration-500 w-5/12 text-lg sm:xl sm:w-1/6 bg-flyNow-secondary sm:hover:bg-flyNow-light px-3 py-2 rounded-xl"}
-                        disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}>Trip Planner
-                    </Button>
-                </div>
+                        className={"w-full flex justify-start sm:w-3/4 max-h-32 sm:max-h-20 p-4 border-t-flyNow-secondary border-t-2 gap-2 overflow-x-scroll sm:overflow-x-auto sm:flex-wrap sm:overflow-y-auto"}>
+                        {userSearchSuggestions.map((suggestion, index) => (
+                            <UserSearchSuggestion key={index} selectSuggestion={onSuggestionSelect}
+                                                  suggestion={suggestion}/>
+                        ))}
+                    </div>
+                </div>}
+            <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
+                          message={"No available origins."}
+                          show={originSearchTerm.length >= 3 && originOptions?.length <= 0 && !pendingOriginSearch}/>
+            <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
+                          message={"No available destinations."}
+                          show={origin != null && originOptions?.length > 0 && departureDate.length > 0 && destinationOptions?.length <= 0 && !pendingDestSearch}/>
+            <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
+                          message={"No available flights."}
+                          show={!pendingFlightSearch && flightList.length <= 0 && noResults}/>
+            <div className={"w-full flex flex-row sm:flex-row gap-5 py-3 justify-center items-center"}>
+                <Button
+                    className={"transition-all duration-500 w-7/12 text-lg sm:xl sm:w-1/4 bg-flyNow-light sm:bg-transparent sm:hover:bg-flyNow-light sm:outline-flyNow-light  sm:outline-2  sm:outline px-5 py-2 rounded-xl"}
+                    disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
+                    onClick={triggerFlightSearch}>Search
+                </Button>
+                <Button
+                    className={"transition-all duration-500 w-5/12 text-lg sm:xl sm:w-1/6 bg-flyNow-secondary sm:hover:bg-flyNow-light px-3 py-2 rounded-xl"}
+                    disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}>Trip Planner
+                </Button>
             </div>
         </div>
     );

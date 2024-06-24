@@ -13,7 +13,7 @@ interface UserSearchSuggestionProps {
 
 export default function UserSearchSuggestion({suggestion, selectSuggestion}: UserSearchSuggestionProps) {
     return (
-        <div className={"p-2 px-10 sm:px-5 bg-flyNow-light justify-center items-center rounded-2xl hover:scale-105 shadow-md shadow-black duration-500 transition"}>
+        <div className={"w-fit flex py-1 px-10 sm:py-2 sm:px-3 bg-flyNow-light justify-center items-center rounded-2xl hover:scale-105 shadow-md shadow-black duration-500 transition"}>
             <button className={"flex gap-1 font-bold text-sm justify-center items-center rounded-2xl"}
                     onClick={() => selectSuggestion(suggestion)}>
                 <Flag className={"size-4"}

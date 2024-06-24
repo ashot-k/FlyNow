@@ -8,7 +8,6 @@ export default function useUserSearchSuggestions() {
 
     useEffect(() => {
         getSearchTerms().then((r) => {
-            console.log(r.data);
             let unformattedSuggestions = r.data;
             let suggestions: SearchSuggestion[] = [];
             for (const unformattedSuggestion of unformattedSuggestions) {

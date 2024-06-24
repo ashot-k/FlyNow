@@ -24,7 +24,7 @@ export default function Home({className}: HomePageProps) {
 
     return (
         <div className={className}>
-            <FlightSearch className={"flex flex-col gap-2 text-2xl font-normal rounded-lg sm:outline sm:outline-3 sm:outline-flyNow-light bg-flyNow-component mt-24 sm:rounded-xl pt-10 px-6 pb-6 sm:mt-44 w-full sm:w-11/12 lg:w-4/6 sm:px-12 sm:pt-12 sm:pb-8  shadow-lg shadow-black "}
+            <FlightSearch className={"flex flex-col items-center sm:gap-8 text-2xl font-normal rounded-lg sm:outline sm:outline-2 sm:outline-flyNow-light bg-flyNow-component mt-12 sm:rounded-xl pt-10 px-5 pb-6 sm:mt-36 w-full sm:w-11/12 lg:w-4/6 sm:px-20 sm:py-20 sm:pb-8 shadow-lg shadow-black"}
                           onSearch={handleFlightSearch} originIATA={originSuggestion}
                           destinationIATA={destinationSuggestion ? destinationSuggestion : ''}/>
             <FlightSearchResults searchResults={searchResults}/>

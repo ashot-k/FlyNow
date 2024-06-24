@@ -42,10 +42,9 @@ export default function FlightListFilters({flightList, dictionaries, filter, cla
         filter(filtered);
     }
 
-
-    function inverse(obj: any){
-        let retobj  :any = {};
-        for(let key in obj){
+    function inverse(obj: any) {
+        let retobj: any = {};
+        for (let key in obj) {
             retobj[obj[key]] = key;
         }
         return retobj;
@@ -53,42 +52,43 @@ export default function FlightListFilters({flightList, dictionaries, filter, cla
 
     return (
         <div className={className}>
-                <h2 className={"text-4xl mb-10 font-normal"}>Filters</h2>
-                <div className={"w-full rounded-1 flex flex-col items-start gap-2"}>
-                    <div className={"w-full"}>
-                        <h5 className={"text-2xl font-bold"}>Airlines</h5>
-                        <hr className={"w-full m-auto"}/>
-                    </div>
-                    <div className={"w-full flex flex-col items-start"}>
-                        {airlines?.map((airline, index) => (
-                            <div className={"w-full flex py-2 justify-start items-center gap-2"}>
-                                <Input
-                                    type="checkbox"
-                                    key={index}
-                                    value={airline} className={"accent-flyNow-light"}
-                                    onChange={(e) => {
-                                        const isChecked = e.target.checked;
-                                        setSelectedAirlines(prevSelectedAirlines => {
-                                            if (isChecked)
-                                                return [...prevSelectedAirlines, airline];
-                                            else
-                                                return prevSelectedAirlines.filter(selectedAirline => selectedAirline !== airline);
-                                        });
-                                    }}
-                                />
-                                <label className={"text-lg max-w-full"}>{capitalize(airline)}</label>
-                                <img className={"w-10 h-10 rounded-full"}
-                                     src={airlineData.find(airlineInfo => airlineInfo.name.toLowerCase() === airline.toLowerCase())?.logo}
-                                     alt={""}/>
-                                <small className={"font-sans"}>({flightList.filter((flight) =>
-                                    flight.validatingAirlineCodes
+            <h2 className={"text-3xl mb-10 font-normal"}>Filters</h2>
+            <div className={"w-full rounded-1 flex flex-col items-start gap-2"}>
+                <div className={"w-full flex flex-col gap-1"}>
+                    <h5 className={"text-xl font-medium"}>Airlines</h5>
+                    <hr className={"w-full m-auto"}/>
+                </div>
+                <div className={"w-fullflex flex-col items-start"}>
+                    {airlines?.map((airline, index) => (
+                        <div className={"w-full flex py-2 justify-start items-center gap-2"}>
+                            <Input
+                                type="checkbox"
+                                key={index}
+                                value={airline} className={"size-5 sm:size-5 accent-flyNow-light border-2 border-black"}
+                                onChange={(e) => {
+                                    const isChecked = e.target.checked;
+                                    setSelectedAirlines(prevSelectedAirlines => {
+                                        if (isChecked)
+                                            return [...prevSelectedAirlines, airline];
+                                        else
+                                            return prevSelectedAirlines.filter(selectedAirline => selectedAirline !== airline);
+                                    });
+                                }}/>
+                            <label className={"text-sm sm:text-lg max-w-full"}>{capitalize(airline)}</label>
+                            <img className={"size-8 rounded-full text-xs"}
+                                 src={airlineData.find(airlineInfo => airlineInfo.name.toLowerCase() === airline.toLowerCase())?.logo }
+                                 alt={airline}/>
+                            <small className={"font-sans"}>
+                                ({flightList.filter((flight) =>
+                                flight.validatingAirlineCodes
                                     .includes(
                                         inverse(dictionaries.carriers)[airline.toUpperCase()]
-                                    )).length})</small>
-                            </div>
-                        ))}
-                    </div>
+                                    )).length})
+                            </small>
+                        </div>
+                    ))}
                 </div>
+            </div>
         </div>
     );
 }
