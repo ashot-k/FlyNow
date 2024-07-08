@@ -2,6 +2,7 @@ package org.flynow.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,45 +17,40 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Username is required")
     private String username;
-    @Column(unique = false)
+    @Column(unique = false, nullable = false)
     @JsonIgnore
+    @NotBlank(message = "Password is required")
     private String password;
+
+    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Email is required")
+    private String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+    private Address address;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private Set<Role> roles;
 
-    @OneToMany
-    @JoinColumn(name = "booked_flights")
-    private List<Flight> bookedFlights = new ArrayList<>();
-
-    public User(String username, String password, List<Flight> bookedFlights) {
-        this.username = username;
-        this.password = password;
-        this.bookedFlights = bookedFlights;
-    }
-
-    public User(Long id, String username, String password, List<Flight> bookedFlights) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.bookedFlights = bookedFlights;
-    }
 
     public User() {
 
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
     public Long getId() {
@@ -65,6 +61,13 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getUsername() {
         return username;
@@ -107,19 +110,19 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public List<Flight> getBookedFlights() {
-        return bookedFlights;
-    }
-
-    public void setBookedFlights(List<Flight> bookedFlights) {
-        this.bookedFlights = bookedFlights;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

@@ -1,38 +1,37 @@
-import Select, {components, ControlProps, OptionProps, SingleValueProps} from "react-select";
-import {locationSelectStyles} from "../utils/Utils";
-import React, {useEffect, useState} from "react";
-import {Dictionaries, Flight} from "./FlightCard";
+import Select from "react-select";
+import { destinationControl, locationSelectStyles, option, originControl, singleValue } from "./SelectProps";
+import React, { useEffect, useRef, useState } from "react";
+import { Dictionaries, Flight } from "./FlightCard";
 import AsyncSelect from "react-select/async";
-import {SearchSuggestion} from "./search-suggestions/SearchSuggestions";
+import { SearchSuggestion } from "./search-suggestions/SearchSuggestions";
 import useSearchDestinationOptions from "../hooks/useSearchDestinationOptions";
 import useSearchOriginOptions from "../hooks/useSearchOriginOptions";
 import UserSearchSuggestion from "./search-suggestions/UserSearchSuggestion";
 import useUserSearchSuggestions from "../hooks/useUserSearchSuggestions";
 import useSearchFlights from "../hooks/useSearchFlights";
-import {Button, Input} from "@headlessui/react";
-import Flag from "react-flagkit";
-import pendingSearchIcon from '../static/assets/infinite-spinner.svg'
-import calendarIcon from '../static/assets/calendar-color-icon.svg'
-import ErrorMessage from "./ErrorMessage";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Button, Input } from "@headlessui/react";
+import calendarIcon from "../static/assets/calendar-color-icon.svg";
+import SearchErrorMessage from "./SearchErrorMessage";
+import { useSearchParams } from "react-router-dom";
+import LoadingAnimation from "../utils/LoadingAnimation";
 
 interface FlightSearchProps {
     onSearch: (searchData: FlightSearchData) => void;
     className?: string;
+    id?: string;
 }
 
 export interface Route {
-    value: number,
-    label: string,
-    cityName: string,
-    countryCode: string,
-    iataCode: string,
-    airport: string
+    value: number;
+    label: string;
+    cityName: string;
+    countryCode: string;
+    iataCode: string;
+    airport: string;
 }
 
 interface SearchInfo {
     departureDate: string;
-    oneWay: boolean;
     returnDate: string;
     adults: number;
     children: number;
@@ -53,310 +52,378 @@ interface preloadedSearchInfo {
     destinationIATA: string;
 }
 
-
-const option = ({innerProps, label, data}: OptionProps<Route, false>) => (<div
-        className={"flex gap-2 py-2 px-2 even:bg-flyNow-even-option odd:bg-flyNow-odd-option hover:bg-flyNow-light cursor-pointer"} {...innerProps}>
-        <Flag className={"size-6"} country={data.countryCode}/>
-        <span className={"text-lg"}>
-                {label}
-            </span>
-    </div>
-)
-const originControl = ({children, ...props}: ControlProps<Route>) => {
-    return (
-        <components.Control {...props}>
-            <h3 className={"absolute px-2 -top-4 left-6 bg-flyNow-component"}>Origin</h3>
-            {children}
-        </components.Control>
-    )
-};
-const destinationControl = ({children, ...props}: ControlProps<Route>) => {
-    return (
-        <components.Control{...props}>
-            <label htmlFor={"destination-selection"}
-                   className={"absolute px-2 -top-4 left-6 bg-flyNow-component"}>Destination</label>
-            {children}
-        </components.Control>
-    )
-};
-const singleValue = ({data, children, ...props}: SingleValueProps<Route>) => {
-    return (
-        <components.SingleValue data={data}
-                                className={"flex gap-2 items-center bg-transparent cursor-pointer"}  {...props}>
-            <Flag className={"size-6"} country={data.countryCode}/>
-            <span className={"text-lg"}>{data.label}</span>
-        </components.SingleValue>
-    )
-}
-
 export default function FlightSearch({
-                                         onSearch, className,
-                                         originIATA,
-                                         destinationIATA
-                                     }: FlightSearchProps & preloadedSearchInfo) {
-
-    const navigate = useNavigate();
+    onSearch,
+    className,
+    id,
+    originIATA,
+    destinationIATA,
+}: FlightSearchProps & preloadedSearchInfo) {
     const [departureDate, setDepartureDate] = useState<string>(new Date().toISOString().substring(0, 10));
-    const [oneWay, setOneWay] = useState<boolean>(true)
-    const [returnDate, setReturnDate] = useState<string>('');
+    const [returnDate, setReturnDate] = useState<string>("");
     const [adults, setAdults] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
     const [maxPrice, setMaxPrice] = useState<number>(1000);
-    const [originSearchTerm, setOriginSearchTerm] = useState<string>('');
-    const [preloadedOriginIATA, setPreloadedOriginIATA] = useState<string | undefined>(originIATA);
-    const [preloadedDestinationIATA, setPreloadedDestinationIATA] = useState<string | undefined>(destinationIATA);
-    const {userSearchSuggestions, pendingUserSearchSuggestions} = useUserSearchSuggestions();
     const [searchParams, setSearchParams] = useSearchParams();
+    const originSearchTerm = useRef<string>("");
+    const { userSearchSuggestions, pendingUserSearchSuggestions } = useUserSearchSuggestions();
+
+    const { pendingOriginSearch, searchOriginOptions, origin, setOrigin, originOptions, setOriginOptions } =
+        useSearchOriginOptions();
 
     const {
-        pendingOriginSearch,
-        searchOriginOptions,
-        origin, setOrigin,
-        originOptions
-    } = useSearchOriginOptions(preloadedOriginIATA);
+        pendingDestSearch,
+        searchDestinationOptions,
+        destination,
+        setDestination,
+        destinationOptions,
+        setDestinationOptions,
+    } = useSearchDestinationOptions();
 
-    const {
-        pendingDestSearch, searchDestinationOptions,
-        destination, setDestination,
-        destinationOptions, setDestinationOptions,
-        loadDestinationOption
-    } = useSearchDestinationOptions(departureDate, preloadedDestinationIATA);
-
-    const {
-        searchFlights,
-        pendingFlightSearch,
-        flightList,
-        dictionaries,
-        noResults
-    } = useSearchFlights();
+    const { pendingFlightSearch, flightList, dictionaries, noResults } = useSearchFlights();
 
     function triggerFlightSearch() {
-        if (origin && destination && departureDate) {
-            searchFlights(origin?.iataCode, destination?.iataCode, departureDate, oneWay, returnDate, adults, children, maxPrice);
+        if (origin && destination) {
             searchParams.set("origin", origin.iataCode);
-            searchParams.set("dest", destination.iataCode)
-            searchParams.set("depDate", departureDate)
-            searchParams.set("oneWay", String(oneWay))
-            searchParams.set("returnDate", returnDate)
-            searchParams.set("adults", String(adults))
-            searchParams.set("children", String(children))
-            searchParams.set("max_price", String(maxPrice))
+            searchParams.set("dest", destination.iataCode);
+            searchParams.set("depDate", departureDate);
+            searchParams.set("returnDate", returnDate);
+            searchParams.set("adults", String(adults));
+            searchParams.set("children", String(children));
+            searchParams.set("max_price", String(maxPrice));
             setSearchParams(searchParams);
         }
     }
 
     function onSuggestionSelect(suggestion: SearchSuggestion) {
-        setPreloadedOriginIATA(suggestion.originIATA)
-        setPreloadedDestinationIATA(suggestion.destinationIATA);
+        loadRoute(suggestion.originIATA).then((options) =>
+            setDestination(options.filter((option: any) => option.iataCode === suggestion.destinationIATA)[0]),
+        );
     }
 
-    const returnSearchResults = () => {
+    useEffect(() => {
+        const originParam = searchParams.get("origin");
+        const destParam = searchParams.get("dest");
+        const updateDestination = (options: Route[]) => {
+            if (destParam) {
+                setDestination(options.find((option: Route) => option.iataCode === destParam));
+            }
+        };
+
+        if (origin?.iataCode !== originParam) {
+            if (originIATA && originIATA.length > 0 && !originParam) {
+                loadRoute(originIATA);
+            } else if (originParam) {
+                loadRoute(originParam).then(updateDestination);
+            }
+        } else if (destination?.iataCode !== destParam) {
+            if (destinationOptions.length > 0) updateDestination(destinationOptions);
+            else searchDestinationOptions(originParam).then(updateDestination);
+        }
+
+        const departureDate = searchParams.get("depDate");
+        const returnDate = searchParams.get("returnDate");
+        const adults = searchParams.get("adults");
+        const children = searchParams.get("children");
+        const maxPrice = searchParams.get("max_price");
+        if (departureDate) setDepartureDate(departureDate);
+        setMaxPrice(maxPrice ? Number(maxPrice) : 1000);
+        setAdults(adults ? Number(adults) : 1);
+        setChildren(children ? Number(children) : 0);
+        setReturnDate(returnDate ? returnDate : "");
+    }, [searchParams]);
+
+    useEffect(() => {
         if (origin && destination)
             onSearch({
                 searchInfo: {
                     origin: origin,
                     destination: destination,
-                    departureDate, returnDate, oneWay, adults, children, maxPrice
+                    departureDate,
+                    returnDate,
+                    adults,
+                    children,
+                    maxPrice,
                 },
                 flightList,
                 dictionaries,
-                pending: pendingFlightSearch
+                pending: pendingFlightSearch,
             });
-    }
-    useEffect(() => {
-        const origin = searchParams.get("origin");
-        const dest = searchParams.get("dest");
-        const departureDate = searchParams.get("depDate");
-        const oneWay = searchParams.get("oneWay");
-        const returnDate = searchParams.get("returnDate");
-        const adults = searchParams.get("adults");
-        const children = searchParams.get("children");
-        const maxPrice = searchParams.get("max_price");
-        if(origin && dest && departureDate) {
-            setOriginSearchTerm(origin);
-            setPreloadedOriginIATA(origin);
-            setPreloadedDestinationIATA(dest);
-            setDepartureDate(departureDate);
-            setMaxPrice(maxPrice ? Number(maxPrice) : 1000);
-            setAdults(adults ? Number(adults) : 1);
-            setChildren(children ? Number(children) : 0);
-            setReturnDate(returnDate ? returnDate : "");
-            setOneWay(oneWay ? Boolean(oneWay) : true);
-        }
-    }, [searchParams]);
-
-    useEffect(() => {
-        returnSearchResults();
     }, [flightList, dictionaries]);
-
-    useEffect(() => {
-        if (preloadedDestinationIATA && preloadedDestinationIATA?.length > 0 && destinationOptions?.length > 0) {
-            loadDestinationOption(preloadedDestinationIATA)
-        }
-    }, [preloadedDestinationIATA, destinationOptions]);
-
-    useEffect(() => {
-        if (preloadedOriginIATA && preloadedOriginIATA.length > 0) {
-            searchOriginOptions(preloadedOriginIATA).then(() => searchDestinationOptions(preloadedOriginIATA));
-        }
-    }, [preloadedOriginIATA]);
-
-    useEffect(() => {
-        setPreloadedDestinationIATA(destinationIATA);
-        if (!(originIATA === preloadedOriginIATA)) {
-            setPreloadedOriginIATA(originIATA)
-        }
-    }, [destinationIATA]);
-
-
-    function checkIfSearchInfoEntered() {
-        return (origin && destination && departureDate)
-    }
 
     function loadOriginOptions(inputValue: string) {
         if (inputValue.length >= 3) {
-            setOriginSearchTerm(inputValue);
+            originSearchTerm.current = inputValue;
             setDestinationOptions([]);
             setDestination(undefined);
-            return searchOriginOptions(inputValue);
+            setOrigin(undefined);
+            return searchOriginOptions(inputValue).then((options) => {
+                if (options) setOriginOptions(options);
+                return options;
+            });
         }
     }
 
+    async function loadRoute(originIATA: string) {
+        const options = await searchOriginOptions(originIATA);
+        if (options) {
+            setOriginOptions([options[0]]);
+            setOrigin(options.filter((option) => option.iataCode === originIATA)[0]);
+        }
+        return searchDestinationOptions(originIATA).then((options) => {
+            if (options) setDestinationOptions(options);
+            return options;
+        });
+    }
+
+    function checkIfSearchInfoEntered() {
+        return origin && destination && departureDate;
+    }
+
     return (
-        <div
-            className={className + " relative"}>
-            <div className={"w-full flex flex-col sm:flex sm:flex-row gap-5 sm:gap-2 justify-center"}>
-                <div className={"sm:w-1/4 py-1 sm:py-3 flex flex-col items-center justify-start sm:gap-8"}>
+        <div className={className + " relative"} id={id}>
+            <div className={"flex w-full flex-col justify-center gap-4 sm:flex sm:flex-row sm:gap-2"}>
+                <div className={"flex flex-col items-center justify-start gap-0 py-1 sm:w-1/4 sm:gap-12 sm:py-3"}>
                     <div className={"relative w-full"}>
                         <label htmlFor={"departure-date"}>
-                            <h5 className={"absolute -top-4 px-2 w-fit left-6 text-lg bg-flyNow-component flex items-center gap-2"}>Departure<img
-                                className={"size-4 sm:hidden"} src={calendarIcon} alt={""}/></h5>
+                            <h5
+                                className={
+                                    "absolute -top-4 left-6 flex w-fit items-center gap-2 bg-flyNow-component px-2 text-lg"
+                                }>
+                                Departure
+                                <img className={"size-4 sm:hidden"} src={calendarIcon} alt={""} />
+                            </h5>
                         </label>
-                        <Input name={"departure-date"}
-                               className={"w-full rounded-xl sm:rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-3 sm:py-2 px-5 text-white"}
-                               type={"date"}
-                               min={new Date().toISOString().substring(0, 10)}
-                               defaultValue={new Date().toISOString().substring(0, 10)}
-                               onChange={(e) => {
-                                   setReturnDate('');
-                                   setDepartureDate(e.target.value);
-                               }}/>
+                        <Input
+                            name={"departure-date"}
+                            className={
+                                "w-full rounded-md bg-transparent px-5 py-3 text-white outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light sm:rounded-xl sm:py-2"
+                            }
+                            type={"date"}
+                            min={new Date().toISOString().substring(0, 10)}
+                            defaultValue={new Date().toISOString().substring(0, 10)}
+                            onChange={(e) => {
+                                setReturnDate("");
+                                setDepartureDate(e.target.value);
+                            }}
+                        />
                     </div>
                     <div className={"relative w-full"}>
                         <label htmlFor={"return-date"}>
-                            <h5 className={"absolute -top-4 px-2 w-fit right-6 text-lg bg-flyNow-component flex items-center gap-2"}>
-                                Return <img className={"size-4 sm:hidden"} src={calendarIcon} alt={""}/></h5>
+                            <h5
+                                className={
+                                    "absolute -top-4 right-6 flex w-fit items-center gap-2 bg-flyNow-component px-2 text-lg"
+                                }>
+                                Return <img className={"size-4 sm:hidden"} src={calendarIcon} alt={""} />
+                            </h5>
                         </label>
-                        <Input name={"return-date"} radioGroup={"one-way-check"} placeholder={"dd/mm/yyyy"}
-                               className={"w-full rounded-xl sm:rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-3 sm:py-2 px-5 text-white"}
-                               type={"date"}
-                               min={departureDate} value={returnDate}
-                               onChange={(e) => setReturnDate(e.target.value)}/>
+                        <Input
+                            name={"return-date"}
+                            radioGroup={"one-way-check"}
+                            placeholder={"dd/mm/yyyy"}
+                            className={
+                                "w-full rounded-md bg-transparent px-5 py-3 text-white outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light sm:rounded-xl sm:py-2"
+                            }
+                            type={"date"}
+                            min={departureDate}
+                            value={returnDate}
+                            onChange={(e) => setReturnDate(e.target.value)}
+                        />
                     </div>
                 </div>
-                <hr className={"my-1 border-gray-700 sm:hidden"}/>
-                <div className={"sm:w-2/4 py-1 sm:py-3 flex flex-col items-center justify-start gap-8"}>
-                    <AsyncSelect placeholder={"Choose origin location"} name={"origin-selection"}
-                                 className={"w-full sm:w-10/12 text-lg"} isLoading={pendingOriginSearch}
-                                 defaultOptions={originOptions}
-                                 loadOptions={loadOriginOptions}
-                                 value={origin ? origin : (originOptions && originOptions?.length > 0) ? originOptions[0] : undefined}
-                                 onChange={(option) => {
-                                     if (option) {
-                                         setOrigin(option);
-                                         searchDestinationOptions(option.iataCode);
-                                     }
-                                 }}
-                                 styles={locationSelectStyles}
-                                 components={{
-                                     Control: originControl,
-                                     Option: option,
-                                     SingleValue: singleValue
-                                 }}
+                <hr className={"my-1 border-gray-700 sm:hidden"} />
+                <div className={"flex flex-col items-center justify-start gap-0 py-1 sm:w-2/4 sm:gap-8 sm:py-3"}>
+                    <AsyncSelect
+                        placeholder={"Choose origin"}
+                        name={"origin-selection"}
+                        className={"w-full text-lg sm:w-10/12"}
+                        isLoading={pendingOriginSearch}
+                        defaultOptions={originOptions}
+                        loadOptions={loadOriginOptions}
+                        value={
+                            origin ? origin : originOptions && originOptions?.length > 0 ? originOptions[0] : undefined
+                        }
+                        onChange={(option) => {
+                            if (option) {
+                                setOrigin(option);
+                                searchDestinationOptions(option.iataCode).then((options) => {
+                                    if (options) setDestinationOptions(options);
+                                });
+                            }
+                        }}
+                        styles={locationSelectStyles}
+                        components={{
+                            Control: originControl,
+                            Option: option,
+                            SingleValue: singleValue,
+                        }}
                     />
-                    {!pendingDestSearch ?
-                        <Select placeholder={"Choose destination location"} name={"destination-selection"}
-                                className={"w-full sm:w-10/12 text-lg"}
-                                options={destinationOptions}
-                                value={destination ? destination : destinationOptions?.length > 0 ? destinationOptions[0] : undefined}
-                                onChange={(option) => {
-                                    if (option)
-                                        setDestination(option)
-                                }}
-                                styles={locationSelectStyles}
-                                components={{
-                                    Control: destinationControl,
-                                    Option: option,
-                                    SingleValue: singleValue
-                                }}
-                        /> : <img src={pendingSearchIcon} className={"size-36"} alt={""}/>}
+                    {!pendingDestSearch ? (
+                        <Select
+                            placeholder={"Choose destination"}
+                            name={"destination-selection"}
+                            className={"w-full text-lg sm:w-10/12"}
+                            options={destinationOptions}
+                            value={destination}
+                            onChange={(option) => {
+                                if (option) setDestination(option);
+                            }}
+                            styles={locationSelectStyles}
+                            components={{
+                                Control: destinationControl,
+                                Option: option,
+                                SingleValue: singleValue,
+                            }}
+                        />
+                    ) : (
+                        <LoadingAnimation className={"h-12 w-10/12"} />
+                    )}
                 </div>
-                <hr className={"my-2 border-gray-700 sm:hidden"}/>
-                <div className={"sm:w-1/4 py-1 sm:py-3 flex flex-col items-center justify-start gap-8"}>
-                    <div className={"w-full flex flex-wrap justify-center items-center gap-4"}>
-                        <div className={"flex w-full gap-2 justify-evenly"}>
-                            <div className={"relative w-5/12 flex flex-col gap-2"}>
+                <div
+                    className={
+                        "flex flex-col items-center justify-start gap-8 py-1 sm:w-1/4 sm:justify-center sm:py-3"
+                    }>
+                    <div className={"flex w-full flex-wrap items-center justify-center gap-2 sm:gap-6"}>
+                        <div className={"flex w-full justify-center gap-2"}>
+                            <div className={"relative flex w-3/12 flex-col gap-2 sm:w-1/2"}>
                                 <Input
-                                    className={"w-full rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-2 px-5 text-white"}
-                                    type={"number"} name={"adults"}
-                                    defaultValue={1} min={1} max={9}
-                                    onChange={(e) => setAdults(parseInt(e.target.value))}/>
+                                    className={
+                                        "w-full rounded-xl bg-transparent px-5 py-1.5 text-white outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light"
+                                    }
+                                    type={"text"}
+                                    name={"adults"}
+                                    inputMode={"numeric"}
+                                    pattern={"[0-9]*"}
+                                    value={adults ? adults : ""}
+                                    defaultValue={1}
+                                    max={9}
+                                    onBlur={(e) => {
+                                        if (
+                                            e.target.value.length === 0 ||
+                                            parseInt(e.target.value) <= 0 ||
+                                            parseInt(e.target.value) > 9
+                                        )
+                                            setAdults(1);
+                                    }}
+                                    onChange={(e) => {
+                                        setAdults(parseInt(e.target.value));
+                                    }}
+                                />
                                 <label htmlFor={"adults"}>
-                                    <h5 className={"absolute -top-4 px-3 w-fit left-6 text-sm bg-flyNow-component"}>Adults</h5>
+                                    <h5 className={"absolute -top-3 left-6 w-fit bg-flyNow-component px-3 text-sm"}>
+                                        Adults
+                                    </h5>
                                 </label>
                             </div>
-                            <div className={"relative w-5/12 flex flex-col gap-2"}>
+                            <div className={"relative flex w-3/12 flex-col gap-2 sm:w-1/2"}>
                                 <Input
-                                    className={"w-full rounded-3xl bg-transparent outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light py-2 px-5 text-white"}
-                                    type={"number"} name={"children"}
-                                    defaultValue={0} min={0} max={9}
-                                    onChange={(e) => setChildren(parseInt(e.target.value))}/>
+                                    className={
+                                        "w-full rounded-xl bg-transparent px-5 py-1.5 text-white outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light"
+                                    }
+                                    type={"text"}
+                                    name={"children"}
+                                    inputMode={"numeric"}
+                                    pattern={"[0-9]*"}
+                                    value={children ? children : 0}
+                                    defaultValue={0}
+                                    min={0}
+                                    max={9}
+                                    onBlur={(e) => {
+                                        if (
+                                            e.target.value.length === 0 ||
+                                            parseInt(e.target.value) < 0 ||
+                                            parseInt(e.target.value) > 9
+                                        )
+                                            setChildren(0);
+                                    }}
+                                    onChange={(e) => {
+                                        setChildren(parseInt(e.target.value));
+                                    }}
+                                />
                                 <label htmlFor={"children"}>
-                                    <h5 className={"absolute -top-3 px-3 w-fit left-2 text-sm bg-flyNow-component"}>Children</h5>
+                                    <h5 className={"absolute -top-3 left-2 w-fit bg-flyNow-component px-3 text-sm"}>
+                                        Children
+                                    </h5>
                                 </label>
                             </div>
                         </div>
-                        <div className={"w-full px-3 mt-2"}>
+                        <div className={"w-full px-3"}>
                             <label htmlFor={"max-price"}>
-                                <h5>Maximum price <span className={"font-bold"}>{maxPrice + '\u20AC'}</span></h5>
+                                <h5>
+                                    Maximum price <span className={"font-bold"}>{maxPrice + "\u20AC"}</span>
+                                </h5>
                             </label>
-                            <Input name={"max-price"} className={"accent-flyNow-light-secondary w-full"} type={"range"}
-                                   min={5}
-                                   max={1000} defaultValue={maxPrice}
-                                   onChange={(e) => setMaxPrice(parseInt(e.target.value))}/>
+                            <Input
+                                name={"max-price"}
+                                className={"w-full accent-flyNow-light-secondary"}
+                                type={"range"}
+                                min={5}
+                                max={1000}
+                                defaultValue={maxPrice}
+                                onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                            />
                         </div>
                     </div>
                 </div>
             </div>
-            {userSearchSuggestions?.length > 0 &&
-                <div className={"flex w-full sm:w-3/4 flex-col justify-start items-center gap-2"}>
-                    <label className={"font-light text-lg"}>Search Again</label>
+            {userSearchSuggestions?.length > 0 && (
+                <div className={"flex w-full flex-col items-center justify-start gap-2 sm:w-3/4"}>
+                    <label className={"text-lg font-light"}>Search Again</label>
                     <div
-                        className={"w-full flex justify-start sm:w-3/4 max-h-32 sm:max-h-20 p-4 border-t-flyNow-secondary border-t-2 gap-2 overflow-x-scroll sm:overflow-x-auto sm:flex-wrap sm:overflow-y-auto"}>
-                        {userSearchSuggestions.map((suggestion, index) => (
-                            <UserSearchSuggestion key={index} selectSuggestion={onSuggestionSelect}
-                                                  suggestion={suggestion}/>
-                        ))}
+                        className={
+                            "flex max-h-32 w-full justify-start gap-2 overflow-x-scroll border-t-2 border-t-flyNow-secondary p-4 sm:max-h-20 sm:w-3/4 sm:flex-wrap sm:justify-center sm:overflow-x-auto sm:overflow-y-auto"
+                        }>
+                        {!pendingUserSearchSuggestions ? (
+                            userSearchSuggestions.map((suggestion, index) => (
+                                <UserSearchSuggestion
+                                    key={index}
+                                    selectSuggestion={onSuggestionSelect}
+                                    suggestion={suggestion}
+                                />
+                            ))
+                        ) : (
+                            <LoadingAnimation className={"size-2"} width={"25%"} height={"0.2rem"} />
+                        )}
                     </div>
-                </div>}
-            <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
-                          message={"No available origins."}
-                          show={originSearchTerm.length >= 3 && originOptions?.length <= 0 && !pendingOriginSearch}/>
-            <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
-                          message={"No available destinations."}
-                          show={origin != null && originOptions?.length > 0 && departureDate.length > 0 && destinationOptions?.length <= 0 && !pendingDestSearch}/>
-            <ErrorMessage className={"w-full flex justify-center gap-2 animate-fadeIn"}
-                          message={"No available flights."}
-                          show={!pendingFlightSearch && flightList.length <= 0 && noResults}/>
-            <div className={"w-full flex flex-row sm:flex-row gap-5 py-3 justify-center items-center"}>
+                </div>
+            )}
+            <SearchErrorMessage
+                className={"flex w-full animate-fadeIn justify-center gap-2"}
+                message={"No available origins."}
+                show={originSearchTerm.current.length >= 3 && originOptions?.length <= 0 && !pendingOriginSearch}
+            />
+            <SearchErrorMessage
+                className={"flex w-full animate-fadeIn justify-center gap-2"}
+                message={"No available destinations."}
+                show={
+                    origin != null &&
+                    originOptions?.length > 0 &&
+                    departureDate.length > 0 &&
+                    destinationOptions?.length <= 0 &&
+                    !pendingDestSearch
+                }
+            />
+            <SearchErrorMessage
+                className={"flex w-full animate-fadeIn justify-center gap-2"}
+                message={"No available flights."}
+                show={!pendingFlightSearch && flightList.length <= 0 && noResults}
+            />
+            <div className={"flex w-full flex-row items-center justify-center gap-5 py-3 sm:flex-row"}>
                 <Button
-                    className={"transition-all duration-500 w-7/12 text-lg sm:xl sm:w-1/4 bg-flyNow-light sm:bg-transparent sm:hover:bg-flyNow-light sm:outline-flyNow-light  sm:outline-2  sm:outline px-5 py-2 rounded-xl"}
+                    className={
+                        "sm:xl w-7/12 rounded-xl bg-flyNow-light px-5 py-2 text-lg transition-all duration-500 disabled:bg-gray-600 disabled:text-gray-500 disabled:outline-0 disabled:hover:bg-gray-600 sm:w-1/4 sm:bg-transparent sm:outline sm:outline-2 sm:outline-flyNow-light sm:hover:bg-flyNow-light"
+                    }
                     disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
-                    onClick={triggerFlightSearch}>Search
+                    onClick={triggerFlightSearch}>
+                    Search
                 </Button>
                 <Button
-                    className={"transition-all duration-500 w-5/12 text-lg sm:xl sm:w-1/6 bg-flyNow-secondary sm:hover:bg-flyNow-light px-3 py-2 rounded-xl"}
-                    disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}>Trip Planner
+                    className={
+                        "sm:xl w-5/12 rounded-xl bg-flyNow-secondary px-3 py-2 text-lg transition-all duration-500 disabled:bg-gray-600 disabled:text-gray-500 disabled:outline-0 disabled:hover:bg-gray-600 sm:w-1/6 sm:hover:bg-flyNow-light"
+                    }
+                    //   disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
+                >
+                    Trip Planner
                 </Button>
             </div>
         </div>

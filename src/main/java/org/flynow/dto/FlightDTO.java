@@ -1,4 +1,9 @@
 package org.flynow.dto;
 
-public record FlightDTO(String origin, String destination, String departureDate, String returnDate, String price) {
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+
+public record FlightDTO(@NotBlank(message= "Carrier code is required") String carrierCode,
+                        @NotBlank(message = "Departure date is required") String departureDate, String returnDate,
+                        @NotBlank(message = "Flight code is required") String flightNumber) {
 }

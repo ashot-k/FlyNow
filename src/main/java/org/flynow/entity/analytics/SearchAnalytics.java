@@ -16,6 +16,7 @@ public class SearchAnalytics {
     private int counter = 1;
     private Instant searchTime = Instant.now();
     @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
     public SearchAnalytics() {
