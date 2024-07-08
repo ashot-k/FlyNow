@@ -6,7 +6,8 @@
         transform: translateX(0);
     }
 }
-@keyframes slideInFadeIn{
+
+@keyframes slideInFadeIn {
     from {
         transform: translateX(-15%);
         opacity: 0.6;
@@ -16,6 +17,18 @@
         opacity: 1;
     }
 }
+
+@keyframes slideOutFadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+
 @keyframes slideOut {
     from {
         transform: translateX(0);
@@ -28,11 +41,11 @@
 @keyframes fadeOut {
     0% {
         opacity: 1;
-        transform: translateX(0);
+        /*transform: translateX(0);*/
     }
     100% {
-        opacity: 0.5;
-        transform: translateX(250px);
+        opacity: 0;
+        /*transform: translateX(250px);*/
     }
 }
 

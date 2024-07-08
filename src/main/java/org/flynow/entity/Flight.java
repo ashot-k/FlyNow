@@ -2,22 +2,30 @@ package org.flynow.entity;
 
 import com.amadeus.resources.FlightOfferSearch;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Currency;
 
 @Entity
+@Table(name = "flights")
 public class Flight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "flight_id", nullable = false)
     private Long id;
-    private String origin;
-    private String destination;
     private Instant departureDate;
     private Instant returnDate;
     private String flightCode;
+    private String direction;
+
+    @ManyToOne
+    @JoinColumn(name = "booking_id", referencedColumnName = "booking_id")
+    @NotNull
+    private Booking booking;
 
     public Long getId() {
         return id;
@@ -25,22 +33,6 @@ public class Flight {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     public Instant getDepartureDate() {
@@ -65,5 +57,21 @@ public class Flight {
 
     public void setFlightCode(String flightCode) {
         this.flightCode = flightCode;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 }

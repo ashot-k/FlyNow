@@ -58,6 +58,7 @@ public class SecurityConfig {
         http.csrf().disable().cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/flights/search").permitAll()
                                 .requestMatchers("/amadeus/token").permitAll().anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
