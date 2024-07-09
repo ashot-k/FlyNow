@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context";
 import { removeFlyNowTokenFromStorage } from "../utils/Utils";
@@ -14,12 +14,16 @@ export const NavBar = ({ className }: NavBar) => {
     const userData = useContext(AuthContext);
 
     const [dropDownMenu, setDropDownMenu] = useState(false);
-
+    const [hide, setHide] = useState(true);
     function toggleDropDown() {
-        setDropDownMenu((prevState) => !prevState);
+        if (dropDownMenu) {
+            setHide(true);
+            setTimeout(() => setDropDownMenu(false), 400);
+        } else {
+            setHide(false);
+            setDropDownMenu(true);
+        }
     }
-
-    const navigate = useNavigate();
     return (
         <Disclosure as={"nav"} id={"navBar"} className={className}>
             <div className={"mx-auto flex h-full w-full p-3 sm:w-10/12 sm:px-6"}>
@@ -96,7 +100,8 @@ export const NavBar = ({ className }: NavBar) => {
             {dropDownMenu && (
                 <div
                     className={
-                        "absolute flex h-screen w-full animate-slideIn flex-col items-center justify-start gap-5 backdrop-blur-lg sm:hidden"
+                        "absolute flex h-screen w-full animate-slideIn flex-col items-center justify-start gap-5 backdrop-blur-lg sm:hidden" +
+                        (hide ? " -translate-x-full opacity-0 transition-all duration-[350ms]" : "")
                     }>
                     <div className={"flex w-full justify-between px-5 py-3"}>
                         <div className={"w-fit"}>

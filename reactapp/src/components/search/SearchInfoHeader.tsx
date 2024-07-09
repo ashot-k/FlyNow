@@ -1,10 +1,10 @@
 import Flag from "react-flagkit";
-import { capitalize } from "../utils/Utils";
+import { capitalize } from "../../utils/Utils";
 import React from "react";
 import { Route } from "./FlightSearch";
-import arrowRight from "../static/assets/arrow-right.svg";
+import arrowRight from "../../static/assets/arrow-right.svg";
 
-interface SearchInfoHeaderProps {
+interface SearchInfo {
     departureDate: string;
     returnDate: string;
     adults: number;
@@ -14,7 +14,11 @@ interface SearchInfoHeaderProps {
     maxPrice: number;
 }
 
-export default function SearchInfoHeader({ ...searchInfo }: SearchInfoHeaderProps) {
+interface SearchInfoHeaderProps {
+    searchInfo: SearchInfo;
+}
+
+export default function SearchInfoHeader({ searchInfo }: SearchInfoHeaderProps) {
     function scroll() {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -27,7 +31,7 @@ export default function SearchInfoHeader({ ...searchInfo }: SearchInfoHeaderProp
     return (
         <div
             className={
-                "fixed bottom-0 z-10 flex w-full flex-col items-center justify-center bg-flyNow-component bg-opacity-90 py-1 font-semibold"
+                "fixed bottom-0 z-10 flex w-full flex-col items-center justify-center rounded-t-3xl bg-flyNow-light bg-opacity-95 py-1 font-semibold sm:bg-flyNow-component"
             }>
             <button onClick={scroll}>
                 <svg

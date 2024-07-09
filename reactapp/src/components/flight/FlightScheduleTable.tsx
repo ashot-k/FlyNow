@@ -5,12 +5,12 @@ import {
     flightDateToStringTime,
     getAirportByIATA,
     timeDiffToHoursAndMins,
-} from "../utils/Utils";
+} from "../../utils/Utils";
 import Flag from "react-flagkit";
 import React, { useContext, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { DictionariesContext } from "../context";
+import { DictionariesContext } from "../../context";
 
 interface FlightScheduleTableProps {
     flight: Flight;

@@ -1,20 +1,14 @@
 import FlightCard, { Flight } from "./FlightCard";
-import React, { useEffect } from "react";
+import React, { forwardRef } from "react";
 
 interface FlightListProps {
     flightList: Flight[];
     className?: string;
 }
 
-export const FlightList = ({ flightList, className }: FlightListProps) => {
-    useEffect(() => {
-        const elementPOS = document.getElementById("results")?.getBoundingClientRect();
-        if (elementPOS) {
-            window.scrollTo({ top: elementPOS.top - 64, behavior: "smooth" });
-        }
-    }, []);
+export const FlightList = forwardRef<HTMLDivElement, FlightListProps>(({ flightList, className }, ref) => {
     return (
-        <div className={className} onChange={(e) => console.log(e.target)}>
+        <div ref={ref} className={className}>
             {flightList.map((flight: Flight, idx: number) => (
                 <FlightCard
                     key={idx}
@@ -26,4 +20,4 @@ export const FlightList = ({ flightList, className }: FlightListProps) => {
             ))}
         </div>
     );
-};
+});

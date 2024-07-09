@@ -14,7 +14,7 @@ export default function UserSearchSuggestion({ suggestion, selectSuggestion }: U
     return (
         <div
             className={
-                "flex w-fit items-center justify-center rounded-2xl bg-flyNow-light px-10 py-3 shadow-md shadow-black transition duration-500 hover:scale-105 hover:cursor-pointer sm:px-3 sm:py-2"
+                "flex w-fit items-center justify-center rounded-2xl bg-flyNow-light px-10 py-2 shadow-md shadow-black transition duration-500 hover:scale-105 hover:cursor-pointer sm:px-3 sm:py-2"
             }>
             <button
                 onClick={() => selectSuggestion(suggestion)}

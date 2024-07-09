@@ -8,7 +8,8 @@ module.exports = {
                 // 'flyNow-component': '#202124',
                 "flyNow-component": "#18191b",
                 //"flyNow-component": "#085e54",
-                "flyNow-light": "#0D7BBA",
+                //0D7BBA
+                "flyNow-light": "#0a5e8f",
                 "flyNow-light-secondary": "#4AB5F2",
                 "flyNow-secondary": "#0A8070",
                 "flyNow-even-option": "#0C0C0E19",

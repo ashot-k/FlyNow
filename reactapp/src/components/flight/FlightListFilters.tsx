@@ -1,8 +1,8 @@
 import { Dictionaries, Flight } from "./FlightCard";
 import React, { useEffect, useState } from "react";
-import { capitalize, inverse, minutesToClock } from "../utils/Utils";
+import { capitalize, inverse, minutesToClock } from "../../utils/Utils";
 
-import airlineData from "../utils/airlines.json";
+import airlineData from "../../utils/airlines.json";
 import { Field, Input, Label } from "@headlessui/react";
 
 interface FlightListFilterProps {

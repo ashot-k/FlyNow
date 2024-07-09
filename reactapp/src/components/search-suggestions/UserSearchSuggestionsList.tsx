@@ -1,12 +1,12 @@
 import React from "react";
 import { SearchSuggestion } from "./SearchSuggestions";
 import UserSearchSuggestion from "./UserSearchSuggestion";
-import pendingSearchIcon from "../../static/assets/infinite-spinner.svg";
 import useUserSearchSuggestions from "../../hooks/useUserSearchSuggestions";
+import LoadingAnimation from "../loader/LoadingAnimation";
 
 interface SearchSuggestionProps {
     onSuggestionSelect: (searchSuggestion: SearchSuggestion) => void;
-    className: string;
+    className?: string;
 }
 
 export default function UserSearchSuggestionsList({ onSuggestionSelect, className }: SearchSuggestionProps) {
@@ -16,11 +16,14 @@ export default function UserSearchSuggestionsList({ onSuggestionSelect, classNam
         <>
             {" "}
             {pendingUserSearchSuggestions ? (
-                <img src={pendingSearchIcon} width={"25%"} height={"25%"} alt={""} />
+                <LoadingAnimation className={"size-12"} />
             ) : userSearchSuggestions?.length > 0 ? (
                 <div className={className}>
-                    <h4>Search again</h4>
-                    <div className={"flex flex-wrap gap-2 overflow-auto"}>
+                    <label className={"text-lg font-light"}>Search Again</label>
+                    <div
+                        className={
+                            "flex max-h-32 w-full justify-start gap-2 overflow-x-scroll border-t-2 border-t-flyNow-secondary p-4 sm:max-h-20 sm:w-3/4 sm:flex-wrap sm:justify-center sm:overflow-x-auto sm:overflow-y-auto"
+                        }>
                         {userSearchSuggestions?.map((suggestion, index) => (
                             <UserSearchSuggestion
                                 key={index}

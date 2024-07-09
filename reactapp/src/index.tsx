@@ -9,7 +9,7 @@ root.render(
     <React.StrictMode>
         <App
             className={
-                "flex min-h-screen flex-col bg-flyNow-main bg-opacity-50 bg-home-page-background bg-cover bg-fixed bg-no-repeat font-inter text-white"
+                "flex min-h-screen flex-col scroll-smooth bg-flyNow-main bg-opacity-50 bg-home-page-background bg-cover bg-fixed bg-no-repeat font-inter text-white"
             }
         />
     </React.StrictMode>,

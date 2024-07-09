@@ -40,13 +40,17 @@ export default function App({ className }: AppProps) {
                     />
                     <main
                         className={
-                            "mt-16 flex w-full flex-grow flex-col items-center justify-start sm:justify-start [&>*]:animate-slideInFadeIn"
+                            "mt-16 flex w-full flex-grow flex-col items-center justify-center sm:justify-start [&>*]:animate-slideInFadeIn"
                         }>
                         <Routes>
                             <Route
                                 path="/"
                                 element={
-                                    <Home className={"flex h-full w-full flex-grow flex-col items-center gap-5"} />
+                                    <Home
+                                        className={
+                                            "flex w-full flex-grow flex-col items-start justify-start gap-5 sm:justify-start"
+                                        }
+                                    />
                                 }
                             />
                             {!user?.username && (

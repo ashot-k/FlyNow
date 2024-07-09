@@ -1,4 +1,4 @@
-import errorIcon from "../static/assets/error-svgrepo-com.svg";
+import errorIcon from "../../static/assets/error-svgrepo-com.svg";
 
 interface ErrorMessage {
     className?: string;
