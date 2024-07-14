@@ -1,7 +1,7 @@
 import React from "react";
 import AsyncSelect from "react-select/async";
-import { locationSelectStyles, option, originControl, singleValue } from "./SelectProps";
-import { Route } from "./FlightSearch";
+import { locationSelectStyles, option, originControl, singleValue } from "./LocationSelectProps";
+import { Route } from "../FlightSearch";
 import { SingleValue } from "react-select";
 
 interface OriginSelectProps {

@@ -1,5 +1,5 @@
 import { searchAirport } from "../services/AmadeusAPIService";
-import { capitalize } from "../utils/Utils";
+import { capitalize, devMode } from "../utils/Utils";
 import { useState } from "react";
 import { Route } from "../components/search/FlightSearch";
 import { searchAirportDummy } from "../services/DummyAmadeusService";
@@ -13,7 +13,7 @@ export default function useSearchOriginOptions() {
         try {
             setPendingOriginSearch(true);
             let response;
-            if (process.env.REACT_APP_DEV_MODE === "true") {
+            if (devMode()) {
                 response = await searchAirportDummy();
             } else {
                 response = await searchAirport(inputValue);

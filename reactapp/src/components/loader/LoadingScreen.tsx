@@ -1,31 +1,35 @@
+import React, { useState, useEffect } from "react";
 import LoadingAnimation from "./LoadingAnimation";
-import React, { useEffect, useState } from "react";
 
 interface LoadingScreenProps {
     className?: string;
     id?: string;
-    show?: boolean;
+    show: boolean;
 }
 
 export default function LoadingScreen({ className, id, show }: LoadingScreenProps) {
-    const duration = "duration-[1000ms]";
-    const [loadingScreenClass, setLoadingScreenClass] = useState<string>(className ? className : "");
+    const duration = 500;
+    const durationClass = "duration-" + duration;
+    const [loadingScreenClass, setLoadingScreenClass] = useState<string | undefined>(" ");
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
         if (show) {
-            setLoadingScreenClass(className ? className : "");
             setVisible(true);
+            setLoadingScreenClass("");
         } else {
-            setLoadingScreenClass(className + "  transition-all -translate-x-full opacity-75");
-            setTimeout(() => setVisible(false), 1000);
+            const className = durationClass + " " + "opacity-85 transition-transform -translate-x-full";
+            setLoadingScreenClass(className);
+            setTimeout(() => {
+                setVisible(false);
+            }, duration);
         }
-    }, [show]);
+    }, [show, className]);
 
     return (
         <>
             {visible && (
-                <div id={id} className={loadingScreenClass + " " + duration}>
+                <div id={id} className={className + " " + loadingScreenClass}>
                     <LoadingAnimation color={"#4AB5F2"} className={"size-32"} />
                 </div>
             )}

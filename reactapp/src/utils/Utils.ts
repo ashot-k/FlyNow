@@ -4,186 +4,214 @@ import axios from "axios";
 export const userArea = "MUC";
 
 export interface Token {
-  expiration: number;
-  issued_at: string;
-  token: string;
+    expiration: number;
+    issued_at: string;
+    token: string;
+}
+export function devMode(): boolean {
+    return process.env.REACT_APP_DEV_MODE === "true";
 }
 
 export function removeAmadeusTokenFromStorage() {
-  localStorage.removeItem("amadeus_token");
-  localStorage.removeItem("amadeus_token_expiration");
-  localStorage.removeItem("amadeus_token_issuedAt");
+    localStorage.removeItem("amadeus_token");
+    localStorage.removeItem("amadeus_token_expiration");
+    localStorage.removeItem("amadeus_token_issuedAt");
 }
 
 export function getAmadeusTokenFromStorage(): Token | undefined {
-  let token = localStorage.getItem("amadeus_token");
-  let expiration = localStorage.getItem("amadeus_token_expiration");
-  let issuedAt = localStorage.getItem("amadeus_token_issuedAt");
-  if (token && expiration && issuedAt)
-    return {
-      token: token,
-      expiration: Number.parseInt(expiration),
-      issued_at: issuedAt,
-    };
-  return undefined;
+    let token = localStorage.getItem("amadeus_token");
+    let expiration = localStorage.getItem("amadeus_token_expiration");
+    let issuedAt = localStorage.getItem("amadeus_token_issuedAt");
+    if (token && expiration && issuedAt)
+        return {
+            token: token,
+            expiration: Number.parseInt(expiration),
+            issued_at: issuedAt,
+        };
+    return undefined;
 }
 
 export function saveAmadeusTokenToStorage(tokenObject: Token) {
-  if (tokenObject) {
-    localStorage.setItem("amadeus_token", tokenObject.token);
-    localStorage.setItem("amadeus_token_expiration", tokenObject.expiration.toString());
-    localStorage.setItem("amadeus_token_issuedAt", tokenObject.issued_at);
-  }
+    if (tokenObject) {
+        localStorage.setItem("amadeus_token", tokenObject.token);
+        localStorage.setItem("amadeus_token_expiration", tokenObject.expiration.toString());
+        localStorage.setItem("amadeus_token_issuedAt", tokenObject.issued_at);
+    }
 }
 
 export function getFlyNowTokenFromStorage(): Token | undefined {
-  let token = localStorage.getItem("flynow_token");
-  let expiration = localStorage.getItem("flynow_token_expiration");
-  let issuedAt = localStorage.getItem("flynow_token_issuedAt");
-  if (token && expiration && issuedAt)
-    return {
-      token: token,
-      expiration: Number.parseInt(expiration),
-      issued_at: issuedAt,
-    };
-  return undefined;
+    let token = localStorage.getItem("flynow_token");
+    let expiration = localStorage.getItem("flynow_token_expiration");
+    let issuedAt = localStorage.getItem("flynow_token_issuedAt");
+    if (token && expiration && issuedAt)
+        return {
+            token: token,
+            expiration: Number.parseInt(expiration),
+            issued_at: issuedAt,
+        };
+    return undefined;
 }
 
 export function saveFlyNowTokenToStorage(tokenObject: Token) {
-  if (tokenObject) {
-    localStorage.setItem("flynow_token", "Bearer " + tokenObject.token);
-    localStorage.setItem("flynow_token_expiration", tokenObject.expiration.toString());
-    localStorage.setItem("flynow_token_issuedAt", tokenObject.issued_at);
-  }
+    if (tokenObject) {
+        localStorage.setItem("flynow_token", "Bearer " + tokenObject.token);
+        localStorage.setItem("flynow_token_expiration", tokenObject.expiration.toString());
+        localStorage.setItem("flynow_token_issuedAt", tokenObject.issued_at);
+    }
 }
 
 export function removeFlyNowTokenFromStorage() {
-  localStorage.removeItem("flynow_token");
-  localStorage.removeItem("flynow_token_expiration");
-  localStorage.removeItem("flynow_token_issuedAt");
+    localStorage.removeItem("flynow_token");
+    localStorage.removeItem("flynow_token_expiration");
+    localStorage.removeItem("flynow_token_issuedAt");
 }
 
 export const checkIfExpired = (jwt: Token) => {
-  const issuedAt = new Date(jwt.issued_at);
-  const expirationTime = new Date(issuedAt).getTime() + jwt.expiration * 1000;
-  const currentTime = new Date().getTime();
-  return currentTime >= expirationTime;
+    const issuedAt = new Date(jwt.issued_at);
+    const expirationTime = new Date(issuedAt).getTime() + jwt.expiration * 1000;
+    const currentTime = new Date().getTime();
+    return currentTime >= expirationTime;
 };
 
 export function capitalize(str: string | undefined) {
-  if (!str) return;
-  let capitalizedString = "";
-  const words = str.split(" ");
-  for (let i = 0; i < words.length; i++) {
-    if (words[i]?.trim()) {
-      if (words[i].length > 2) words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-      else words[i] = words[i].toLowerCase();
-      capitalizedString += words[i];
-      if (!(i === words.length - 1)) {
-        capitalizedString += " ";
-      }
+    if (!str) return;
+    let capitalizedString = "";
+    const words = str.split(" ");
+    for (let i = 0; i < words.length; i++) {
+        if (words[i]?.trim()) {
+            if (words[i].length > 2) words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+            else words[i] = words[i].toLowerCase();
+            capitalizedString += words[i];
+            if (!(i === words.length - 1)) {
+                capitalizedString += " ";
+            }
+        }
     }
-  }
-  return capitalizedString;
+    return capitalizedString;
 }
 
 export function getAirportByIATA(iataCode: string) {
-  return airportData.filter((airport) => airport.iata === iataCode)[0];
+    return airportData.filter((airport) => airport.iata === iataCode)[0];
 }
 
 export function getAirportByCityName(cityName: string) {
-  return airportData.filter((airport) => airport.city.toLowerCase() === cityName.toLowerCase())[0];
+    return airportData.filter((airport) => airport.city.toLowerCase() === cityName.toLowerCase())[0];
 }
 
 export function getUserLocation() {
-  return axios.get("http://ip-api.com/json");
+    return axios.get("http://ip-api.com/json");
 }
 
-export var Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export var Months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
 export var Days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export function flightDateToStringFull(date: string) {
-  const str = new Date(date);
-  return (
-    Days[str.getDay()] +
-    ", " +
-    str.getDate() +
-    " " +
-    Months[str.getMonth()] +
-    " " +
-    str.getFullYear() +
-    " " +
-    addZero(str.getHours()) +
-    ":" +
-    addZero(str.getMinutes())
-  ); // + " UTC";
+    const str = new Date(date);
+    return (
+        Days[str.getDay()] +
+        ", " +
+        str.getDate() +
+        " " +
+        Months[str.getMonth()] +
+        " " +
+        str.getFullYear() +
+        " " +
+        addZero(str.getHours()) +
+        ":" +
+        addZero(str.getMinutes())
+    ); // + " UTC";
 }
 
 export function flightDateToStringNoYear(date: string) {
-  const str = new Date(date);
-  return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes()); // + " UTC";
+    const str = new Date(date);
+    return (
+        Days[str.getDay()] +
+        ", " +
+        str.getDate() +
+        " " +
+        Months[str.getMonth()] +
+        " " +
+        addZero(str.getHours()) +
+        ":" +
+        addZero(str.getMinutes())
+    ); // + " UTC";
 }
 
 export function flightDateToStringNoYearNoDay(date: string) {
-  const str = new Date(date);
-  return str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes()); // + " UTC";
+    const str = new Date(date);
+    return (
+        str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes())
+    ); // + " UTC";
 }
 
 export function flightDateToStringShort(date: string) {
-  const str = new Date(date);
-  return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()];
+    const str = new Date(date);
+    return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()];
 }
 
 export function flightDateToStringTime(date: string) {
-  const str = new Date(date);
-  return addZero(str.getHours()) + ":" + addZero(str.getMinutes()); //+ " UTC";
+    const str = new Date(date);
+    return addZero(str.getHours()) + ":" + addZero(str.getMinutes()); //+ " UTC";
 }
 
 export function calculateStops(segments: any[]) {
-  let stops = 0;
-  segments.forEach((segment) => (stops += segment.numberOfStops));
-  return stops;
+    let stops = 0;
+    segments.forEach((segment) => (stops += segment.numberOfStops));
+    return stops;
 }
 
 export function addZero(i: string | number) {
-  if (i < 10) {
-    i = "0" + i;
-  }
-  return i;
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
 }
 
 export function timeDiffToHoursAndMins(time1: string, time2: string) {
-  let date1 = new Date(time1);
-  let date2 = new Date(time2);
-  let diff = (date2.getTime() - date1.getTime()) / 1000 / 60;
-  let hours = Math.floor(diff / 60);
-  let minutes = diff % 60;
+    let date1 = new Date(time1);
+    let date2 = new Date(time2);
+    let diff = (date2.getTime() - date1.getTime()) / 1000 / 60;
+    let hours = Math.floor(diff / 60);
+    let minutes = diff % 60;
 
-  if (minutes <= 0) {
-    return hours + "h";
-  } else if (hours > 0) return hours + "h " + minutes;
-  else return minutes + "m";
+    if (minutes <= 0) {
+        return hours + "h";
+    } else if (hours > 0) return hours + "h " + minutes;
+    else return minutes + "m";
 }
 
-export function compareDate(date1: Date, date2: Date) {
-  return date2.getHours() - date1.getHours() >= 0;
+export function compareDateHours(date1: Date, date2: Date) {
+    return date2.getHours() - date1.getHours() >= 0;
 }
 
 export function inverse(obj: any) {
-  let retobj: any = {};
-  for (let key in obj) {
-    retobj[obj[key]] = key;
-  }
-  return retobj;
+    let retobj: any = {};
+    for (let key in obj) {
+        retobj[obj[key]] = key;
+    }
+    return retobj;
 }
 
 export function minutesToClock(mins: number) {
-  let clock = "";
-  const hours = Math.round(mins / 60);
-  if (hours < 10) clock += "0";
-  clock += hours.toString() + ":";
-  const minutes = mins % 60;
-  if (minutes < 10) clock += "0";
-  clock += minutes;
-  return clock;
+    let clock = "";
+    const hours = Math.round(mins / 60);
+    if (hours < 10) clock += "0";
+    clock += hours.toString() + ":";
+    const minutes = mins % 60;
+    if (minutes < 10) clock += "0";
+    clock += minutes;
+    return clock;
 }

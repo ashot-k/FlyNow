@@ -1,6 +1,6 @@
 import React from "react";
 import { Input } from "@headlessui/react";
-import calendarIcon from "../../static/assets/calendar-color-icon.svg";
+import calendarIcon from "../../../static/assets/calendar-color-icon.svg";
 
 interface DatePickerProps {
     label: string;

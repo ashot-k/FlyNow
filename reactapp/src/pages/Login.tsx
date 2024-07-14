@@ -51,12 +51,12 @@ export default function Login({ className }: LoginProps) {
     return (
         <form onSubmit={handleLogin} className={className}>
             <div className={"w-full"}>
-                <h1 className={"text-3xl"}>Login</h1>
+                <h1 className={"text-2xl"}>Login</h1>
                 <hr className={"mb-2 mt-5 border-gray-500"} />
             </div>
-            <div className={"static flex w-full flex-col items-center gap-3.5 sm:w-1/2 lg:w-2/3"}>
+            <div className={"flex w-full flex-col items-center gap-3.5 sm:w-1/2 lg:w-2/3"}>
                 <div className={"flex w-full flex-col gap-1.5"}>
-                    <label className={"w-full"} htmlFor={"username"}>
+                    <label className={"w-full text-sm"} htmlFor={"username"}>
                         Username
                     </label>
                     <Input
@@ -70,7 +70,7 @@ export default function Login({ className }: LoginProps) {
                     />
                 </div>
                 <div className={"flex w-full flex-col gap-1.5"}>
-                    <label className={"w-full"} htmlFor={"password"}>
+                    <label className={"w-full text-sm"} htmlFor={"password"}>
                         Password
                     </label>
                     <Input
@@ -84,34 +84,38 @@ export default function Login({ className }: LoginProps) {
                     />
                 </div>
             </div>
-            <button
-                className={"w-full rounded-xl bg-flyNow-light px-5 py-1 outline outline-flyNow-light sm:w-3/6"}
-                type={"submit"}
-                onClick={handleLogin}>
-                Login
-            </button>
-            <div
-                className={"data-[alert-type=danger]:text-red-500 data-[alert-type=success]:text-emerald-500"}
-                data-alert-type={loginStatus ? "success" : "danger"}
-                hidden={!showAlert}>
-                {loginStatus ? (
-                    <div className={"flex w-full gap-1"}>
-                        Login success.
-                        <img src={successIcon} className={"h-8 w-8"} alt={""} />
-                    </div>
-                ) : (
-                    <div className={"flex w-full gap-1"}>
-                        An error occurred during login.
-                        <img src={errorIcon} className={"h-8 w-8"} alt={""} />
-                    </div>
-                )}
+            <div className={"flex w-full flex-col items-center gap-2"}>
+                <button
+                    className={
+                        "w-full rounded-2xl bg-flyNow-light py-2 transition-colors duration-300 hover:bg-flyNow-secondary sm:w-1/4"
+                    }
+                    type={"submit"}
+                    onClick={handleLogin}>
+                    Login
+                </button>
+                <div
+                    className={"data-[alert-type=danger]:text-red-500 data-[alert-type=success]:text-emerald-500"}
+                    data-alert-type={loginStatus ? "success" : "danger"}
+                    hidden={!showAlert}>
+                    {loginStatus ? (
+                        <div className={"flex w-full gap-1"}>
+                            Login success.
+                            <img src={successIcon} className={"h-8 w-8"} alt={""} />
+                        </div>
+                    ) : (
+                        <div className={"flex w-full gap-1"}>
+                            An error occurred during login.
+                            <img src={errorIcon} className={"h-8 w-8"} alt={""} />
+                        </div>
+                    )}
+                </div>
+                <span>
+                    New here?{" "}
+                    <Link to={"/register"} className={"text-flyNow-light-secondary underline"}>
+                        Sign up
+                    </Link>
+                </span>
             </div>
-            <span>
-                New here?{" "}
-                <Link to={"/register"} className={"text-flyNow-light-secondary underline"}>
-                    Sign up
-                </Link>
-            </span>
         </form>
     );
 }

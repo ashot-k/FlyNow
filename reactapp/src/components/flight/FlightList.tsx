@@ -13,7 +13,7 @@ export const FlightList = forwardRef<HTMLDivElement, FlightListProps>(({ flightL
                 <FlightCard
                     key={idx}
                     className={
-                        "flex w-full animate-fadeIn flex-col bg-flyNow-component bg-opacity-75 shadow-md shadow-black backdrop-blur-sm sm:w-2/3 sm:rounded-lg sm:bg-opacity-75 sm:px-2"
+                        "flex w-full animate-fadeIn flex-col gap-1.5 bg-flyNow-component bg-opacity-75 shadow-md shadow-black backdrop-blur-sm sm:w-2/3 sm:rounded-lg sm:bg-opacity-75 sm:px-2"
                     }
                     flight={flight}
                 />

@@ -50,7 +50,7 @@ export default function FlightOfferDetails({ className, flight, toggle, isOpen }
                     }>
                     <DialogTitle
                         className={
-                            "flex w-full flex-col items-center bg-flyNow-secondary py-3 text-center text-3xl sm:bg-transparent"
+                            "flex w-full flex-col items-center bg-flyNow-secondary py-3 text-center text-2xl sm:bg-transparent"
                         }>
                         Booking Confirmation
                         <hr className={"mt-2 hidden w-1/2 border-gray-500 sm:block"} />
@@ -60,7 +60,7 @@ export default function FlightOfferDetails({ className, flight, toggle, isOpen }
                             "flex w-full flex-col items-start gap-6 overflow-y-auto sm:flex-row sm:justify-between sm:px-1"
                         }>
                         <div className={"flex h-2/3 w-full flex-col gap-2 px-1 sm:h-full sm:w-7/12"}>
-                            <h1 className={"px-2 text-2xl"}>Complete Schedule</h1>
+                            <h1 className={"px-2 text-xl"}>Complete Schedule</h1>
                             <FlightScheduleTable
                                 className={
                                     "flex h-full w-full animate-fadeIn flex-col items-center gap-5 overflow-y-auto border-y-2 border-y-flyNow-secondary px-2 py-5 pt-5 sm:px-3"
@@ -69,23 +69,23 @@ export default function FlightOfferDetails({ className, flight, toggle, isOpen }
                             />
                         </div>
                         <div className={"flex w-full flex-col gap-2 px-5 sm:w-5/12"}>
-                            <h1 className={"text-2xl"}>Traveler</h1>
+                            <h1 className={"text-xl"}>Traveler</h1>
                             <hr className={"border-gray-500 pt-5"} />
                             <UserDetails className={"flex w-full flex-col items-center gap-3.5"} />
                         </div>
                     </div>
                     <div className={"px-2 text-lg"}>Available Seats: {flight.numberOfBookableSeats}</div>
-                    <div className={"flex w-full justify-center gap-5 px-2 sm:justify-end"}>
+                    <div className={"flex w-full justify-center gap-5 px-2 text-sm sm:justify-end sm:text-lg"}>
                         <Button
                             className={
-                                "w-4/12 rounded-lg bg-gray-500 px-2 py-2 text-lg transition duration-500 hover:bg-gray-400 sm:w-1/6 sm:text-xl"
+                                "w-1/4 rounded-lg bg-gray-500 py-1.5 transition duration-500 hover:bg-gray-400 sm:w-1/6"
                             }
                             onClick={toggle}>
                             Cancel
                         </Button>
                         <Button
                             className={
-                                "w-7/12 rounded-lg bg-flyNow-light px-5 py-2 text-lg transition duration-500 hover:bg-flyNow-secondary sm:w-1/4 sm:px-2 sm:text-xl"
+                                "w-7/12 rounded-lg bg-flyNow-light py-1.5 transition duration-500 hover:bg-flyNow-secondary sm:w-1/3 sm:px-4"
                             }
                             onClick={() => book(flight)}>
                             Book for{" "}

@@ -1,8 +1,8 @@
 import React from "react";
 import Select, { SingleValue } from "react-select";
-import { destinationControl, locationSelectStyles, option, singleValue } from "./SelectProps";
-import { Route } from "./FlightSearch";
-import LoadingAnimation from "../loader/LoadingAnimation";
+import { destinationControl, locationSelectStyles, option, singleValue } from "./LocationSelectProps";
+import { Route } from "../FlightSearch";
+import LoadingAnimation from "../../loader/LoadingAnimation";
 
 interface DestinationSelectProps {
     isLoading: boolean;

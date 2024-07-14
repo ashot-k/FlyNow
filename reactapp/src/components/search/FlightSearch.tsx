@@ -1,21 +1,19 @@
 import { SingleValue } from "react-select";
 import React, { useEffect, useRef, useState } from "react";
-import { Dictionaries, Flight } from "../flight/FlightCard";
 import { SearchSuggestion } from "../search-suggestions/SearchSuggestions";
 import useSearchDestinationOptions from "../../hooks/useSearchDestinationOptions";
 import useSearchOriginOptions from "../../hooks/useSearchOriginOptions";
-import useSearchFlights from "../../hooks/useSearchFlights";
 import { Button, Input } from "@headlessui/react";
 import SearchErrorMessage from "./SearchErrorMessage";
 import { useSearchParams } from "react-router-dom";
 import UserSearchSuggestionsList from "../search-suggestions/UserSearchSuggestionsList";
-import DatePicker from "./DatePicker";
-import OriginSelect from "./OriginSelect";
-import DestinationSelect from "./DestinationSelect";
-import PassengerInput from "./PassengerInput";
+import DatePicker from "./select/DatePicker";
+import OriginSelect from "./select/OriginSelect";
+import DestinationSelect from "./select/DestinationSelect";
+import PassengerInput from "./select/PassengerInput";
 
 interface FlightSearchProps {
-    onSearch: (searchData: FlightSearchData) => void;
+    onSearch: (searchOptions: FlightSearchOptions) => void;
     className?: string;
     id?: string;
 }
@@ -39,16 +37,13 @@ interface SearchInfo {
     maxPrice: number;
 }
 
-export interface FlightSearchData {
-    searchInfo: SearchInfo;
-    pending: boolean;
-    flightList: Flight[];
-    dictionaries: Dictionaries;
+export interface FlightSearchOptions {
+    searchOptions: SearchInfo;
 }
 
 interface preloadedSearchInfo {
-    preloadedOriginIATA: string;
-    preloadedDestinationIATA: string;
+    preloadedOriginIATA?: string;
+    preloadedDestinationIATA?: string;
 }
 
 export default function FlightSearch({
@@ -78,82 +73,17 @@ export default function FlightSearch({
         setDestinationOptions,
     } = useSearchDestinationOptions();
 
-    const { searchFlights, pendingFlightSearch, flightList, dictionaries, noResults } = useSearchFlights();
-
-    function triggerFlightSearch() {
-        if (origin && destination && departureDate) {
-            searchFlights(
-                origin.iataCode,
-                destination.iataCode,
-                departureDate,
-                returnDate ? returnDate : "",
-                adults ? Number(adults) : 1,
-                children ? Number(children) : undefined,
-                maxPrice ? Number(maxPrice) : 1000,
-            );
-        }
-    }
-
     function onSuggestionSelect(suggestion: SearchSuggestion) {
         loadRoute(suggestion.originIATA).then((options) =>
             setDestination(options.filter((option: Route) => option.iataCode === suggestion.destinationIATA)[0]),
         );
     }
 
-    const startup = useRef(true);
-
-    useEffect(() => {
-        const originParam = searchParams.get("origin");
-        const destParam = searchParams.get("dest");
-        const departureDateParam = searchParams.get("depDate");
-        if (!originParam || !destParam || !departureDateParam) {
-            return;
-        }
-        if (origin && destination && departureDate) {
-            if (startup.current) {
-                startup.current = false;
-                triggerFlightSearch();
-            }
-        }
-    }, [origin, destination, departureDate]);
-
-    useEffect(() => {
-        const originParam = searchParams.get("origin");
-        const destParam = searchParams.get("dest");
-        const updateDestination = (options: Route[]) => {
-            if (destParam) {
-                setDestination(options.find((option: Route) => option.iataCode === destParam));
-            }
-        };
-        if (origin?.iataCode !== originParam) {
-            if (preloadedOriginIATA && preloadedOriginIATA.length > 0 && !originParam) {
-                loadRoute(preloadedOriginIATA);
-            } else if (originParam) {
-                loadRoute(originParam).then(updateDestination);
-            }
-        } else if (destination?.iataCode !== destParam) {
-            if (destinationOptions.length > 0) {
-                updateDestination(destinationOptions);
-            } else {
-                if (originParam) searchDestinationOptions(originParam).then(updateDestination);
-            }
-        }
-        const departureDate = searchParams.get("depDate");
-        const returnDate = searchParams.get("returnDate");
-        const adults = searchParams.get("adults");
-        const children = searchParams.get("children");
-        const maxPrice = searchParams.get("max_price");
-        if (departureDate) setDepartureDate(departureDate);
-        setMaxPrice(maxPrice ? Number(maxPrice) : 1000);
-        setAdults(adults ? Number(adults) : 1);
-        setChildren(children ? Number(children) : 0);
-        setReturnDate(returnDate ? returnDate : "");
-    }, [searchParams]);
-
-    useEffect(() => {
-        if (origin && destination && departureDate)
+    function triggerOnSearch() {
+        if (origin && destination) {
+            startup.current = false;
             onSearch({
-                searchInfo: {
+                searchOptions: {
                     origin: origin,
                     destination: destination,
                     departureDate,
@@ -162,11 +92,49 @@ export default function FlightSearch({
                     children,
                     maxPrice,
                 },
-                flightList,
-                dictionaries,
-                pending: pendingFlightSearch,
             });
-    }, [flightList, dictionaries]);
+        }
+    }
+
+    const loading = useRef(true);
+    const startup = useRef(true);
+    useEffect(() => {
+        const originParam = searchParams.get("origin");
+        const destParam = searchParams.get("dest");
+        const departureDateParam = searchParams.get("depDate");
+        const returnDate = searchParams.get("returnDate");
+        const adults = searchParams.get("adults");
+        const children = searchParams.get("children");
+        const maxPrice = searchParams.get("maxPrice");
+        if (originParam && destParam && departureDateParam && loading.current) {
+            loading.current = false;
+            const updateDestination = (options: Route[]) => {
+                if (destParam) {
+                    setDestination(options.find((option) => option.iataCode === destParam));
+                }
+            };
+            if (origin?.iataCode !== originParam) {
+                loadRoute(originParam).then(updateDestination);
+            } else if (destination?.iataCode !== destParam) {
+                if (destinationOptions.length > 0) {
+                    updateDestination(destinationOptions);
+                } else {
+                    searchDestinationOptions(originParam).then(updateDestination);
+                }
+            }
+            setDepartureDate(departureDateParam);
+            setMaxPrice(maxPrice ? Number(maxPrice) : 1000);
+            setAdults(adults ? Number(adults) : 1);
+            setChildren(children ? Number(children) : 0);
+            setReturnDate(returnDate ? returnDate : "");
+        } else if (preloadedOriginIATA && loading.current) {
+            startup.current = false;
+            loading.current = false;
+            loadRoute(preloadedOriginIATA);
+        } else if (startup.current) {
+            triggerOnSearch();
+        }
+    }, [searchParams, origin, destination, startup]);
 
     function loadOriginOptions(inputValue: string) {
         if (inputValue.length >= 3) {
@@ -224,10 +192,14 @@ export default function FlightSearch({
         }
     };
     const onChildPassengerInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        if (e.target.value.length === 0 || parseInt(e.target.value) < 0 || parseInt(e.target.value) > 9) setChildren(0);
+        if (e.target.value.length === 0 || parseInt(e.target.value) < 0 || parseInt(e.target.value) > 9) {
+            setChildren(0);
+        }
     };
     const onAdultPassengerInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        if (e.target.value.length === 0 || parseInt(e.target.value) <= 0 || parseInt(e.target.value) > 9) setAdults(1);
+        if (e.target.value.length === 0 || parseInt(e.target.value) <= 0 || parseInt(e.target.value) > 9) {
+            setAdults(1);
+        }
     };
 
     return (
@@ -321,19 +293,14 @@ export default function FlightSearch({
                         !pendingDestSearch
                     }
                 />
-                <SearchErrorMessage
-                    className={"flex w-full animate-fadeIn justify-center gap-2"}
-                    message={"No available flights."}
-                    show={!pendingFlightSearch && flightList.length <= 0 && noResults}
-                />
             </>
             <div className={"flex w-full flex-row items-start justify-center gap-5 py-3 sm:flex-row"}>
                 <Button
                     className={
                         "sm:xl w-7/12 rounded-xl bg-flyNow-light px-5 py-2 text-lg transition-all duration-500 disabled:bg-gray-600 disabled:text-gray-500 disabled:outline-0 disabled:hover:bg-gray-600 sm:w-1/4 sm:bg-transparent sm:outline sm:outline-2 sm:outline-flyNow-light sm:hover:bg-flyNow-light"
                     }
-                    disabled={!checkIfSearchInfoEntered() || pendingFlightSearch}
-                    onClick={triggerFlightSearch}>
+                    disabled={!checkIfSearchInfoEntered()}
+                    onClick={triggerOnSearch}>
                     Search
                 </Button>
                 <Button

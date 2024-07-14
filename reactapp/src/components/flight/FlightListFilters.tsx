@@ -69,7 +69,7 @@ export default function FlightListFilters({ flightList, dictionaries, filter, cl
                                         });
                                     }}
                                 />
-                                <label className={"max-w-full text-sm sm:text-lg"}>{capitalize(airline)}</label>
+                                <label className={"max-w-full text-sm"}>{capitalize(airline)}</label>
                             </div>
                             <div className={"flex w-1/4 items-center justify-end gap-2"}>
                                 <img

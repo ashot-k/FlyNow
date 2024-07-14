@@ -59,7 +59,7 @@ export default function App({ className }: AppProps) {
                                     element={
                                         <Login
                                             className={
-                                                "flex w-full flex-grow flex-col items-center justify-center gap-5 bg-flyNow-component bg-opacity-95 px-5 py-6 text-xl text-white shadow-[2px_2px_5px_rgba(0,0,0,1)] shadow-black sm:mt-16 sm:w-2/3 sm:flex-grow-0 sm:px-8 lg:w-1/2 xl:w-1/3"
+                                                "flex w-full flex-grow flex-col items-center justify-center gap-5 bg-flyNow-component bg-opacity-95 px-5 py-6 text-base text-white shadow-[2px_2px_5px_rgba(0,0,0,1)] shadow-black sm:mt-16 sm:w-2/3 sm:flex-grow-0 sm:px-8 lg:w-1/2 xl:w-1/3"
                                             }
                                         />
                                     }
@@ -71,7 +71,7 @@ export default function App({ className }: AppProps) {
                                     element={
                                         <Register
                                             className={
-                                                "flex w-full flex-grow flex-col items-center justify-center gap-5 bg-flyNow-component bg-opacity-95 px-5 py-6 text-xl text-white shadow-[2px_2px_5px_rgba(0,0,0,1)] shadow-black sm:mt-16 sm:w-2/3 sm:flex-grow-0 sm:px-8 lg:w-1/2 xl:w-2/4"
+                                                "flex w-full flex-grow flex-col items-center justify-center gap-5 bg-flyNow-component bg-opacity-95 px-5 py-6 text-base text-white shadow-[2px_2px_5px_rgba(0,0,0,1)] shadow-black sm:mt-16 sm:w-2/3 sm:flex-grow-0 sm:px-8 lg:w-1/2"
                                             }
                                         />
                                     }

@@ -1,5 +1,5 @@
 import { searchAvailableDestinations } from "../services/AmadeusAPIService";
-import { capitalize } from "../utils/Utils";
+import { capitalize, devMode } from "../utils/Utils";
 import { Route } from "../components/search/FlightSearch";
 import { useState } from "react";
 import { searchAvailableDestinationsDummy } from "../services/DummyAmadeusService";
@@ -13,7 +13,7 @@ export default function useSearchDestinationOptions() {
         try {
             setPendingDestSearch(true);
             let response;
-            if (process.env.REACT_APP_DEV_MODE === "true") {
+            if (devMode()) {
                 response = await searchAvailableDestinationsDummy();
             } else {
                 response = await searchAvailableDestinations(originIATA);

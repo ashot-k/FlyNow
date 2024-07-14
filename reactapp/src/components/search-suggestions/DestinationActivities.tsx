@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { getAirportByIATA } from "../../utils/Utils";
+import React, { useEffect, useRef, useState } from "react";
+import { devMode, getAirportByIATA } from "../../utils/Utils";
 import { activitiesInArea } from "../../services/AmadeusAPIService";
 import LoadingAnimation from "../loader/LoadingAnimation";
 import "swiper/css";
@@ -33,13 +33,12 @@ interface Activity {
 export const DestinationActivities = ({ destinationIATA, className }: DestinationActivitiesProps) => {
     const [activities, setActivities] = useState<Activity[]>([]);
     const [pending, setPending] = useState(false);
-
     useEffect(() => {
         async function findActivities() {
             let airport = getAirportByIATA(destinationIATA);
             setPending(true);
             let response;
-            if (process.env.REACT_APP_DEV_MODE === "true") {
+            if (devMode()) {
                 response = await activitiesInAreaDummy();
             } else {
                 response = await activitiesInArea(airport.latitude, airport.longitude);
@@ -48,7 +47,6 @@ export const DestinationActivities = ({ destinationIATA, className }: Destinatio
             setActivities(data);
             setPending(false);
         }
-
         if (destinationIATA?.length > 0) {
             findActivities();
         }
@@ -56,9 +54,7 @@ export const DestinationActivities = ({ destinationIATA, className }: Destinatio
 
     return (
         <div className={className}>
-            {pending ? (
-                <LoadingAnimation color={"#4AB5F2"} className={"size-32 py-5"} />
-            ) : (
+            {!pending ? (
                 activities?.length > 0 && (
                     <>
                         <div className={"w-full p-3 text-start font-inter text-2xl sm:px-0 sm:py-2"}>Experiences</div>
@@ -109,10 +105,10 @@ export const DestinationActivities = ({ destinationIATA, className }: Destinatio
                             {activities.map((activity, idx) => (
                                 <SwiperSlide
                                     key={idx}
-                                    className={"relative min-h-64 pt-3 duration-300 hover:scale-105"}>
+                                    className={"relative min-h-60 pt-3 duration-300 hover:scale-105"}>
                                     <img
                                         loading={"lazy"}
-                                        className={"max-h-64 min-h-64 w-full"}
+                                        className={"max-h-60 min-h-60 w-full"}
                                         src={activity.pictures[0]}
                                         alt={activity.name}
                                     />
@@ -163,6 +159,8 @@ export const DestinationActivities = ({ destinationIATA, className }: Destinatio
                         </Swiper>
                     </>
                 )
+            ) : (
+                <LoadingAnimation color={"#4AB5F2"} className={"size-24 py-5"} />
             )}
         </div>
     );

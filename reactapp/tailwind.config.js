@@ -3,6 +3,10 @@ module.exports = {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
     theme: {
         extend: {
+            transitionDuration: {
+                750: "750ms",
+                2000: "2000ms",
+            },
             colors: {
                 "flyNow-main": "#18191b",
                 // 'flyNow-component': '#202124',
@@ -17,8 +21,9 @@ module.exports = {
                 //#0e8b68
             },
             animation: {
-                slideIn: "slideIn 0.4s ease-in-out",
-                slideOut: "slideOut 0.75s ease-in-out",
+                slideIn: "slideIn 0.5s ease-in-out",
+                slideOut: "slideOut 0.3s ease-in-out",
+                slideInDiagonal: "slideInDiagonal 0.25s ease-in-out",
                 slideInFadeIn: "slideInFadeIn 0.5s ease-in-out",
                 slideOutFadeOut: "slideOutFadeOut 0.75s ease-in-out",
                 fadeOut: "fadeOut 0.3s ease-in-out",

@@ -2,7 +2,6 @@ import axios from "axios";
 import { getAmadeusTokenFromStorage, saveAmadeusTokenToStorage, Token } from "../utils/Utils";
 import { axiosFlyNow } from "./FlyNowServiceAPI";
 import { AMADEUS_URLs, FLY_NOW_URLs } from "../utils/Links";
-
 const max = 25;
 
 const axiosAmadeus = axios.create({
@@ -40,7 +39,6 @@ axiosAmadeus.interceptors.response.use(
     },
     async function (error) {
         const originalRequest = error.config;
-
         if (error.response.status === 401) {
             try {
                 const response = await getToken();
@@ -64,6 +62,7 @@ interface FlightSearchInfo {
     originIATA: string;
     destinationIATA: string;
     maxPrice: number;
+    currencyCode?: string;
 }
 
 export const searchFlightOffers = ({
@@ -74,6 +73,7 @@ export const searchFlightOffers = ({
     adults,
     children,
     maxPrice,
+    currencyCode,
 }: FlightSearchInfo) => {
     let returnDateChecked: undefined | string = returnDate;
     if (!returnDateChecked) returnDateChecked = undefined;
@@ -87,6 +87,7 @@ export const searchFlightOffers = ({
             children: children,
             maxPrice: maxPrice,
             max: max,
+            currencyCode: currencyCode,
         },
     });
 };

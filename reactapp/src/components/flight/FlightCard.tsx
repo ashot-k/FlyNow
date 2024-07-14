@@ -74,7 +74,7 @@ export default function FlightCard({ flight, className }: FlightCardProps) {
                     <div className={"flex items-center gap-2 sm:items-center"}>
                         <img
                             loading={"lazy"}
-                            className={"relative left-0 top-0 size-12 rounded-full sm:size-16"}
+                            className={"relative left-0 top-0 size-12 rounded-full sm:size-12"}
                             src={
                                 airlineInfo?.logo ||
                                 "https://www.emme2servizi.it/wp-content/uploads/2020/12/no-image.jpg"
@@ -94,11 +94,11 @@ export default function FlightCard({ flight, className }: FlightCardProps) {
                 </div>
             </div>
             <FlightCardDisclosure flight={flight} />
-            <div className={"flex items-center justify-center px-5 py-4"}>
+            <div className={"flex items-center justify-center px-5 py-3"}>
                 <button
                     onClick={toggle}
                     className={
-                        "w-2/3 rounded-xl bg-flyNow-light px-2 py-2 transition duration-500 hover:bg-flyNow-secondary lg:w-5/6 xl:w-5/12"
+                        "sm:lg w-2/4 rounded-xl bg-flyNow-light p-2 text-sm transition duration-500 hover:bg-flyNow-secondary lg:w-5/6 xl:w-5/12"
                     }>
                     Book for{" "}
                     <span className={"font-bold"}>

@@ -1,10 +1,11 @@
-import React, { useContext, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context";
 import { removeFlyNowTokenFromStorage } from "../utils/Utils";
 import { Disclosure } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import CurrencySelect from "./CurrencySelect";
 
 interface NavBar {
     className?: string;
@@ -15,6 +16,7 @@ export const NavBar = ({ className }: NavBar) => {
 
     const [dropDownMenu, setDropDownMenu] = useState(false);
     const [hide, setHide] = useState(true);
+
     function toggleDropDown() {
         if (dropDownMenu) {
             setHide(true);
@@ -24,9 +26,10 @@ export const NavBar = ({ className }: NavBar) => {
             setDropDownMenu(true);
         }
     }
+
     return (
         <Disclosure as={"nav"} id={"navBar"} className={className}>
-            <div className={"mx-auto flex h-full w-full p-3 sm:w-10/12 sm:px-6"}>
+            <div className={"mx-auto flex h-full w-full p-3 sm:w-5/6 sm:px-6 md:w-full xl:w-5/6"}>
                 <div className={"w-fit px-3"}>
                     <a href={"/"} className={"text-4xl font-normal sm:text-4xl"}>
                         FlyNow
@@ -35,7 +38,7 @@ export const NavBar = ({ className }: NavBar) => {
                 {/* Tablet / Desktop */}
                 <div
                     className={
-                        "hidden w-full items-center justify-between gap-1 px-2 py-1.5 text-xl sm:visible sm:flex"
+                        "hidden w-full items-center justify-between gap-1 px-2 py-1.5 text-xl lg:visible lg:flex"
                     }>
                     <div className={"flex gap-3"}>
                         <a href={"/"} className={"text-gray-100 hover:text-white"}>
@@ -47,7 +50,7 @@ export const NavBar = ({ className }: NavBar) => {
                             </Link>
                         )}
                     </div>
-                    <div className={"flex items-center justify-center gap-4"}>
+                    <div className={"flex w-3/4 items-center justify-end gap-4 md:w-full xl:w-3/4"}>
                         {userData?.username ? (
                             <>
                                 <span>
@@ -82,10 +85,11 @@ export const NavBar = ({ className }: NavBar) => {
                                 </Link>
                             </>
                         )}
+                        <CurrencySelect className={"w-1/6 text-sm"} />
                     </div>
                 </div>
                 {/* Mobile */}
-                <div className={"flex w-full items-center justify-end gap-2 px-3 py-1 sm:hidden"}>
+                <div className={"flex w-full items-center justify-end gap-2 px-3 py-1 lg:hidden"}>
                     <button className={"size-10 rounded-sm"}>
                         <FontAwesomeIcon
                             icon={faBars}
@@ -100,7 +104,7 @@ export const NavBar = ({ className }: NavBar) => {
             {dropDownMenu && (
                 <div
                     className={
-                        "absolute flex h-screen w-full animate-slideIn flex-col items-center justify-start gap-5 backdrop-blur-lg sm:hidden" +
+                        "absolute flex h-screen w-full animate-slideIn flex-col items-center justify-start gap-5 backdrop-blur-lg lg:hidden" +
                         (hide ? " -translate-x-full opacity-0 transition-all duration-[350ms]" : "")
                     }>
                     <div className={"flex w-full justify-between px-5 py-3"}>
@@ -120,7 +124,7 @@ export const NavBar = ({ className }: NavBar) => {
                             </button>
                         </div>
                     </div>
-                    <div className={"flex w-11/12 flex-col gap-3 px-5"}>
+                    <div className={"flex w-11/12 flex-col gap-3 px-5 sm:w-3/4"}>
                         {userData?.username ? (
                             <>
                                 <Link
@@ -162,6 +166,9 @@ export const NavBar = ({ className }: NavBar) => {
                                 </Link>
                             </>
                         )}
+                        <div className={"flex w-full justify-end"}>
+                            <CurrencySelect className={"w-1/2 text-sm sm:w-1/3"} />
+                        </div>
                     </div>
                 </div>
             )}

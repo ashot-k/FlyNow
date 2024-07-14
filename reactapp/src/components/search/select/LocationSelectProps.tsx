@@ -1,7 +1,7 @@
 import { components, ControlProps, OptionProps, SingleValueProps } from "react-select";
 import Flag from "react-flagkit";
 import React from "react";
-import { Route } from "./FlightSearch";
+import { Route } from "../FlightSearch";
 
 export const option = ({ innerProps, label, data }: OptionProps<Route, false>) => (
     <div

@@ -13,3 +13,10 @@ export const AMADEUS_URLs = {
     DESTINATIONS: "/v1/airport/direct-destinations",
     FLIGHT_OFFERS: "/v2/shopping/flight-offers",
 };
+export const DUMMY_URLS = {
+    ACTIVITIES: "/mock_json/destination_activities.json",
+    //  MOST_TRAVELED: "/v1/travel/analytics/air-traffic/traveled",
+    LOCATIONS: "/mock_json/airports.json",
+    DESTINATIONS: "/mock_json/destinations.json",
+    FLIGHT_OFFERS: "/mock_json/search_flight_offers_roundtrip.json",
+};

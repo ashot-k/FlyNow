@@ -1,15 +1,16 @@
 import { searchFlightOffers } from "../services/AmadeusAPIService";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { logSearchTerms } from "../services/FlyNowServiceAPI";
 import { searchFlightOffersDummy } from "../services/DummyAmadeusService";
+import { devMode } from "../utils/Utils";
 
 export default function useSearchFlights() {
-    const [noResults, setNoResults] = useState<boolean>(false);
-    const [pendingFlightSearch, setPendingFlightSearch] = useState<boolean>(false);
+    const [pendingFlightSearch, setPendingFlightSearch] = useState<boolean | undefined>(undefined);
     const [flightList, setFlightList] = useState<any[]>([]);
     const [dictionaries, setDictionaries] = useState<any>();
     const [searchParams, setSearchParams] = useSearchParams();
+    const [error, setError] = useState<string>();
 
     function searchFlights(
         originIATA: string,
@@ -26,21 +27,21 @@ export default function useSearchFlights() {
         searchParams.set("returnDate", returnDate ? returnDate : "");
         searchParams.set("adults", String(adults));
         searchParams.set("children", String(children));
-        searchParams.set("max_price", String(maxPrice));
+        searchParams.set("maxPrice", String(maxPrice));
+        const currency = localStorage.getItem("currency")?.split("/")[1];
         setSearchParams(searchParams);
         setPendingFlightSearch(true);
         setFlightList([]);
         if (originIATA && destinationIATA && departureDate) {
-            logSearchTerms(originIATA, destinationIATA);
-            if (process.env.REACT_APP_DEV_MODE === "true") {
+            //logSearchTerms(originIATA, destinationIATA);
+            if (devMode()) {
                 searchFlightOffersDummy()
                     .then((response) => {
-                        setNoResults(true);
                         setFlightList(response.data.data);
                         setDictionaries(response.data.dictionaries);
                     })
-                    .catch((e) => {
-                        console.error(e);
+                    .catch((e: Error) => {
+                        setError(e.message);
                         setFlightList([]);
                     })
                     .finally(() => {
@@ -55,9 +56,9 @@ export default function useSearchFlights() {
                     adults: adults ? adults : 1,
                     children: children,
                     maxPrice: maxPrice ? maxPrice : 1000,
+                    currencyCode: currency ? currency : "",
                 })
                     .then((response) => {
-                        setNoResults(true);
                         setFlightList(response.data.data);
                         setDictionaries(response.data.dictionaries);
                     })
@@ -74,11 +75,11 @@ export default function useSearchFlights() {
 
     return {
         searchFlights,
+        error,
         flightList,
         setFlightList,
         dictionaries,
         setDictionaries,
         pendingFlightSearch,
-        noResults,
     };
 }
