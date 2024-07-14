@@ -1,15 +1,15 @@
 import React from "react";
 import AsyncSelect from "react-select/async";
 import { locationSelectStyles, option, originControl, singleValue } from "./LocationSelectProps";
-import { Route } from "../FlightSearch";
+import { RouteInfo } from "../FlightSearch";
 import { SingleValue } from "react-select";
 
 interface OriginSelectProps {
     isLoading: boolean;
-    loadOptions: (inputValue: string) => Promise<Route[]> | undefined;
-    value: Route | undefined;
-    options: Route[];
-    onChange: (option: SingleValue<Route> | undefined) => void;
+    loadOptions: (inputValue: string) => Promise<RouteInfo[]> | undefined;
+    value: RouteInfo | undefined;
+    options: RouteInfo[];
+    onChange: (option: SingleValue<RouteInfo> | undefined) => void;
 }
 
 export default function OriginSelect({ isLoading, loadOptions, value, options, onChange }: OriginSelectProps) {

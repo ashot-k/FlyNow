@@ -1,15 +1,15 @@
 import { searchAirport } from "../services/AmadeusAPIService";
 import { capitalize, devMode } from "../utils/Utils";
 import { useState } from "react";
-import { Route } from "../components/search/FlightSearch";
+import { RouteInfo } from "../components/search/FlightSearch";
 import { searchAirportDummy } from "../services/DummyAmadeusService";
 
 export default function useSearchOriginOptions() {
     const [pendingOriginSearch, setPendingOriginSearch] = useState<boolean>(false);
-    const [origin, setOrigin] = useState<Route>();
-    const [originOptions, setOriginOptions] = useState<Route[]>([]);
+    const [origin, setOrigin] = useState<RouteInfo>();
+    const [originOptions, setOriginOptions] = useState<RouteInfo[]>([]);
 
-    async function searchOriginOptions(inputValue: string): Promise<Route[]> {
+    async function searchOriginOptions(inputValue: string): Promise<RouteInfo[]> {
         try {
             setPendingOriginSearch(true);
             let response;

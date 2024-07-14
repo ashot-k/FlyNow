@@ -1,14 +1,14 @@
 import React from "react";
 import Select, { SingleValue } from "react-select";
 import { destinationControl, locationSelectStyles, option, singleValue } from "./LocationSelectProps";
-import { Route } from "../FlightSearch";
+import { RouteInfo } from "../FlightSearch";
 import LoadingAnimation from "../../loader/LoadingAnimation";
 
 interface DestinationSelectProps {
     isLoading: boolean;
-    options: Route[];
-    value: Route | undefined;
-    onChange: (option: SingleValue<Route> | undefined) => void;
+    options: RouteInfo[];
+    value: RouteInfo | undefined;
+    onChange: (option: SingleValue<RouteInfo> | undefined) => void;
 }
 
 export default function DestinationSelect({ isLoading, options, value, onChange }: DestinationSelectProps) {

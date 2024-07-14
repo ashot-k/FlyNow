@@ -1,15 +1,15 @@
 import { searchAvailableDestinations } from "../services/AmadeusAPIService";
 import { capitalize, devMode } from "../utils/Utils";
-import { Route } from "../components/search/FlightSearch";
+import { RouteInfo } from "../components/search/FlightSearch";
 import { useState } from "react";
 import { searchAvailableDestinationsDummy } from "../services/DummyAmadeusService";
 
 export default function useSearchDestinationOptions() {
     const [pendingDestSearch, setPendingDestSearch] = useState<boolean>(false);
-    const [destination, setDestination] = useState<Route>();
-    const [destinationOptions, setDestinationOptions] = useState<Route[]>([]);
+    const [destination, setDestination] = useState<RouteInfo>();
+    const [destinationOptions, setDestinationOptions] = useState<RouteInfo[]>([]);
 
-    async function searchDestinationOptions(originIATA: string): Promise<Route[]> {
+    async function searchDestinationOptions(originIATA: string): Promise<RouteInfo[]> {
         try {
             setPendingDestSearch(true);
             let response;

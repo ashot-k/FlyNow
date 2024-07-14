@@ -2,7 +2,6 @@ import { components, ControlProps, OptionProps, SingleValueProps } from "react-s
 import { CurrencyOption } from "../../CurrencySelect";
 import Flag from "react-flagkit";
 import React from "react";
-import { Route } from "../FlightSearch";
 
 export const option = ({ innerProps, label, data }: OptionProps<CurrencyOption, false>) => (
     <div

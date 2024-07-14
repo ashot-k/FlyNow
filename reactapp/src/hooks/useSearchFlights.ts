@@ -6,8 +6,8 @@ import { searchFlightOffersDummy } from "../services/DummyAmadeusService";
 import { devMode } from "../utils/Utils";
 
 export default function useSearchFlights() {
-    const [pendingFlightSearch, setPendingFlightSearch] = useState<boolean | undefined>(undefined);
-    const [flightList, setFlightList] = useState<any[]>([]);
+    const [pendingFlightSearch, setPendingFlightSearch] = useState<boolean>(false);
+    const [flightList, setFlightList] = useState<any[]>();
     const [dictionaries, setDictionaries] = useState<any>();
     const [searchParams, setSearchParams] = useSearchParams();
     const [error, setError] = useState<string>();
@@ -33,7 +33,7 @@ export default function useSearchFlights() {
         setPendingFlightSearch(true);
         setFlightList([]);
         if (originIATA && destinationIATA && departureDate) {
-            //logSearchTerms(originIATA, destinationIATA);
+            logSearchTerms(originIATA, destinationIATA);
             if (devMode()) {
                 searchFlightOffersDummy()
                     .then((response) => {

@@ -1,7 +1,7 @@
 import Flag from "react-flagkit";
 import { capitalize } from "../../utils/Utils";
 import React from "react";
-import { Route } from "./FlightSearch";
+import { RouteInfo } from "./FlightSearch";
 import arrowRight from "../../static/assets/arrow-right.svg";
 
 interface SearchInfo {
@@ -9,8 +9,8 @@ interface SearchInfo {
     returnDate: string;
     adults: number;
     children: number;
-    origin: Route;
-    destination: Route;
+    origin: RouteInfo;
+    destination: RouteInfo;
     maxPrice: number;
 }
 

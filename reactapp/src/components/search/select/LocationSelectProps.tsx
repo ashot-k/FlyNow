@@ -1,9 +1,9 @@
 import { components, ControlProps, OptionProps, SingleValueProps } from "react-select";
 import Flag from "react-flagkit";
 import React from "react";
-import { Route } from "../FlightSearch";
+import { RouteInfo } from "../FlightSearch";
 
-export const option = ({ innerProps, label, data }: OptionProps<Route, false>) => (
+export const option = ({ innerProps, label, data }: OptionProps<RouteInfo, false>) => (
     <div
         className={
             "flex cursor-pointer gap-2 px-2 py-2 odd:bg-flyNow-odd-option even:bg-flyNow-even-option hover:bg-flyNow-light"
@@ -13,7 +13,7 @@ export const option = ({ innerProps, label, data }: OptionProps<Route, false>) =
         <span className={"text-lg"}>{label}</span>
     </div>
 );
-export const originControl = ({ children, ...props }: ControlProps<Route>) => {
+export const originControl = ({ children, ...props }: ControlProps<RouteInfo>) => {
     return (
         <components.Control {...props}>
             <h3 className={"absolute -top-4 left-6 bg-flyNow-component px-2"}>Origin</h3>
@@ -21,7 +21,7 @@ export const originControl = ({ children, ...props }: ControlProps<Route>) => {
         </components.Control>
     );
 };
-export const destinationControl = ({ children, ...props }: ControlProps<Route>) => {
+export const destinationControl = ({ children, ...props }: ControlProps<RouteInfo>) => {
     return (
         <components.Control {...props}>
             <label htmlFor={"destination-selection"} className={"absolute -top-4 left-6 bg-flyNow-component px-2"}>
@@ -32,7 +32,7 @@ export const destinationControl = ({ children, ...props }: ControlProps<Route>) 
     );
 };
 
-export const singleValue = ({ data, children, ...props }: SingleValueProps<Route>) => {
+export const singleValue = ({ data, children, ...props }: SingleValueProps<RouteInfo>) => {
     return (
         <components.SingleValue
             data={data}

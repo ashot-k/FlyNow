@@ -5,7 +5,7 @@ import useSearchDestinationOptions from "../../hooks/useSearchDestinationOptions
 import useSearchOriginOptions from "../../hooks/useSearchOriginOptions";
 import { Button, Input } from "@headlessui/react";
 import SearchErrorMessage from "./SearchErrorMessage";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import UserSearchSuggestionsList from "../search-suggestions/UserSearchSuggestionsList";
 import DatePicker from "./select/DatePicker";
 import OriginSelect from "./select/OriginSelect";
@@ -13,12 +13,12 @@ import DestinationSelect from "./select/DestinationSelect";
 import PassengerInput from "./select/PassengerInput";
 
 interface FlightSearchProps {
-    onSearch: (searchOptions: FlightSearchOptions) => void;
+    onSearch: (searchOptions: SearchParams) => void;
     className?: string;
     id?: string;
 }
 
-export interface Route {
+export interface RouteInfo {
     value: number;
     label: string;
     cityName: string;
@@ -27,25 +27,20 @@ export interface Route {
     airport: string;
 }
 
-interface SearchInfo {
+export interface SearchParams {
     departureDate: string;
     returnDate: string;
     adults: number;
     children: number;
-    origin: Route;
-    destination: Route;
+    origin: string;
+    destination: string;
     maxPrice: number;
-}
-
-export interface FlightSearchOptions {
-    searchOptions: SearchInfo;
 }
 
 interface preloadedSearchInfo {
     preloadedOriginIATA?: string;
     preloadedDestinationIATA?: string;
 }
-
 export default function FlightSearch({
     onSearch,
     className,
@@ -75,29 +70,29 @@ export default function FlightSearch({
 
     function onSuggestionSelect(suggestion: SearchSuggestion) {
         loadRoute(suggestion.originIATA).then((options) =>
-            setDestination(options.filter((option: Route) => option.iataCode === suggestion.destinationIATA)[0]),
+            setDestination(options.filter((option: RouteInfo) => option.iataCode === suggestion.destinationIATA)[0]),
         );
     }
 
     function triggerOnSearch() {
         if (origin && destination) {
-            startup.current = false;
             onSearch({
-                searchOptions: {
-                    origin: origin,
-                    destination: destination,
-                    departureDate,
-                    returnDate,
-                    adults,
-                    children,
-                    maxPrice,
-                },
+                origin: origin.iataCode,
+                destination: destination.iataCode,
+                departureDate,
+                returnDate,
+                adults,
+                children,
+                maxPrice,
             });
         }
     }
 
     const loading = useRef(true);
-    const startup = useRef(true);
+    useEffect(() => {
+        loading.current = true;
+    }, [searchParams]);
+
     useEffect(() => {
         const originParam = searchParams.get("origin");
         const destParam = searchParams.get("dest");
@@ -108,7 +103,7 @@ export default function FlightSearch({
         const maxPrice = searchParams.get("maxPrice");
         if (originParam && destParam && departureDateParam && loading.current) {
             loading.current = false;
-            const updateDestination = (options: Route[]) => {
+            const updateDestination = (options: RouteInfo[]) => {
                 if (destParam) {
                     setDestination(options.find((option) => option.iataCode === destParam));
                 }
@@ -128,13 +123,10 @@ export default function FlightSearch({
             setChildren(children ? Number(children) : 0);
             setReturnDate(returnDate ? returnDate : "");
         } else if (preloadedOriginIATA && loading.current) {
-            startup.current = false;
             loading.current = false;
             loadRoute(preloadedOriginIATA);
-        } else if (startup.current) {
-            triggerOnSearch();
         }
-    }, [searchParams, origin, destination, startup]);
+    }, [searchParams, origin, destination]);
 
     function loadOriginOptions(inputValue: string) {
         if (inputValue.length >= 3) {
@@ -176,7 +168,7 @@ export default function FlightSearch({
     const onReturnDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setReturnDate(e.target.value);
     };
-    const onOriginSelectChange = (option: SingleValue<Route> | undefined) => {
+    const onOriginSelectChange = (option: SingleValue<RouteInfo> | undefined) => {
         if (option) {
             setOrigin(option);
             searchDestinationOptions(option.iataCode).then((options) => {
@@ -186,7 +178,7 @@ export default function FlightSearch({
             });
         }
     };
-    const onDestinationSelectChange = (option: SingleValue<Route> | undefined) => {
+    const onDestinationSelectChange = (option: SingleValue<RouteInfo> | undefined) => {
         if (option) {
             setDestination(option);
         }
