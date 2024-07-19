@@ -1,7 +1,6 @@
-import { searchFlightOffers } from "../services/AmadeusAPIService";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { logSearchTerms } from "../services/FlyNowServiceAPI";
+import { searchFlightOffers } from "../services/AmadeusAPIService";
 import { searchFlightOffersDummy } from "../services/DummyAmadeusService";
 import { devMode } from "../utils/Utils";
 
@@ -33,9 +32,9 @@ export default function useSearchFlights() {
         setPendingFlightSearch(true);
         setFlightList([]);
         if (originIATA && destinationIATA && departureDate) {
-            logSearchTerms(originIATA, destinationIATA);
+            //logSearchTerms(originIATA, destinationIATA);
             if (devMode()) {
-                searchFlightOffersDummy()
+                searchFlightOffersDummy(destinationIATA)
                     .then((response) => {
                         setFlightList(response.data.data);
                         setDictionaries(response.data.dictionaries);
@@ -64,7 +63,6 @@ export default function useSearchFlights() {
                     })
                     .catch((e) => {
                         console.error(e);
-                        setFlightList([]);
                     })
                     .finally(() => {
                         setPendingFlightSearch(false);

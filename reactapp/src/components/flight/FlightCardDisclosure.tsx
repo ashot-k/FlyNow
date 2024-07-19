@@ -1,11 +1,10 @@
 import { Flight } from "./FlightCard";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
-import { flightDateToStringShort, flightDateToStringTime, timeDiffToHoursAndMins } from "../../utils/Utils";
 import ArrowRight from "../../static/assets/arrow-right.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faLongArrowDown } from "@fortawesome/free-solid-svg-icons";
 import FlightScheduleTable from "./FlightScheduleTable";
 import React, { useMemo } from "react";
+import { flightDateToStringShort, flightDateToStringTime, dateDiffInHoursAndMins } from "../../utils/Time";
 
 interface FlightCardDisclosureProps {
     flight: Flight;
@@ -35,14 +34,13 @@ export default function FlightCardDisclosure({ flight }: FlightCardDisclosurePro
                 }>
                 <div className={"flex w-full flex-col items-center gap-2"}>
                     {flight.itineraries[0] && (
-                        <div className={"flex w-2/3 flex-col gap-0"}>
+                        <div className={"flex w-full flex-col gap-0"}>
                             <div className={"flex justify-center"}>
                                 <span className={"flex w-full items-center justify-center gap-1.5 text-center text-sm"}>
-                                    <span>Outbound</span>
                                     <span className={"text-blue-400"}>{flightDateToStringShort(outboundStart)}</span>
-                                    <FontAwesomeIcon icon={faClock} className={"text-gray-300"} />
-                                    <span className={"text-rose-500"}>
-                                        {timeDiffToHoursAndMins(outboundStart, outboundEnd)}
+                                    <span className={"flex items-center gap-1 text-rose-500"}>
+                                        <FontAwesomeIcon icon={"clock"} className={"text-gray-300"} />
+                                        {dateDiffInHoursAndMins(outboundStart, outboundEnd)}
                                     </span>
                                 </span>
                             </div>
@@ -54,14 +52,13 @@ export default function FlightCardDisclosure({ flight }: FlightCardDisclosurePro
                         </div>
                     )}
                     {flight.itineraries[1] && (
-                        <div className={"flex w-2/3 flex-col gap-0"}>
+                        <div className={"flex w-full flex-col gap-0"}>
                             <div className={"flex justify-center"}>
                                 <span className={"flex w-full items-center justify-center gap-1.5 text-center text-sm"}>
-                                    <span>Return</span>
                                     <span className={"text-blue-400"}>{flightDateToStringShort(returnStart)}</span>
-                                    <FontAwesomeIcon icon={faClock} className={"text-gray-300"} />
-                                    <span className={"text-rose-500"}>
-                                        {timeDiffToHoursAndMins(returnStart, returnEnd)}
+                                    <span className={"flex items-center gap-1 text-rose-500"}>
+                                        <FontAwesomeIcon icon={"clock"} className={"text-gray-300"} />
+                                        {dateDiffInHoursAndMins(returnStart, returnEnd)}
                                     </span>
                                 </span>
                             </div>
@@ -74,13 +71,13 @@ export default function FlightCardDisclosure({ flight }: FlightCardDisclosurePro
                     )}
                 </div>
                 <FontAwesomeIcon
-                    icon={faLongArrowDown}
-                    className="absolute right-5 size-7 p-8 transition-colors duration-300 hover:text-emerald-400 group-data-[open]:rotate-180 sm:right-0"
+                    icon={"arrow-down-long"}
+                    className="absolute right-0 size-7 p-8 transition-colors duration-300 hover:text-emerald-400 group-data-[open]:rotate-180"
                 />
             </DisclosureButton>
             <DisclosurePanel className="mt-3 overflow-auto text-sm sm:px-1">
                 <FlightScheduleTable
-                    className={"animate-slideInDiagonal mt-5 flex w-full flex-col gap-5"}
+                    className={"mt-5 flex w-full animate-slideInDiagonal flex-col gap-5"}
                     flight={flight}
                 />
             </DisclosurePanel>

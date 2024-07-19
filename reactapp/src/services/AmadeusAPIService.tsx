@@ -1,58 +1,11 @@
 import axios from "axios";
-import { getAmadeusTokenFromStorage, saveAmadeusTokenToStorage, Token } from "../utils/Utils";
-import { axiosFlyNow } from "./FlyNowServiceAPI";
-import { AMADEUS_URLs, FLY_NOW_URLs } from "../utils/Links";
+import { FLY_NOW_URL_BASE, FLY_NOW_URLs } from "../utils/Links";
+
 const max = 25;
 
 const axiosAmadeus = axios.create({
-    baseURL: "https://test.api.amadeus.com",
+    baseURL: FLY_NOW_URL_BASE,
 });
-
-async function getToken(): Promise<Token> {
-    try {
-        const r = await axiosFlyNow.get(FLY_NOW_URLs.TOKEN_ENDPOINT);
-        return r.data;
-    } catch (e) {
-        console.log(e);
-        throw e;
-    }
-}
-
-axiosAmadeus.interceptors.request.use(
-    async function (config) {
-        if (config.url === FLY_NOW_URLs.TOKEN_ENDPOINT) {
-            config.headers.Authorization = "";
-            return config;
-        } else {
-            config.headers.Authorization = "Bearer " + getAmadeusTokenFromStorage()?.token;
-            return config;
-        }
-    },
-    function (error) {
-        return Promise.reject(error);
-    },
-);
-
-axiosAmadeus.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    async function (error) {
-        const originalRequest = error.config;
-        if (error.response.status === 401) {
-            try {
-                const response = await getToken();
-                const { token, expiration, issued_at } = response;
-                saveAmadeusTokenToStorage({ token, expiration, issued_at });
-                const originalRequest = error.config;
-                return Promise.resolve(axiosAmadeus({ ...originalRequest }));
-            } catch (e) {
-                console.log(e);
-            }
-        }
-        return Promise.reject(error.response);
-    },
-);
 
 interface FlightSearchInfo {
     departureDate: string;
@@ -77,7 +30,7 @@ export const searchFlightOffers = ({
 }: FlightSearchInfo) => {
     let returnDateChecked: undefined | string = returnDate;
     if (!returnDateChecked) returnDateChecked = undefined;
-    return axiosAmadeus.get(AMADEUS_URLs.FLIGHT_OFFERS, {
+    return axiosAmadeus.get(FLY_NOW_URLs.FLIGHT_OFFERS, {
         params: {
             originLocationCode: originIATA,
             destinationLocationCode: destinationIATA,
@@ -93,7 +46,7 @@ export const searchFlightOffers = ({
 };
 
 export function searchAirport(keyword: string) {
-    return axiosAmadeus.get(AMADEUS_URLs.LOCATIONS, {
+    return axiosAmadeus.get(FLY_NOW_URLs.LOCATIONS, {
         params: {
             subType: "AIRPORT",
             keyword: keyword,
@@ -102,7 +55,7 @@ export function searchAirport(keyword: string) {
 }
 
 export function activitiesInArea(latitude: any, longitude: any) {
-    return axiosAmadeus.get(AMADEUS_URLs.ACTIVITIES, {
+    return axiosAmadeus.get(FLY_NOW_URLs.ACTIVITIES, {
         params: {
             latitude: latitude,
             longitude: longitude,
@@ -112,7 +65,7 @@ export function activitiesInArea(latitude: any, longitude: any) {
 }
 
 export function searchMostTraveledDestinations(originIATA: string, period: string) {
-    return axiosAmadeus.get(AMADEUS_URLs.MOST_TRAVELED, {
+    return axiosAmadeus.get(FLY_NOW_URLs.MOST_TRAVELED, {
         params: {
             originCityCode: originIATA,
             period: period,
@@ -121,7 +74,7 @@ export function searchMostTraveledDestinations(originIATA: string, period: strin
 }
 
 export function searchAvailableDestinations(originIATA: string) {
-    return axiosAmadeus.get(AMADEUS_URLs.DESTINATIONS, {
+    return axiosAmadeus.get(FLY_NOW_URLs.DESTINATIONS, {
         params: {
             departureAirportCode: originIATA,
         },

@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -54,12 +53,11 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-       // .requiresChannel(channel -> channel.anyRequest().requiresSecure()).cors(cors -> cors.configurationSource(request -> corsConfigurationSource().getCorsConfiguration(request)))
+        // .requiresChannel(channel -> channel.anyRequest().requiresSecure()).cors(cors -> cors.configurationSource(request -> corsConfigurationSource().getCorsConfiguration(request)))
         http.csrf().disable().cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/flights/search").permitAll()
-                                .requestMatchers("/amadeus/token").permitAll().anyRequest().authenticated())
+                                .requestMatchers("/amadeus/**").permitAll().anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

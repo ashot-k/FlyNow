@@ -1,5 +1,5 @@
 import Flag from "react-flagkit";
-import countryCodes from "../../utils/countryCodes.json";
+import countryCodes from "../../dev-data/mock_json/countryCodes.json";
 import { getAirportByIATA } from "../../utils/Utils";
 import ArrowRight from "../../static/assets/arrow-right.svg";
 import React from "react";

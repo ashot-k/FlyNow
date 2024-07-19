@@ -1,0 +1,40 @@
+ [
+    {
+      "type": "location",
+      "subtype": "city",
+      "name": "AARHUS",
+      "iataCode": "AAR",
+      "geoCode": {
+        "latitude": 56.30223,
+        "longitude": 10.62639
+      },
+      "address": {
+        "countryName": "DENMARK",
+        "countryCode": "DK",
+        "regionCode": "EUROP"
+      },
+      "timeZone": {
+        "offSet": "+02:00",
+        "referenceLocalDateTime": "2024-07-14T10:54:04"
+      }
+    },
+    {
+      "type": "location",
+      "subtype": "city",
+      "name": "LANZAROTE",
+      "iataCode": "ACE",
+      "geoCode": {
+        "latitude": 28.95028,
+        "longitude": -13.60555
+      },
+      "address": {
+        "countryName": "SPAIN",
+        "countryCode": "ES",
+        "regionCode": "EUROP"
+      },
+      "timeZone": {
+        "offSet": "+01:00",
+        "referenceLocalDateTime": "2024-07-14T10:54:04"
+      }
+    }
+  ]

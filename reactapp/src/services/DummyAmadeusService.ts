@@ -1,28 +1,34 @@
 import axios from "axios";
 import { wait } from "@testing-library/user-event/dist/utils";
-import { useEffect, useRef } from "react";
 import { DUMMY_URLS } from "../utils/Links";
-import { saveAmadeusTokenToStorage } from "../utils/Utils";
 
 const dummyAxiosAmadeus = axios.create();
-dummyAxiosAmadeus.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    async function (error) {
-        const originalRequest = error.config;
-        return Promise.reject(error.response);
-    },
-);
-export function searchFlightOffersDummy() {
-    return wait(1000).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.FLIGHT_OFFERS));
+const delay = 1000;
+
+export function searchFlightOffersDummy(setting?: string) {
+    if (setting === "AAR") {
+        return wait(delay).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.FLIGHT_OFFERS_1));
+    } else if (setting === "ACE") {
+        return wait(delay).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.FLIGHT_OFFERS_2));
+    } else {
+        return wait(delay).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.FLIGHT_OFFERS_1));
+    }
 }
+
 export function searchAirportDummy() {
-    return wait(500).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.LOCATIONS));
+    return wait(delay).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.LOCATIONS));
 }
+export function searchCheapestDatesRoundTrip() {
+    return wait(delay).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.CHEAPEST_DATES_ROUNDTRIP));
+}
+export function searchCheapestDates() {
+    return wait(delay).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.CHEAPEST_DATES));
+}
+
 export function activitiesInAreaDummy() {
-    return wait(750).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.ACTIVITIES));
+    return wait(delay).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.ACTIVITIES));
 }
+
 export function searchAvailableDestinationsDummy() {
-    return wait(250).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.DESTINATIONS));
+    return wait(delay).then(() => dummyAxiosAmadeus.get(DUMMY_URLS.DESTINATIONS));
 }

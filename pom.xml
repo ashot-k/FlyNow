@@ -14,7 +14,7 @@
     <name>FlyNow</name>
     <description>FlyNow</description>
     <properties>
-        <java.version>21</java.version>
+        <java.version>22</java.version>
     </properties>
     <packaging>jar</packaging>
     <dependencies>
@@ -74,6 +74,11 @@
             <groupId>com.amadeus</groupId>
             <artifactId>amadeus-java</artifactId>
             <version>9.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>

@@ -18,7 +18,7 @@ export default function useSearchDestinationOptions() {
             } else {
                 response = await searchAvailableDestinations(originIATA);
             }
-            const destinations = response.data.data;
+            const destinations = response.data;
             return destinations.map((dest: any, index: number) => ({
                 value: index,
                 label: capitalize(dest.name) + " (" + dest.iataCode + "), " + capitalize(dest.address.countryName),

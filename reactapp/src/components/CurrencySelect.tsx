@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { control, CurrencySelectStyles, option, singleValue } from "./search/select/CurrencySelectProps";
-import ct from "countries-and-timezones";
+import { control, CurrencySelectStyles, option, singleValue } from "./search/select-props/CurrencySelectProps";
+
 export interface CurrencyOption {
     value: string;
     label: string;
@@ -11,9 +11,11 @@ export interface CurrencyOption {
     countryCode: string;
     symbol: string;
 }
+
 interface CurrencySelectProps {
     className?: string;
 }
+
 export default function CurrencySelect({ className }: CurrencySelectProps) {
     const [options, setOptions] = useState<CurrencyOption[]>([]);
     const [selectedOption, setSelectedOption] = useState<CurrencyOption>();

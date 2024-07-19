@@ -15,10 +15,13 @@ export default function useSearchOriginOptions() {
             let response;
             if (devMode()) {
                 response = await searchAirportDummy();
+                response.data = response.data.filter(
+                    (airport: { iataCode: string }) => airport.iataCode.toUpperCase() === inputValue.toUpperCase(),
+                );
             } else {
                 response = await searchAirport(inputValue);
             }
-            const airports = response.data.data;
+            const airports = response.data;
             return airports.map((airport: any, index: number) => ({
                 value: index,
                 label:

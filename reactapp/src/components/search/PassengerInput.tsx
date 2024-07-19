@@ -7,11 +7,12 @@ interface PassengerInputProps {
     value: number;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+    className?: string;
 }
 
-export default function PassengerInput({ label, name, value, onChange, onBlur }: PassengerInputProps) {
+export default function PassengerInput({ label, className, name, value, onChange, onBlur }: PassengerInputProps) {
     return (
-        <div className={"relative flex w-3/12 flex-col gap-2 sm:w-1/2"}>
+        <div className={className}>
             <Input
                 className={
                     "w-full rounded-xl bg-transparent px-5 py-1.5 text-white outline outline-1 outline-gray-500 data-[focus]:outline-flyNow-light"
@@ -25,7 +26,7 @@ export default function PassengerInput({ label, name, value, onChange, onBlur }:
                 onChange={onChange}
             />
             <label htmlFor={name}>
-                <h5 className={"absolute -top-3 left-6 w-fit bg-flyNow-component px-3 text-sm"}>{label}</h5>
+                <h5 className={"absolute -top-3 left-5 w-fit bg-flyNow-component px-2"}>{label}</h5>
             </label>
         </div>
     );

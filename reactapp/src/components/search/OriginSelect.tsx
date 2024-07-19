@@ -1,26 +1,34 @@
 import React from "react";
 import AsyncSelect from "react-select/async";
-import { locationSelectStyles, option, originControl, singleValue } from "./LocationSelectProps";
-import { RouteInfo } from "../FlightSearch";
+import { locationSelectStyles, option, originControl, singleValue } from "./select-props/LocationSelectProps";
+import { RouteInfo } from "./FlightSearch";
 import { SingleValue } from "react-select";
 
 interface OriginSelectProps {
     isLoading: boolean;
     loadOptions: (inputValue: string) => Promise<RouteInfo[]> | undefined;
     value: RouteInfo | undefined;
-    options: RouteInfo[];
+    defaultOptions: RouteInfo[];
     onChange: (option: SingleValue<RouteInfo> | undefined) => void;
+    className?: string;
 }
 
-export default function OriginSelect({ isLoading, loadOptions, value, options, onChange }: OriginSelectProps) {
+export default function OriginSelect({
+    isLoading,
+    loadOptions,
+    defaultOptions,
+    value,
+    onChange,
+    className,
+}: OriginSelectProps) {
     return (
         <AsyncSelect
             placeholder={"Choose origin"}
             name={"origin-selection"}
-            className={"w-full text-lg sm:w-10/12"}
+            className={className}
             isLoading={isLoading}
-            defaultOptions={options}
             loadOptions={loadOptions}
+            defaultOptions={defaultOptions}
             value={value}
             onChange={onChange}
             styles={locationSelectStyles}

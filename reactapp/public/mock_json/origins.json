@@ -1,0 +1,61 @@
+[{
+  "type": "location",
+  "subType": "AIRPORT",
+  "name": "MUNICH INTERNATIONAL",
+  "detailedName": "MUNICH/DE:MUNICH INTERNATIONAL",
+  "id": "AMUC",
+  "self": {
+    "href": "https://test.api.amadeus.com/v1/reference-data/locations/AMUC",
+    "methods": [
+      "GET"
+    ]
+  },
+  "timeZoneOffset": "+02:00",
+  "iataCode": "MUC",
+  "geoCode": {
+    "latitude": 48.35389,
+    "longitude": 11.78612
+  },
+  "address": {
+    "cityName": "MUNICH",
+    "cityCode": "MUC",
+    "countryName": "GERMANY",
+    "countryCode": "DE",
+    "regionCode": "EUROP"
+  },
+  "analytics": {
+    "travelers": {
+      "score": 27
+    }
+  }
+},{
+  "type": "location",
+  "subType": "AIRPORT",
+  "name": "MADRID AIRPORT",
+  "detailedName": "MUNICH/DE:MUNICH INTERNATIONAL",
+  "id": "AMUC",
+  "self": {
+    "href": "https://test.api.amadeus.com/v1/reference-data/locations/AMUC",
+    "methods": [
+      "GET"
+    ]
+  },
+  "timeZoneOffset": "+02:00",
+  "iataCode": "MAD",
+  "geoCode": {
+    "latitude": 48.35389,
+    "longitude": 11.78612
+  },
+  "address": {
+    "cityName": "MADRID",
+    "cityCode": "MAD",
+    "countryName": "SPAIN",
+    "countryCode": "ES",
+    "regionCode": "EUROP"
+  },
+  "analytics": {
+    "travelers": {
+      "score": 27
+    }
+  }
+}]

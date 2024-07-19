@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context";
-import { removeFlyNowTokenFromStorage } from "../utils/Utils";
 import { Disclosure } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import CurrencySelect from "./CurrencySelect";
+import { removeFlyNowTokenFromStorage } from "../utils/Token";
 
 interface NavBar {
     className?: string;
@@ -29,7 +28,7 @@ export const NavBar = ({ className }: NavBar) => {
 
     return (
         <Disclosure as={"nav"} id={"navBar"} className={className}>
-            <div className={"mx-auto flex h-full w-full p-3 sm:w-5/6 sm:px-6 md:w-full xl:w-5/6"}>
+            <div className={"mx-auto flex h-full w-full p-3 sm:w-full sm:px-6 xl:w-5/6"}>
                 <div className={"w-fit px-3"}>
                     <a href={"/"} className={"text-4xl font-normal sm:text-4xl"}>
                         FlyNow
@@ -38,7 +37,7 @@ export const NavBar = ({ className }: NavBar) => {
                 {/* Tablet / Desktop */}
                 <div
                     className={
-                        "hidden w-full items-center justify-between gap-1 px-2 py-1.5 text-xl lg:visible lg:flex"
+                        "hidden w-full items-center justify-between gap-1 px-2 py-1.5 text-base lg:visible lg:flex"
                     }>
                     <div className={"flex gap-3"}>
                         <a href={"/"} className={"text-gray-100 hover:text-white"}>
@@ -92,7 +91,7 @@ export const NavBar = ({ className }: NavBar) => {
                 <div className={"flex w-full items-center justify-end gap-2 px-3 py-1 lg:hidden"}>
                     <button className={"size-10 rounded-sm"}>
                         <FontAwesomeIcon
-                            icon={faBars}
+                            icon={"bars"}
                             className={"size-full"}
                             color={"white"}
                             onClick={toggleDropDown}
@@ -104,7 +103,7 @@ export const NavBar = ({ className }: NavBar) => {
             {dropDownMenu && (
                 <div
                     className={
-                        "absolute flex h-screen w-full animate-slideIn flex-col items-center justify-start gap-5 backdrop-blur-lg lg:hidden" +
+                        "absolute flex h-screen w-full animate-slideIn flex-col items-center justify-start gap-5 text-base backdrop-blur-lg lg:hidden" +
                         (hide ? " -translate-x-full opacity-0 transition-all duration-[350ms]" : "")
                     }>
                     <div className={"flex w-full justify-between px-5 py-3"}>
@@ -116,7 +115,7 @@ export const NavBar = ({ className }: NavBar) => {
                         <div className={"py-2"}>
                             <button className={"size-10 rounded-sm"}>
                                 <FontAwesomeIcon
-                                    icon={faXmark}
+                                    icon={"xmark"}
                                     onClick={toggleDropDown}
                                     className={"h-full w-full"}
                                     color={"white"}
@@ -124,12 +123,12 @@ export const NavBar = ({ className }: NavBar) => {
                             </button>
                         </div>
                     </div>
-                    <div className={"flex w-11/12 flex-col gap-3 px-5 sm:w-3/4"}>
+                    <div className={"flex w-3/4 flex-col gap-3 px-5 sm:w-1/2"}>
                         {userData?.username ? (
                             <>
                                 <Link
                                     className={
-                                        "rounded-lg bg-flyNow-secondary py-3 text-center text-2xl text-white transition-all duration-500"
+                                        "rounded-lg bg-flyNow-secondary py-2 text-center text-white transition-all duration-500"
                                     }
                                     to={"/profile"}
                                     onClick={toggleDropDown}>
@@ -137,7 +136,7 @@ export const NavBar = ({ className }: NavBar) => {
                                 </Link>
                                 <button
                                     className={
-                                        "rounded-lg bg-rose-700 py-3 text-center text-2xl text-white transition-all duration-500"
+                                        "rounded-lg bg-rose-700 py-2 text-center text-white transition-all duration-500"
                                     }
                                     onClick={() => {
                                         removeFlyNowTokenFromStorage();
@@ -150,7 +149,7 @@ export const NavBar = ({ className }: NavBar) => {
                             <>
                                 <Link
                                     className={
-                                        "rounded-lg bg-flyNow-light py-3 text-center text-2xl text-white transition-all duration-500"
+                                        "rounded-lg bg-flyNow-light py-2 text-center text-white transition-all duration-500"
                                     }
                                     to={"/register"}
                                     onClick={toggleDropDown}>
@@ -158,7 +157,7 @@ export const NavBar = ({ className }: NavBar) => {
                                 </Link>
                                 <Link
                                     className={
-                                        "rounded-lg bg-flyNow-secondary py-3 text-center text-2xl text-white transition-all duration-500"
+                                        "rounded-lg bg-flyNow-secondary py-2 text-center text-white transition-all duration-500"
                                     }
                                     to={"/login"}
                                     onClick={toggleDropDown}>

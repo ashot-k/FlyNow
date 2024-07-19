@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "count": 1,
+    "links": {
+      "self": "https://test.api.amadeus.com/v2/schedule/flights?carrierCode=XQ&flightNumber=977&scheduledDepartureDate=2024-06-21"
+    }
+  },
+  "data": [
+    {
+      "type": "DatedFlight",
+      "scheduledDepartureDate": "2024-06-21",
+      "flightDesignator": {
+        "carrierCode": "XQ",
+        "flightNumber": 977
+      },
+      "flightPoints": [
+        {
+          "iataCode": "MUC",
+          "departure": {
+            "timings": [
+              {
+                "qualifier": "STD",
+                "value": "2024-06-21T14:20+02:00"
+              }
+            ]
+          }
+        },
+        {
+          "iataCode": "ADB",
+          "arrival": {
+            "timings": [
+              {
+                "qualifier": "STA",
+                "value": "2024-06-21T18:00+03:00"
+              }
+            ]
+          }
+        }
+      ],
+      "segments": [
+        {
+          "boardPointIataCode": "MUC",
+          "offPointIataCode": "ADB",
+          "scheduledSegmentDuration": "PT2H40M",
+          "partnership": {
+            "operatingFlight": {
+              "carrierCode": "LH",
+              "flightNumber": 9576
+            }
+          }
+        }
+      ],
+      "legs": [
+        {
+          "boardPointIataCode": "MUC",
+          "offPointIataCode": "ADB",
+          "aircraftEquipment": {
+            "aircraftType": "73H"
+          },
+          "scheduledLegDuration": "PT2H40M"
+        }
+      ]
+    }
+  ]
+}

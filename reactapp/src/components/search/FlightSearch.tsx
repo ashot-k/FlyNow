@@ -5,12 +5,14 @@ import useSearchDestinationOptions from "../../hooks/useSearchDestinationOptions
 import useSearchOriginOptions from "../../hooks/useSearchOriginOptions";
 import { Button, Input } from "@headlessui/react";
 import SearchErrorMessage from "./SearchErrorMessage";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import UserSearchSuggestionsList from "../search-suggestions/UserSearchSuggestionsList";
-import DatePicker from "./select/DatePicker";
-import OriginSelect from "./select/OriginSelect";
-import DestinationSelect from "./select/DestinationSelect";
-import PassengerInput from "./select/PassengerInput";
+import DateSelect from "./DateSelect";
+import OriginSelect from "./OriginSelect";
+import DestinationSelect from "./DestinationSelect";
+import PassengerInput from "./PassengerInput";
+import MultiDatePicker from "./MultiDatePicker";
+import SingleDatePicker from "./SingleDatePicker";
 
 interface FlightSearchProps {
     onSearch: (searchOptions: SearchParams) => void;
@@ -41,6 +43,7 @@ interface preloadedSearchInfo {
     preloadedOriginIATA?: string;
     preloadedDestinationIATA?: string;
 }
+
 export default function FlightSearch({
     onSearch,
     className,
@@ -54,6 +57,7 @@ export default function FlightSearch({
     const [children, setChildren] = useState<number>(0);
     const [maxPrice, setMaxPrice] = useState<number>(1000);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [oneWay, setOneWay] = useState(true);
     const originSearchTerm = useRef<string>("");
 
     const { pendingOriginSearch, searchOriginOptions, origin, setOrigin, originOptions, setOriginOptions } =
@@ -90,8 +94,21 @@ export default function FlightSearch({
 
     const loading = useRef(true);
     useEffect(() => {
-        loading.current = true;
+        if (searchParams.size > 0) {
+            loading.current = true;
+        }
     }, [searchParams]);
+
+    useEffect(() => {
+        if (origin && destination) {
+            localStorage.setItem("originCity", origin.cityName);
+            localStorage.setItem("destinationCity", destination.cityName);
+        }
+    }, [origin, destination]);
+    useEffect(() => {
+        setReturnDate("");
+        setDepartureDate("");
+    }, [oneWay]);
 
     useEffect(() => {
         const originParam = searchParams.get("origin");
@@ -152,22 +169,16 @@ export default function FlightSearch({
             }
         }
         return searchDestinationOptions(originIATA).then((options) => {
-            if (options) setDestinationOptions(options);
+            if (options) {
+                setDestinationOptions(options);
+            }
             return options;
         });
     }
 
     function checkIfSearchInfoEntered() {
-        return origin && destination && departureDate;
+        return !!(origin && destination && departureDate);
     }
-
-    const onDepartureDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setReturnDate("");
-        setDepartureDate(e.target.value);
-    };
-    const onReturnDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setReturnDate(e.target.value);
-    };
     const onOriginSelectChange = (option: SingleValue<RouteInfo> | undefined) => {
         if (option) {
             setOrigin(option);
@@ -193,12 +204,36 @@ export default function FlightSearch({
             setAdults(1);
         }
     };
+    const onMultiDatesChange = (dates: [Date | null, Date | null]) => {
+        if (dates[0]) {
+            const localISODate = new Date(dates[0].getTime() - dates[0].getTimezoneOffset() * 60000)
+                .toISOString()
+                .slice(0, 10);
+            setDepartureDate(localISODate);
+        }
+        if (dates[1]) {
+            const localISODate = new Date(dates[1].getTime() - dates[1].getTimezoneOffset() * 60000)
+                .toISOString()
+                .slice(0, 10);
+            setReturnDate(localISODate);
+        } else {
+            setReturnDate("");
+        }
+    };
+    const onSingleDateChange = (date: Date | null) => {
+        if (date) {
+            const localISODate = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+            setDepartureDate(localISODate);
+            setReturnDate("");
+        }
+    };
 
     return (
         <div className={className + " relative"} id={id}>
             <div className={"flex w-full flex-col justify-center gap-6 sm:flex sm:flex-row sm:gap-2"}>
-                <div className={"flex flex-col items-center justify-start gap-0 py-1 sm:w-1/4 sm:gap-12 sm:py-3"}>
-                    <DatePicker
+                <div className={"flex flex-col items-center justify-between gap-2 text-base sm:w-1/4 sm:justify-start"}>
+                    {/*  <DateSelect
+                        className={"relative w-1/2 sm:w-full"}
                         label={"Departure"}
                         type={"departure"}
                         name={"departure-date"}
@@ -206,33 +241,69 @@ export default function FlightSearch({
                         min={new Date().toISOString().substring(0, 10)}
                         onChange={onDepartureDateChange}
                     />
-                    <DatePicker
+                    <DateSelect
+                        className={"relative w-1/2 sm:w-full"}
                         type={"return"}
                         label={"Return"}
                         name={"return-date"}
                         value={returnDate}
                         min={departureDate}
                         onChange={onReturnDateChange}
-                    />
+                    />*/}
+                    {oneWay && (
+                        <SingleDatePicker
+                            origin={origin?.iataCode}
+                            destination={destination?.iataCode}
+                            className={"relative w-full animate-fadeIn sm:w-fit sm:min-w-64"}
+                            value={onSingleDateChange}
+                        />
+                    )}
+                    {!oneWay && (
+                        <MultiDatePicker
+                            className={"relative w-full animate-fadeIn sm:w-fit sm:min-w-64"}
+                            values={onMultiDatesChange}
+                        />
+                    )}
+                    <div className={"flex w-full justify-center gap-0.5 text-sm"}>
+                        <button
+                            className={
+                                "w-1/2 rounded-sm bg-opacity-90 py-2 transition-colors duration-300 hover:bg-flyNow-secondary " +
+                                (oneWay ? "bg-flyNow-light" : "bg-gray-700")
+                            }
+                            onClick={() => setOneWay(true)}>
+                            One way
+                        </button>
+                        <button
+                            className={
+                                "w-1/2 rounded-sm bg-opacity-90 py-2 transition-colors duration-300 hover:bg-flyNow-secondary " +
+                                (!oneWay ? "bg-flyNow-light" : "bg-gray-700")
+                            }
+                            onClick={() => setOneWay(false)}>
+                            Round-trip
+                        </button>
+                    </div>
                 </div>
-                <div className={"flex flex-col items-center justify-start gap-0 py-1 sm:w-2/4 sm:gap-8 sm:py-3"}>
+                <div className={"flex flex-col items-center justify-between text-sm sm:w-1/2 sm:gap-6 sm:text-base"}>
                     <OriginSelect
+                        className={"w-full sm:w-5/6"}
                         isLoading={pendingOriginSearch}
                         loadOptions={loadOriginOptions}
+                        defaultOptions={originOptions}
                         value={origin ? origin : originOptions?.length > 0 ? originOptions[0] : undefined}
-                        options={originOptions}
                         onChange={onOriginSelectChange}
                     />
                     <DestinationSelect
+                        className={"w-full sm:w-5/6"}
                         isLoading={pendingDestSearch}
                         options={destinationOptions}
                         value={destination}
                         onChange={onDestinationSelectChange}
                     />
                 </div>
-                <div className={"flex flex-col items-center justify-start gap-0 py-1 sm:w-1/4 sm:gap-8 sm:py-3"}>
-                    <div className={"flex w-full justify-center gap-2"}>
+                <div className={"flex flex-col items-center justify-between sm:w-1/4 sm:gap-0"}>
+                    <div className={"flex w-full justify-center gap-2 text-sm"}>
                         <PassengerInput
+                            className={"relative flex w-1/4 flex-col gap-2 sm:w-1/2"}
                             label={"Adults"}
                             name={"adults"}
                             value={adults ? adults : 1}
@@ -240,6 +311,7 @@ export default function FlightSearch({
                             onBlur={onAdultPassengerInputBlur}
                         />
                         <PassengerInput
+                            className={"relative flex w-3/12 flex-col gap-2 sm:w-1/2"}
                             label={"Children"}
                             name={"children"}
                             value={children ? children : 0}
@@ -247,7 +319,7 @@ export default function FlightSearch({
                             onBlur={onChildPassengerInputBlur}
                         />
                     </div>
-                    <div className={"w-full px-3"}>
+                    <div className={"w-full px-3 text-sm"}>
                         <label htmlFor={"max-price"}>
                             <h5>
                                 Maximum price <span className={"font-bold"}>{maxPrice + "\u20AC"}</span>
@@ -255,7 +327,7 @@ export default function FlightSearch({
                         </label>
                         <Input
                             name={"max-price"}
-                            className={"w-full accent-flyNow-light-secondary"}
+                            className={"w-full py-1 accent-flyNow-light-secondary"}
                             type={"range"}
                             min={5}
                             max={1000}
@@ -264,6 +336,7 @@ export default function FlightSearch({
                     </div>
                 </div>
             </div>
+
             <UserSearchSuggestionsList
                 className={"flex w-full flex-col items-center justify-start gap-2 sm:w-3/4"}
                 onSuggestionSelect={onSuggestionSelect}
@@ -286,10 +359,13 @@ export default function FlightSearch({
                     }
                 />
             </>
-            <div className={"flex w-full flex-row items-start justify-center gap-5 py-3 sm:flex-row"}>
+            <div
+                className={
+                    "flex w-full flex-row items-start justify-center gap-3 py-3 text-sm sm:flex-row sm:text-base"
+                }>
                 <Button
                     className={
-                        "sm:xl w-7/12 rounded-xl bg-flyNow-light px-5 py-2 text-lg transition-all duration-500 disabled:bg-gray-600 disabled:text-gray-500 disabled:outline-0 disabled:hover:bg-gray-600 sm:w-1/4 sm:bg-transparent sm:outline sm:outline-2 sm:outline-flyNow-light sm:hover:bg-flyNow-light"
+                        "w-fit rounded-xl bg-flyNow-light px-20 py-2 transition-all duration-500 disabled:bg-gray-600 disabled:text-gray-500 disabled:outline-0 disabled:hover:bg-gray-600 sm:bg-transparent sm:outline sm:outline-2 sm:outline-flyNow-light sm:hover:bg-flyNow-light"
                     }
                     disabled={!checkIfSearchInfoEntered()}
                     onClick={triggerOnSearch}>
@@ -297,7 +373,7 @@ export default function FlightSearch({
                 </Button>
                 <Button
                     className={
-                        "sm:xl w-5/12 rounded-xl bg-flyNow-secondary px-3 py-2 text-lg transition-all duration-500 disabled:bg-gray-600 disabled:text-gray-500 disabled:outline-0 disabled:hover:bg-gray-600 sm:w-1/6 sm:hover:bg-flyNow-light"
+                        "w-fit rounded-xl bg-flyNow-secondary px-5 py-2 transition-all duration-500 disabled:bg-gray-600 disabled:text-gray-500 disabled:outline-0 disabled:hover:bg-gray-600 sm:hover:bg-flyNow-light"
                     }>
                     Trip Planner
                 </Button>

@@ -1,16 +1,14 @@
 package org.flynow.controller;
 
 import jakarta.validation.Valid;
-import org.flynow.dto.UserDTO;
-import org.flynow.entity.Address;
-import org.flynow.exceptions.authexceptions.WrongCredentialsException;
-import org.flynow.response.TokenResponse;
-import org.flynow.request.JwtTokenRequest;
 import org.flynow.dto.LoginDTO;
 import org.flynow.dto.RegistrationDTO;
-import org.flynow.entity.User;
+import org.flynow.dto.UserDTO;
+import org.flynow.exceptions.authexceptions.WrongCredentialsException;
 import org.flynow.repository.RoleRepo;
 import org.flynow.repository.UserRepo;
+import org.flynow.request.JwtTokenRequest;
+import org.flynow.response.TokenResponse;
 import org.flynow.service.CustomUserDetailsService;
 import org.flynow.service.JwtService;
 import org.flynow.service.UserService;
@@ -24,7 +22,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 
@@ -65,12 +66,12 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwtToken = jwtService.generateToken(userRepo.findByUsername(loginDTO.username()).get());
-        return new ResponseEntity<>(new TokenResponse(jwtToken, jwtService.getExpirationTime(), Instant.now()), HttpStatus.OK);
+        return new ResponseEntity<>(new TokenResponse(jwtToken, jwtService.getExpirationTime(), Instant.now().toString()), HttpStatus.OK);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> refreshToken(@RequestBody JwtTokenRequest jwtTokenRequest) {
         UserDetails user = userDetailsService.loadUserByUsername(jwtService.extractUsername(jwtTokenRequest.getToken()));
-        return new ResponseEntity<>(new TokenResponse(jwtService.generateToken(user), jwtService.getExpirationTime(), Instant.now()), HttpStatus.OK);
+        return new ResponseEntity<>(new TokenResponse(jwtService.generateToken(user), jwtService.getExpirationTime(), Instant.now().toString()), HttpStatus.OK);
     }
 }

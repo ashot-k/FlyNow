@@ -10,13 +10,15 @@ export const option = ({ innerProps, label, data }: OptionProps<RouteInfo, false
         }
         {...innerProps}>
         <Flag className={"size-6"} country={data.countryCode} />
-        <span className={"text-lg"}>{label}</span>
+        <span>{label}</span>
     </div>
 );
 export const originControl = ({ children, ...props }: ControlProps<RouteInfo>) => {
     return (
         <components.Control {...props}>
-            <h3 className={"absolute -top-4 left-6 bg-flyNow-component px-2"}>Origin</h3>
+            <label htmlFor={"origin-selection"} className={"absolute -top-3 left-6 bg-flyNow-component px-2 sm:-top-4"}>
+                Origin
+            </label>
             {children}
         </components.Control>
     );
@@ -24,7 +26,9 @@ export const originControl = ({ children, ...props }: ControlProps<RouteInfo>) =
 export const destinationControl = ({ children, ...props }: ControlProps<RouteInfo>) => {
     return (
         <components.Control {...props}>
-            <label htmlFor={"destination-selection"} className={"absolute -top-4 left-6 bg-flyNow-component px-2"}>
+            <label
+                htmlFor={"destination-selection"}
+                className={"absolute -top-3 left-6 bg-flyNow-component px-2 sm:-top-4"}>
                 Destination
             </label>
             {children}
@@ -39,7 +43,7 @@ export const singleValue = ({ data, children, ...props }: SingleValueProps<Route
             className={"flex cursor-pointer items-center gap-2 bg-transparent"}
             {...props}>
             <Flag className={"size-6"} country={data.countryCode} />
-            <span className={"text-lg"}>{data.label}</span>
+            <span>{data.label}</span>
         </components.SingleValue>
     );
 };

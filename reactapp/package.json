@@ -20,6 +20,7 @@
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
+    "react-datepicker": "^7.3.0",
     "react-dom": "^18.2.0",
     "react-flagkit": "^2.0.4",
     "react-fontawesome": "^1.7.1",

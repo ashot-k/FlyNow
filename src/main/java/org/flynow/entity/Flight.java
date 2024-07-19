@@ -1,13 +1,9 @@
 package org.flynow.entity;
 
-import com.amadeus.resources.FlightOfferSearch;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Currency;
 
 @Entity
 @Table(name = "flights")
@@ -23,7 +19,7 @@ public class Flight {
     private String direction;
 
     @ManyToOne
-    @JoinColumn(name = "booking_id", referencedColumnName = "booking_id")
+    @JoinColumn(name = "booking_id", referencedColumnName = "id")
     @NotNull
     private Booking booking;
 

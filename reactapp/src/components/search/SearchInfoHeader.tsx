@@ -1,21 +1,12 @@
 import Flag from "react-flagkit";
 import { capitalize } from "../../utils/Utils";
-import React from "react";
-import { RouteInfo } from "./FlightSearch";
-import arrowRight from "../../static/assets/arrow-right.svg";
-
-interface SearchInfo {
-    departureDate: string;
-    returnDate: string;
-    adults: number;
-    children: number;
-    origin: RouteInfo;
-    destination: RouteInfo;
-    maxPrice: number;
-}
+import React, { useContext, useEffect, useState } from "react";
+import { RouteInfo, SearchParams } from "./FlightSearch";
+import { DictionariesContext } from "../../context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface SearchInfoHeaderProps {
-    searchInfo: SearchInfo;
+    searchInfo: SearchParams;
 }
 
 export default function SearchInfoHeader({ searchInfo }: SearchInfoHeaderProps) {
@@ -23,15 +14,26 @@ export default function SearchInfoHeader({ searchInfo }: SearchInfoHeaderProps) 
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    const dictionary = useContext(DictionariesContext);
     let origin = searchInfo.origin;
     let destination = searchInfo.destination;
     let departureDate = searchInfo.departureDate;
     let returnDate = searchInfo.returnDate;
+    const [originCity, setOriginCity] = useState<string>();
+    const [destinationCity, setDestinationCity] = useState<string>();
 
+    useEffect(() => {
+        const originCity = localStorage.getItem("originCity");
+        const destinationCity = localStorage.getItem("destinationCity");
+        if (originCity && destinationCity) {
+            setOriginCity(originCity);
+            setDestinationCity(destinationCity);
+        }
+    }, []);
     return (
         <div
             className={
-                "fixed bottom-0 z-10 flex w-full flex-col items-center justify-center rounded-t-3xl bg-flyNow-light bg-opacity-95 py-1 font-semibold sm:bg-flyNow-component"
+                "fixed bottom-0 z-10 flex w-full flex-col items-center justify-center rounded-t-3xl bg-flyNow-component bg-opacity-95 py-1 font-semibold sm:bg-flyNow-component"
             }>
             <button onClick={scroll}>
                 <svg
@@ -49,16 +51,31 @@ export default function SearchInfoHeader({ searchInfo }: SearchInfoHeaderProps) 
                     />
                 </svg>
             </button>
-            <span className={"flex w-full items-center justify-center gap-2 text-lg sm:text-lg"}>
-                <Flag className={"size-5 sm:size-6"} country={origin.countryCode} /> {capitalize(origin.cityName)} (
-                {origin.iataCode})
-                <img src={arrowRight} className={"size-5 sm:size-6"} alt={""} />
-                <Flag className={"size-5 sm:size-6"} country={destination.countryCode} />{" "}
-                {capitalize(destination.cityName)} ({destination.iataCode})
-            </span>
-            <div className={"flex items-start justify-start gap-2 text-lg"}>
-                {departureDate && <span>Outbound: {new Date(departureDate).toLocaleDateString("en-GB")}</span>}
-                {returnDate && <span>Return: {new Date(returnDate).toLocaleDateString("en-GB")}</span>}
+            <div className={"flex w-full items-center justify-evenly gap-1 text-sm sm:justify-center sm:text-lg"}>
+                <div className={"flex w-40 items-center justify-center gap-2 sm:w-48"}>
+                    <div className={"flex flex-col items-center"}>
+                        <span className={"flex items-center gap-2"}>
+                            <Flag className={"size-5"} country={dictionary?.locations[searchInfo.origin].countryCode} />
+                            {capitalize(originCity)} ({searchInfo.origin})
+                        </span>
+                        {departureDate && <span>{new Date(searchInfo.departureDate).toLocaleDateString()}</span>}
+                    </div>
+                </div>
+                <div className={"flex size-6 flex-col items-center justify-center"}>
+                    <FontAwesomeIcon icon={returnDate ? "arrows-left-right" : "arrow-right"} className={"size-6"} />
+                </div>
+                <div className={"flex w-40 items-center justify-center gap-2 sm:w-48"}>
+                    <div className={"flex flex-col items-center"}>
+                        <span className={"flex items-center gap-2"}>
+                            <Flag
+                                className={"size-5"}
+                                country={dictionary?.locations[searchInfo.destination].countryCode}
+                            />
+                            {capitalize(destinationCity)} ({searchInfo.destination})
+                        </span>
+                        {returnDate && <span>{new Date(searchInfo.returnDate).toLocaleDateString()}</span>}
+                    </div>
+                </div>
             </div>
         </div>
     );

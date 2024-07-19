@@ -79,9 +79,11 @@ export default function Register({ className }: RegisterPageProps) {
                 className={
                     "flex w-full flex-col items-start justify-evenly gap-3.5 text-sm sm:w-full sm:flex-row sm:py-5"
                 }>
-                <div className={"flex w-full flex-col items-center gap-1.5 sm:w-4/12"}>
-                    <h1 className={"hidden w-full text-center text-xl sm:block"}>Credentials</h1>
-                    <hr className={"hidden w-2/3 border-gray-500 sm:block"} />
+                <div className={"flex w-full flex-col items-center gap-3 sm:w-4/12"}>
+                    <div className={"flex w-full flex-col items-center gap-1"}>
+                        <h1 className={"hidden w-full text-center text-xl sm:block"}>Credentials</h1>
+                        <hr className={"hidden w-2/3 border-gray-500 sm:block"} />
+                    </div>
                     <div className={"flex w-full flex-col gap-1.5"}>
                         <label className={"w-full"} htmlFor={"username"}>
                             Username
@@ -125,9 +127,11 @@ export default function Register({ className }: RegisterPageProps) {
                         />
                     </div>
                 </div>
-                <div className={"flex w-full flex-col items-center gap-1.5 sm:w-6/12"}>
-                    <h1 className={"w-full text-center text-xl"}>Address Information</h1>
-                    <hr className={"hidden w-2/3 border-gray-500 sm:block"} />
+                <div className={"flex w-full flex-col items-center gap-3 sm:w-6/12"}>
+                    <div className={"flex w-full flex-col items-center gap-1"}>
+                        <h1 className={"w-full text-center text-xl"}>Address Information</h1>
+                        <hr className={"hidden w-2/3 border-gray-500 sm:block"} />
+                    </div>
                     <div className={"flex w-full gap-3.5"}>
                         <div className={"flex w-1/2 flex-col gap-1.5"}>
                             <label className={"w-full"} htmlFor={"firstName"}>
@@ -223,7 +227,7 @@ export default function Register({ className }: RegisterPageProps) {
             <div className={"flex w-full flex-col items-center gap-2"}>
                 <button
                     className={
-                        "w-full rounded-2xl bg-flyNow-light py-2 transition-colors duration-300 hover:bg-flyNow-secondary sm:w-1/3"
+                        "w-full rounded-3xl bg-flyNow-light py-2 transition-colors duration-300 hover:bg-flyNow-secondary sm:w-1/3"
                     }
                     type={"submit"}>
                     Register

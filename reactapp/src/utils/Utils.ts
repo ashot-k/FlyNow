@@ -1,78 +1,18 @@
-import airportData from "./airports.json";
+import airportData from "../dev-data/mock_json/airports.json";
 import axios from "axios";
 
-export const userArea = "MUC";
-
-export interface Token {
-    expiration: number;
-    issued_at: string;
-    token: string;
-}
 export function devMode(): boolean {
     return process.env.REACT_APP_DEV_MODE === "true";
 }
-
-export function removeAmadeusTokenFromStorage() {
-    localStorage.removeItem("amadeus_token");
-    localStorage.removeItem("amadeus_token_expiration");
-    localStorage.removeItem("amadeus_token_issuedAt");
+export function detectMob() {
+    return window.innerWidth <= 800 || window.innerHeight <= 700;
 }
-
-export function getAmadeusTokenFromStorage(): Token | undefined {
-    let token = localStorage.getItem("amadeus_token");
-    let expiration = localStorage.getItem("amadeus_token_expiration");
-    let issuedAt = localStorage.getItem("amadeus_token_issuedAt");
-    if (token && expiration && issuedAt)
-        return {
-            token: token,
-            expiration: Number.parseInt(expiration),
-            issued_at: issuedAt,
-        };
-    return undefined;
+export const userArea = "MUC";
+export function normalizeDate(d: Date) {
+    const nd = new Date(d);
+    nd.setHours(0, 0, 0, 0);
+    return nd;
 }
-
-export function saveAmadeusTokenToStorage(tokenObject: Token) {
-    if (tokenObject) {
-        localStorage.setItem("amadeus_token", tokenObject.token);
-        localStorage.setItem("amadeus_token_expiration", tokenObject.expiration.toString());
-        localStorage.setItem("amadeus_token_issuedAt", tokenObject.issued_at);
-    }
-}
-
-export function getFlyNowTokenFromStorage(): Token | undefined {
-    let token = localStorage.getItem("flynow_token");
-    let expiration = localStorage.getItem("flynow_token_expiration");
-    let issuedAt = localStorage.getItem("flynow_token_issuedAt");
-    if (token && expiration && issuedAt)
-        return {
-            token: token,
-            expiration: Number.parseInt(expiration),
-            issued_at: issuedAt,
-        };
-    return undefined;
-}
-
-export function saveFlyNowTokenToStorage(tokenObject: Token) {
-    if (tokenObject) {
-        localStorage.setItem("flynow_token", "Bearer " + tokenObject.token);
-        localStorage.setItem("flynow_token_expiration", tokenObject.expiration.toString());
-        localStorage.setItem("flynow_token_issuedAt", tokenObject.issued_at);
-    }
-}
-
-export function removeFlyNowTokenFromStorage() {
-    localStorage.removeItem("flynow_token");
-    localStorage.removeItem("flynow_token_expiration");
-    localStorage.removeItem("flynow_token_issuedAt");
-}
-
-export const checkIfExpired = (jwt: Token) => {
-    const issuedAt = new Date(jwt.issued_at);
-    const expirationTime = new Date(issuedAt).getTime() + jwt.expiration * 1000;
-    const currentTime = new Date().getTime();
-    return currentTime >= expirationTime;
-};
-
 export function capitalize(str: string | undefined) {
     if (!str) return;
     let capitalizedString = "";
@@ -102,71 +42,6 @@ export function getUserLocation() {
     return axios.get("http://ip-api.com/json");
 }
 
-export var Months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-];
-export var Days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-export function flightDateToStringFull(date: string) {
-    const str = new Date(date);
-    return (
-        Days[str.getDay()] +
-        ", " +
-        str.getDate() +
-        " " +
-        Months[str.getMonth()] +
-        " " +
-        str.getFullYear() +
-        " " +
-        addZero(str.getHours()) +
-        ":" +
-        addZero(str.getMinutes())
-    ); // + " UTC";
-}
-
-export function flightDateToStringNoYear(date: string) {
-    const str = new Date(date);
-    return (
-        Days[str.getDay()] +
-        ", " +
-        str.getDate() +
-        " " +
-        Months[str.getMonth()] +
-        " " +
-        addZero(str.getHours()) +
-        ":" +
-        addZero(str.getMinutes())
-    ); // + " UTC";
-}
-
-export function flightDateToStringNoYearNoDay(date: string) {
-    const str = new Date(date);
-    return (
-        str.getDate() + " " + Months[str.getMonth()] + " " + addZero(str.getHours()) + ":" + addZero(str.getMinutes())
-    ); // + " UTC";
-}
-
-export function flightDateToStringShort(date: string) {
-    const str = new Date(date);
-    return Days[str.getDay()] + ", " + str.getDate() + " " + Months[str.getMonth()];
-}
-
-export function flightDateToStringTime(date: string) {
-    const str = new Date(date);
-    return addZero(str.getHours()) + ":" + addZero(str.getMinutes()); //+ " UTC";
-}
-
 export function calculateStops(segments: any[]) {
     let stops = 0;
     segments.forEach((segment) => (stops += segment.numberOfStops));
@@ -180,38 +55,10 @@ export function addZero(i: string | number) {
     return i;
 }
 
-export function timeDiffToHoursAndMins(time1: string, time2: string) {
-    let date1 = new Date(time1);
-    let date2 = new Date(time2);
-    let diff = (date2.getTime() - date1.getTime()) / 1000 / 60;
-    let hours = Math.floor(diff / 60);
-    let minutes = diff % 60;
-
-    if (minutes <= 0) {
-        return hours + "h";
-    } else if (hours > 0) return hours + "h " + minutes;
-    else return minutes + "m";
-}
-
-export function compareDateHours(date1: Date, date2: Date) {
-    return date2.getHours() - date1.getHours() >= 0;
-}
-
 export function inverse(obj: any) {
     let retobj: any = {};
     for (let key in obj) {
         retobj[obj[key]] = key;
     }
     return retobj;
-}
-
-export function minutesToClock(mins: number) {
-    let clock = "";
-    const hours = Math.round(mins / 60);
-    if (hours < 10) clock += "0";
-    clock += hours.toString() + ":";
-    const minutes = mins % 60;
-    if (minutes < 10) clock += "0";
-    clock += minutes;
-    return clock;
 }

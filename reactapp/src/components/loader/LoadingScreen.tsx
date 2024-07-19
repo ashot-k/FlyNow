@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingAnimation from "./LoadingAnimation";
 
 interface LoadingScreenProps {
@@ -20,9 +20,10 @@ export default function LoadingScreen({ className, id, show }: LoadingScreenProp
         } else {
             const className = durationClass + " " + "opacity-85 transition-transform -translate-x-full";
             setLoadingScreenClass(className);
-            setTimeout(() => {
+            const fadeOutTimer = setTimeout(() => {
                 setVisible(false);
             }, duration);
+            return () => clearTimeout(fadeOutTimer);
         }
     }, [show, className]);
 

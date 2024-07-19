@@ -1,8 +1,5 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { faGear } from "@fortawesome/free-solid-svg-icons";
-
 interface LoadingAnimationProps {
     className?: string;
     width?: number | string;
@@ -12,6 +9,6 @@ interface LoadingAnimationProps {
 
 export default function LoadingAnimation({ className, width, height, color }: LoadingAnimationProps) {
     return (
-        <FontAwesomeIcon className={className + " fa-spin"} width={width} height={height} color={color} icon={faGear} />
+        <FontAwesomeIcon className={className + " fa-spin"} width={width} height={height} color={color} icon={"gear"} />
     );
 }

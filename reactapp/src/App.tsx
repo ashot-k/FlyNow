@@ -9,18 +9,10 @@ import { AuthContext } from "./context";
 import { useUserToken } from "./hooks/useUserToken";
 import Footer from "./components/Footer";
 import "./static/animations.css";
-import {
-    faB,
-    faCheckSquare,
-    faCoffee,
-    faDatabase,
-    faHouseLaptop,
-    faS,
-    faWindowMaximize,
-} from "@fortawesome/free-solid-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-library.add(faB, faS, faHouseLaptop, faCheckSquare, faCoffee, faDatabase, faWindowMaximize);
+library.add(fas);
 
 interface AppProps {
     className?: string;
@@ -82,7 +74,7 @@ export default function App({ className }: AppProps) {
                     </main>
                     <Footer
                         className={
-                            "flex h-16 max-h-16 w-full flex-col items-center justify-end bg-flyNow-component px-4 py-3"
+                            "flex h-16 max-h-fit w-full flex-col items-center justify-end bg-flyNow-component px-4 py-3 text-sm"
                         }
                     />
                 </div>

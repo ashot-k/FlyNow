@@ -6,18 +6,18 @@ interface FlightListProps {
     className?: string;
 }
 
-export const FlightList = forwardRef<HTMLDivElement, FlightListProps>(({ flightList, className }, ref) => {
+export function FlightList({ flightList, className }: FlightListProps) {
     return (
-        <div ref={ref} className={className}>
+        <div className={className}>
             {flightList.map((flight: Flight, idx: number) => (
                 <FlightCard
                     key={idx}
                     className={
-                        "flex w-full animate-fadeIn flex-col gap-1.5 bg-flyNow-component bg-opacity-75 shadow-md shadow-black backdrop-blur-sm sm:w-2/3 sm:rounded-lg sm:bg-opacity-75 sm:px-2"
+                        "flex w-full animate-fadeIn flex-col gap-2 bg-flyNow-component bg-opacity-75 pb-2 shadow-md shadow-black backdrop-blur-sm sm:w-2/3 sm:rounded-lg sm:bg-opacity-75 sm:px-2"
                     }
                     flight={flight}
                 />
             ))}
         </div>
     );
-});
+}

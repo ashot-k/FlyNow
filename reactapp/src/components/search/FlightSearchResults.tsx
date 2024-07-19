@@ -1,11 +1,11 @@
 import SearchInfoHeader from "./SearchInfoHeader";
 import FlightListFilters from "../flight/FlightListFilters";
-import { FlightList } from "../flight/FlightList";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SearchParams } from "./FlightSearch";
 import { Flight } from "../flight/FlightCard";
 import { DictionariesContext } from "../../context";
 import { DestinationActivities } from "../search-suggestions/DestinationActivities";
+import { FlightList } from "../flight/FlightList";
 
 export interface SearchResults {
     flightList: any;
@@ -21,8 +21,10 @@ interface FlightSearchResultProps {
 export default function FlightSearchResults({ searchResults, className }: FlightSearchResultProps) {
     const [flightList, setFlightList] = useState(searchResults?.flightList);
     const [displayedFlights, setDisplayedFlights] = useState(searchResults?.flightList);
-
     const error = "error";
+    useEffect(() => {
+        setFlightList(searchResults?.flightList);
+    }, [searchResults]);
 
     useEffect(() => {
         if (flightList) {
@@ -37,7 +39,9 @@ export default function FlightSearchResults({ searchResults, className }: Flight
         <>
             {searchResults ? (
                 <div className={className}>
-                    {/*<SearchInfoHeader searchInfo={searchOptions?.searchOptions} />*/}
+                    <DictionariesContext.Provider value={searchResults.dictionaries}>
+                        <SearchInfoHeader searchInfo={searchResults.searchParams} />
+                    </DictionariesContext.Provider>
                     <DestinationActivities
                         className={
                             "flex w-full animate-fadeIn flex-col items-center justify-center bg-transparent bg-opacity-95 sm:w-5/6"

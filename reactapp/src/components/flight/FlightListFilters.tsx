@@ -1,9 +1,9 @@
 import { Dictionaries, Flight } from "./FlightCard";
 import React, { useEffect, useState } from "react";
-import { capitalize, inverse, minutesToClock } from "../../utils/Utils";
-
-import airlineData from "../../utils/airlines.json";
+import { capitalize, inverse } from "../../utils/Utils";
+import airlineData from "../../dev-data/mock_json/airlines.json";
 import { Field, Input, Label } from "@headlessui/react";
+import { minutesToClock } from "../../utils/Time";
 
 interface FlightListFilterProps {
     flightList: Flight[];
@@ -13,7 +13,6 @@ interface FlightListFilterProps {
 }
 
 export default function FlightListFilters({ flightList, dictionaries, filter, className }: FlightListFilterProps) {
-    const [flights, setFlights] = useState<Flight[]>(flightList);
     const [airlines, setAirlines] = useState<string[]>();
     const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
     const [departureTime, setDepartureTime] = useState<number>(0);

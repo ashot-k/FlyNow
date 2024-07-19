@@ -1,7 +1,7 @@
 import { calculateStops } from "../../utils/Utils";
 import React, { useContext, useMemo, useState } from "react";
 import { DictionariesContext } from "../../context";
-import airlines from "../../utils/airlines.json";
+import airlines from "../../dev-data/mock_json/airlines.json";
 import FlightOfferDetails from "../modals/FlightOfferDetails";
 import FlightCardDisclosure from "./FlightCardDisclosure";
 
@@ -94,13 +94,13 @@ export default function FlightCard({ flight, className }: FlightCardProps) {
                 </div>
             </div>
             <FlightCardDisclosure flight={flight} />
-            <div className={"flex items-center justify-center px-5 py-3"}>
+            <div className={"flex w-full items-center justify-center py-2"}>
                 <button
                     onClick={toggle}
                     className={
-                        "sm:lg w-2/4 rounded-xl bg-flyNow-light p-2 text-sm transition duration-500 hover:bg-flyNow-secondary lg:w-5/6 xl:w-5/12"
+                        "w-1/2 rounded-xl bg-flyNow-light py-2 text-sm transition duration-500 hover:bg-flyNow-secondary lg:w-5/6 xl:w-5/12"
                     }>
-                    Book for{" "}
+                    For{" "}
                     <span className={"font-bold"}>
                         {flight.price.total} {flight.price.currency}
                     </span>

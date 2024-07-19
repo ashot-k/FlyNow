@@ -1,26 +1,19 @@
 import { Flight } from "./FlightCard";
+import { getAirportByIATA } from "../../utils/Utils";
+import Flag from "react-flagkit";
+import React, { useContext } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { DictionariesContext } from "../../context";
 import {
     compareDateHours,
     flightDateToStringShort,
     flightDateToStringTime,
-    getAirportByIATA,
-    timeDiffToHoursAndMins,
-} from "../../utils/Utils";
-import Flag from "react-flagkit";
-import React, { useContext, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faLongArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { DictionariesContext } from "../../context";
+    dateDiffInHoursAndMins,
+} from "../../utils/Time";
 
 interface FlightScheduleTableProps {
     flight: Flight;
     className?: string;
-}
-
-export function diffInMins(time1: string, time2: string) {
-    let date1 = new Date(time1);
-    let date2 = new Date(time2);
-    return (date2.getTime() - date1.getTime()) / 1000 / 60;
 }
 
 export default function FlightScheduleTable({ className, flight }: FlightScheduleTableProps) {
@@ -29,35 +22,33 @@ export default function FlightScheduleTable({ className, flight }: FlightSchedul
     const outboundEnd = flight.itineraries[0]?.segments[flight.itineraries[0].segments.length - 1].arrival.at;
     const returnStart = flight.itineraries[1]?.segments[0].departure.at;
     const returnEnd = flight.itineraries[1]?.segments[flight.itineraries[1].segments.length - 1].arrival.at;
-    const airportData = useRef();
 
     return (
         <div className={className}>
             {flight.itineraries.map((itinerary: any, itineraryIdx: number) => (
                 <div key={itineraryIdx} className={"flex w-full flex-col gap-2 px-2 pb-0.5"}>
                     {itineraryIdx === 0 ? (
-                        <h4 className={"px-3 text-start text-xl sm:px-0"}>
-                            Outbound <span className={"text-blue-400"}>{flightDateToStringShort(outboundStart)}</span>{" "}
-                            <span className={"text-end font-bold text-rose-500"}>
+                        <h4 className={"flex items-center gap-2 pe-3 text-start text-lg sm:px-0"}>
+                            <span className={"text-blue-400"}>{flightDateToStringShort(outboundStart)}</span>
+                            <span className={"text-end text-sm font-bold text-rose-500"}>
                                 {" "}
-                                <FontAwesomeIcon icon={faClock} className={"text-gray-300"} />{" "}
-                                {timeDiffToHoursAndMins(outboundStart, outboundEnd)}
+                                <FontAwesomeIcon icon={"clock"} className={"text-gray-300"} />{" "}
+                                {dateDiffInHoursAndMins(outboundStart, outboundEnd)}
                             </span>
                         </h4>
                     ) : (
-                        <h4 className={"px-3 text-start text-xl sm:px-0"}>
-                            Return <span className={"text-blue-400"}>{flightDateToStringShort(returnStart)}</span>{" "}
-                            <span className={"text-end text-lg font-bold text-rose-500"}>
-                                {" "}
-                                <FontAwesomeIcon icon={faClock} className={"text-gray-300"} />{" "}
-                                {timeDiffToHoursAndMins(returnStart, returnEnd)}
+                        <h4 className={"flex items-center gap-2 pe-3 text-start text-lg sm:px-0"}>
+                            <span className={"text-blue-400"}>{flightDateToStringShort(returnStart)}</span>
+                            <span className={"text-end text-sm font-bold text-rose-500"}>
+                                <FontAwesomeIcon icon={"clock"} className={"text-gray-300"} />{" "}
+                                {dateDiffInHoursAndMins(returnStart, returnEnd)}
                             </span>
                         </h4>
                     )}
                     <div className={"rounded-sm text-sm outline outline-1 outline-gray-500 sm:rounded-lg"}>
                         {itinerary.segments.map((segment: any, segmentIdx: number) => (
-                            <>
-                                <div key={segmentIdx} className={"flex flex-col items-center gap-1 px-5 py-3 text-sm"}>
+                            <div key={segmentIdx}>
+                                <div className={"flex flex-col items-center gap-1 px-5 py-3 text-sm"}>
                                     <span className={"flex w-full items-center justify-start gap-2"}>
                                         <span className={"text-xl"}>
                                             {flightDateToStringTime(segment.departure.at)}
@@ -73,7 +64,7 @@ export default function FlightScheduleTable({ className, flight }: FlightSchedul
                                             {segment.departure.iataCode})
                                         </span>
                                     </span>
-                                    <FontAwesomeIcon icon={faLongArrowDown} className="size-4" />
+                                    <FontAwesomeIcon icon={"long-arrow-down"} className="size-4" />
                                     <span className={"flex w-full items-center justify-start gap-2"}>
                                         <span className={"text-xl"}>{flightDateToStringTime(segment.arrival.at)} </span>
                                         <Flag
@@ -89,7 +80,7 @@ export default function FlightScheduleTable({ className, flight }: FlightSchedul
                                     </span>
                                     {itineraryIdx == 0 &&
                                         segmentIdx == itinerary.segments.length - 1 &&
-                                        !compareDateHours(new Date(outboundStart), new Date(outboundEnd)) && (
+                                        !compareDateHours(outboundStart, outboundEnd) && (
                                             <span className={"w-full"}>
                                                 Arriving at{" "}
                                                 <span className={"text-blue-400"}>
@@ -97,10 +88,9 @@ export default function FlightScheduleTable({ className, flight }: FlightSchedul
                                                 </span>
                                             </span>
                                         )}
-
                                     {itineraryIdx == 1 &&
                                         segmentIdx == itinerary.segments.length - 1 &&
-                                        !compareDateHours(new Date(returnStart), new Date(returnEnd)) && (
+                                        !compareDateHours(returnStart, returnEnd) && (
                                             <span className={"w-full"}>
                                                 Arriving at{" "}
                                                 <span className={"text-blue-400"}>
@@ -112,13 +102,13 @@ export default function FlightScheduleTable({ className, flight }: FlightSchedul
                                 {segmentIdx < itinerary.segments.length - 1 && (
                                     <div className={"py-0.5 text-center font-bold text-red-400"}>
                                         Standby in airport:{" "}
-                                        {timeDiffToHoursAndMins(
+                                        {dateDiffInHoursAndMins(
                                             segment.arrival.at,
                                             itinerary.segments[segmentIdx + 1].departure.at,
                                         )}
                                     </div>
                                 )}
-                            </>
+                            </div>
                         ))}
                     </div>
                 </div>

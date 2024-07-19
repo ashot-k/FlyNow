@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { devMode, getAirportByIATA } from "../../utils/Utils";
 import { activitiesInArea } from "../../services/AmadeusAPIService";
 import LoadingAnimation from "../loader/LoadingAnimation";
@@ -9,7 +9,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { SwiperButtonNext } from "../swiper-extras/SwiperBtnNext";
 import { SwiperButtonPrev } from "../swiper-extras/SwiperBtnPrev";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Autoplay, Pagination } from "swiper/modules";
 import { activitiesInAreaDummy } from "../../services/DummyAmadeusService";
 
@@ -31,30 +30,36 @@ interface Activity {
 }
 
 export const DestinationActivities = ({ destinationIATA, className }: DestinationActivitiesProps) => {
-    const [activities, setActivities] = useState<Activity[]>([]);
+    const [activities, setActivities] = useState<Activity[]>();
     const [pending, setPending] = useState(false);
+
+    async function findActivities() {
+        let airport = getAirportByIATA(destinationIATA);
+
+        let response;
+        if (devMode()) {
+            response = await activitiesInAreaDummy();
+        } else {
+            response = await activitiesInArea(airport.latitude, airport.longitude);
+        }
+        return response.data.data;
+    }
+
     useEffect(() => {
-        async function findActivities() {
-            let airport = getAirportByIATA(destinationIATA);
-            setPending(true);
-            let response;
-            if (devMode()) {
-                response = await activitiesInAreaDummy();
-            } else {
-                response = await activitiesInArea(airport.latitude, airport.longitude);
-            }
-            let data = response.data.data;
+        setPending(true);
+        findActivities().then((data) => {
             setActivities(data);
             setPending(false);
-        }
-        if (destinationIATA?.length > 0) {
-            findActivities();
-        }
-    }, [destinationIATA]);
+        });
+        return () => {
+            setPending(false);
+        };
+    }, []);
 
     return (
         <div className={className}>
             {!pending ? (
+                activities &&
                 activities?.length > 0 && (
                     <>
                         <div className={"w-full p-3 text-start font-inter text-2xl sm:px-0 sm:py-2"}>Experiences</div>
@@ -102,7 +107,7 @@ export const DestinationActivities = ({ destinationIATA, className }: Destinatio
                             }}
                             speed={400}
                             className={"w-full animate-fadeIn items-end"}>
-                            {activities.map((activity, idx) => (
+                            {activities.slice(0, 12).map((activity, idx) => (
                                 <SwiperSlide
                                     key={idx}
                                     className={"relative min-h-60 pt-3 duration-300 hover:scale-105"}>
@@ -113,7 +118,6 @@ export const DestinationActivities = ({ destinationIATA, className }: Destinatio
                                         alt={activity.name}
                                     />
                                     <a
-                                        key={idx}
                                         href={activity.bookingLink}
                                         className={
                                             "absolute bottom-0 flex w-full flex-col items-center gap-2 bg-black bg-opacity-75 px-5 py-5"
@@ -143,7 +147,7 @@ export const DestinationActivities = ({ destinationIATA, className }: Destinatio
                                         className={
                                             "rounded-lg bg-flyNow-component px-8 py-2 duration-500 hover:scale-110"
                                         }
-                                        icon={faChevronLeft}
+                                        icon={"chevron-left"}
                                     />
                                 </SwiperButtonPrev>
                                 <SwiperButtonNext>
@@ -151,11 +155,10 @@ export const DestinationActivities = ({ destinationIATA, className }: Destinatio
                                         className={
                                             "rounded-lg bg-flyNow-component px-8 py-2 duration-500 hover:scale-110"
                                         }
-                                        icon={faChevronRight}
+                                        icon={"chevron-right"}
                                     />
                                 </SwiperButtonNext>
                             </div>
-                            <div></div>
                         </Swiper>
                     </>
                 )

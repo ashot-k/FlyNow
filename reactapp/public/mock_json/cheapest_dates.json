@@ -1,0 +1,1909 @@
+{
+  "data": [
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "100.23"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "5"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-29",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-29&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-30",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-30&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-07-31",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-07-31&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-01",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-01&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-02",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-02&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-03",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-03&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-04",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-04&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-05",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-05&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-06",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-06&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    },
+    {
+      "type": "flight-date",
+      "origin": "MAD",
+      "destination": "MUC",
+      "departureDate": "2024-08-07",
+      "price": {
+        "total": "98.53"
+      },
+      "links": {
+        "flightDestinations": "https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=MAD&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION",
+        "flightOffers": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=MUC&departureDate=2024-08-07&adults=1&nonStop=false"
+      }
+    }
+  ],
+  "dictionaries": {
+    "currencies": {
+      "EUR": "EURO"
+    },
+    "locations": {
+      "MAD": {
+        "subType": "AIRPORT",
+        "detailedName": "ADOLFO SUAREZ BARAJAS"
+      },
+      "MUC": {
+        "subType": "AIRPORT",
+        "detailedName": "MUNICH INTERNATIONAL"
+      }
+    }
+  },
+  "meta": {
+    "currency": "EUR",
+    "links": {
+      "self": "https://test.api.amadeus.com/v1/shopping/flight-dates?origin=MAD&destination=MUC&departureDate=2024-07-24,2025-01-19&oneWay=false&duration=1,15&nonStop=false&viewBy=DURATION"
+    },
+    "defaults": {
+      "departureDate": "2024-07-24,2025-01-19",
+      "oneWay": false,
+      "duration": "1,15",
+      "nonStop": false,
+      "viewBy": "DURATION"
+    }
+  },
+  "warnings": [
+    {
+      "title": "Maximum response size reached"
+    }
+  ]
+}
